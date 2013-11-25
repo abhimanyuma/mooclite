@@ -3,7 +3,9 @@ window.Mooclite =
   Collections: {}
   Views: {}
   Routers: {}
-  initialize: -> alert 'Hello from Backbone!'
+  initialize: -> 
+  	new Mooclite.Routers.Courses()
+  	Backbone.history.start()
 
 $(document).ready ->
   Mooclite.initialize()
