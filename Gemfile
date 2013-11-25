@@ -36,3 +36,5 @@ group :doc do
 end
 
 gem 'foundation-rails'
+
+gem 'backbone-on-rails'
