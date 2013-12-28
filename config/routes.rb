@@ -1,7 +1,15 @@
 Mooclite::Application.routes.draw do
-  resources :courses
-
+  
   root to: "main#index"
+
+  # This is a Backbone+RoR App all the
+  # action happens through API
+  # "Jai Bolo REST APIyo Ki"
+  scope "api" do
+    resources :courses
+  end
+
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
