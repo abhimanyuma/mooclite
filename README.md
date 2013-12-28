@@ -24,3 +24,14 @@ MOOCs are awesome, they take extremely high quality learning to the masses, but 
 + **RoR** For the web backend
 + **Backbone** For the web frontend
 + **Foundation** For CSS templating
+
+
+##Rails Models
+
+###Course 
+
++ Name - "The name of the course"
++ Offered-By - "The name of the instructor"
++ Description - "Complete Description in Markdown"
++ Bio - "Simple short bio for easy understanding"
++ Slug - "Duh!!!" 
