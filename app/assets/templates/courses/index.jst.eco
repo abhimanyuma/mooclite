@@ -1,5 +1,12 @@
-<h1>This is what is here</h1>
-
+<h1>Courses available</h1>
+<hr />
 <p>
-<%= @entries%>
+<ul class="no-bullet">
+<% for course in @courses.models: %>
+  <li><h3><%= course.get('name') %></h3>
+  <li><h5>By <%= course.get('offered_by') %></h5>
+  <br />
+  </li>
+<% end %>
+</ul>
 </p>
