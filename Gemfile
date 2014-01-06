@@ -35,6 +35,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'foundation-rails'
+# For Semantic UI 
+gem 'therubyracer', platforms: :ruby # or any other runtime
+gem 'less-rails'
+gem 'autoprefixer-rails'
+gem 'semantic-ui-rails'
 
+# For backbone support
 gem 'backbone-on-rails'
