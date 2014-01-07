@@ -1,78 +1,54 @@
-<h1>Courses available
-<a href="#" data-reveal-id="newcoursemodal" class="button tiny" >
-    + Add new course
-</a>
-</h1>
-<hr />
-<p>
-<ul class="no-bullet">
-<% for course in @courses.models: %>
-  <li><h3><%= course.get('name') %></h3>
-  <li><h5>By <%= course.get('offered_by') %></h5>
-  <br />
-  </li>
-<% end %>
-</ul>
-</p>
-
-<div id="newcoursemodal" class="reveal-modal" data-reveal>
-  <h2>Start a new course</h2>
-  <form>
-  <div class="row">
-    <div class="large-12 columns">
-      <label>Input Label</label>
-      <input type="text" placeholder="large-12.columns" />
+<h1 class="ui header">Courses available</h1>
+<div class="ui horizontal divider"><i class="book icon"></i> </div>
+<div class="ui segment">
+  <div class="ui relaxed divided list">
+    <% for course in @courses.models: %>
+    <div class="item">
+      <div class="right floated tiny teal ui button">Register</div>
+      <div class="content">
+        <div class="header"><%= course.get('name') %></div>
+        <div class="descriptin"><%= course.get('offered_by') %> </div>
+      </div>
     </div>
+  <% end %>
   </div>
-  <div class="row">
-    <div class="large-4 columns">
-      <label>Input Label</label>
-      <input type="text" placeholder="large-4.columns" />
-    </div>
-    <div class="large-4 columns">
-      <label>Input Label</label>
-      <input type="text" placeholder="large-4.columns" />
-    </div>
-    <div class="large-4 columns">
-      <div class="row collapse">
-        <label>Input Label</label>
-        <div class="small-9 columns">
-          <input type="text" placeholder="small-9.columns" />
-        </div>
-        <div class="small-3 columns">
-          <span class="postfix">.com</span>
-        </div>
+</div>
+
+<div class="ui form segment">
+<form id="new_course">
+  <div class="field">
+    <label>Course Name</label>
+    <div class="ui left labeled icon input">
+      <input type="text" id="new_course_name" placeholder="Course Name">
+      <div class="ui corner label">
+        <i class="icon asterisk"></i>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <label>Select Box</label>
-      <select>
-        <option value="husker">Husker</option>
-        <option value="starbuck">Starbuck</option>
-        <option value="hotdog">Hot Dog</option>
-        <option value="apollo">Apollo</option>
-      </select>
+  <div class="field">
+    <label>Institute Offering it</label>
+    <div class="ui left labeled icon input">
+      <input type="text" id="new_course_offered_by" placeholder="Offered By">
+      <div class="ui corner label">
+        <i class="icon asterisk"></i>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="large-6 columns">
-      <label>Choose Your Favorite</label>
-      <input type="radio" name="pokemon" value="Red" id="pokemonRed"><label for="pokemonRed">Radio 1</label>
-      <input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label for="pokemonBlue">Radio 2</label>
-    </div>
-    <div class="large-6 columns">
-      <label>Check these out</label>
-      <input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
-      <input id="checkbox2" type="checkbox"><label for="checkbox2">Checkbox 2</label>
+  <div class="field">
+    <label>Short Bio</label>
+    <div class="ui left labeled icon input">
+      <textarea id="new_course_bio"></textarea>
     </div>
   </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <label>Textarea Label</label>
-      <textarea placeholder="small-12.columns"></textarea>
+  <div class="field">
+    <label>Full Description</label>
+    <div class="ui left labeled icon input">
+      <textarea id="new_course_description"></textarea>
     </div>
   </div>
+  <div class="ui error message">
+    <div class="header">We noticed some issues</div>
+  </div>
+  <input type="Submit" value="Create" class="ui blue submit button">
 </form>
 </div>
