@@ -1,0 +1,6 @@
+<div class="right floated tiny teal ui button">Register</div>
+  <div class="content">
+    <div class="header"><%= @course.get('name') %></div>
+    <div class="description"><%= @course.get('offered_by') %> </div>
+  </div>
+</div>

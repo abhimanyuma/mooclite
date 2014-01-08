@@ -1,16 +1,8 @@
 <h1 class="ui header">Courses available</h1>
 <div class="ui horizontal divider"><i class="book icon"></i> </div>
 <div class="ui segment">
-  <div class="ui relaxed divided list">
-    <% for course in @courses.models: %>
-    <div class="item">
-      <div class="right floated tiny teal ui button">Register</div>
-      <div class="content">
-        <div class="header"><%= course.get('name') %></div>
-        <div class="descriptin"><%= course.get('offered_by') %> </div>
-      </div>
-    </div>
-  <% end %>
+  <div id="courses" class="ui relaxed divided list">
+    <!-- List of all courses appear here -->
   </div>
 </div>
 
