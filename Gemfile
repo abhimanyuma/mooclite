@@ -43,3 +43,7 @@ gem 'semantic-ui-rails'
 
 # For backbone support
 gem 'backbone-on-rails'
+
+# For deployment
+gem 'capistrano'
+gem 'unicorn'
