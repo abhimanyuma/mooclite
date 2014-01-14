@@ -47,3 +47,7 @@ gem 'backbone-on-rails'
 # For deployment
 gem 'capistrano'
 gem 'unicorn'
+
+# For password and user auth
+gem 'bcrypt-ruby', :require => 'bcrypt'
+gem 'email_validator'
