@@ -7,6 +7,7 @@ Mooclite::Application.routes.draw do
   # "Jai Bolo REST APIyo Ki"
   scope "api" do
     resources :courses
+    resources :users
   end
 
   
