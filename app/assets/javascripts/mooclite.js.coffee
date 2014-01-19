@@ -4,7 +4,7 @@ window.Mooclite =
   Views: {}
   Routers: {}
   initialize: -> 
-  	new Mooclite.Routers.Courses()
+  	new Mooclite.Routers.Dashboard()
   	Backbone.history.start()
 
 $(document).ready ->
