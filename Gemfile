@@ -7,6 +7,7 @@ gem 'rails', '4.0.0'
 group :development, :test do
   gem 'sqlite3', '>= 1.3.8'
   gem 'rspec-rails', '>= 2.13.1'
+  gem 'thin'
 end
 
 group :production do
@@ -43,6 +44,7 @@ gem 'semantic-ui-rails'
 
 # For backbone support
 gem 'backbone-on-rails'
+gem "marionette-rails", "~> 1.5.1"
 
 # For deployment
 gem 'capistrano'
