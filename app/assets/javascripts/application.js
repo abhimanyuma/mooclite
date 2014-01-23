@@ -11,11 +11,12 @@
 // about supported directives.
 //
 //= require jquery
+//= require semantic-ui
 //= require underscore
 //= require backbone
 //= require backbone.marionette
-//= require backbone/mooclite
-
+//= require ./backbone/mooclite
+//= require_tree ./backbone/apps
 $(function() {
   Mooclite.start();
 });
