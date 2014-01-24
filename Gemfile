@@ -40,11 +40,14 @@ end
 gem 'therubyracer', platforms: :ruby # or any other runtime
 gem 'less-rails'
 gem 'autoprefixer-rails'
-gem 'semantic-ui-rails'
+
+gem 'compass-rails'
+gem 'semantic-ui-sass', '~> 0.12.2.0'
 
 # For backbone support
 gem 'backbone-on-rails'
 gem "marionette-rails", "~> 1.5.1"
+gem 'eco'
 
 # For deployment
 gem 'capistrano'
