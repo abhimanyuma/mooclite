@@ -13,7 +13,7 @@
 //= require jquery
 //= require semantic-ui
 //= require underscore
-//= require backbone
+//= require backbone  
 //= require backbone.marionette
 //= require_tree ./backbone/config
 //= require ./backbone/mooclite
