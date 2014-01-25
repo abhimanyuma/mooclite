@@ -56,3 +56,8 @@ gem 'unicorn'
 # For password and user auth
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'email_validator'
+
+# For JSON API support 
+
+gem 'rabl'
+gem 'oj'

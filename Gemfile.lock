@@ -115,8 +115,11 @@ GEM
       net-ssh (>= 2.6.5)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    oj (2.5.4)
     pg (0.17.0)
     polyglot (0.3.3)
+    rabl (0.9.3)
+      activesupport (>= 2.3.14)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -225,7 +228,9 @@ DEPENDENCIES
   jquery-rails
   less-rails
   marionette-rails (~> 1.5.1)
+  oj
   pg (>= 0.15.1)
+  rabl
   rails (= 4.0.0)
   rails_12factor (>= 0.0.2)
   rspec-rails (>= 2.13.1)
