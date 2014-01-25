@@ -1,0 +1,7 @@
+<div class="ui transparent inverted main menu">
+  <div class="container">
+    <div class="title item">
+      <b>MOOC</b>lite
+    </div>
+    <div class="right menu" id="links"></div>
+</div> 
