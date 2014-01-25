@@ -17,6 +17,7 @@
 //= require backbone.marionette
 //= require_tree ./backbone/config
 //= require ./backbone/mooclite
+//= require_tree ./backbone/entities
 //= require_tree ./backbone/apps
 $(function() {
   Mooclite.start();
