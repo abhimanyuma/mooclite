@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 respond_to :json
 
   def index
-    respond_with(User.all, except: [:password_digest]) 
+    @users=User.all 
   end
 
   def show
