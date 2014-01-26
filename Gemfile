@@ -61,3 +61,5 @@ gem 'email_validator'
 
 gem 'rabl'
 gem 'oj'
+
+gem 'gon'
