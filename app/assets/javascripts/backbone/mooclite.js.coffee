@@ -22,10 +22,10 @@
   App.on "initialize:after",(options) ->
     if Backbone.history
       Backbone.history.start()
-      @navigate(@rootRoute) if @getCurrentRoute() is "" 
+      @navigate(@rootRoute, trigger: true) if @getCurrentRoute() is "" 
 
-  App.navigate = (route) ->
-    Backbone.history.navigate route
+  App.navigate = (route,options={}) ->
+    Backbone.history.navigate route,options
 
   App.getCurrentRoute = ->
     Backbone.history.fragment
