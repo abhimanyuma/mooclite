@@ -2,6 +2,8 @@
 
   App = new Marionette.Application
 
+  App.rootRoute = "users"
+
   App.on "initialize:before", (options) ->
     @currentUser = App.request "set:current:user", options.currentUser
 
@@ -20,5 +22,13 @@
   App.on "initialize:after",(options) ->
     if Backbone.history
       Backbone.history.start()
+      @navigate(@rootRoute) if @getCurrentRoute() is "" 
+
+  App.navigate = (route) ->
+    Backbone.history.navigate route
+
+  App.getCurrentRoute = ->
+    Backbone.history.fragment
+
 
   App
