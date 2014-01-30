@@ -1,1 +1,1 @@
-<div>Footer Here</div>
+<div>Footer Here - You are logged in as <%= @name %></div>
