@@ -7,7 +7,7 @@
 
   API = 
     listUsers: ->
-      console.log "List Users Called"
+      UsersApp.List.Controller.listUsers()
 
   App.addInitializer ->
     new UsersApp.AppRouter

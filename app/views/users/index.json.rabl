@@ -1,3 +1,3 @@
 collection @users
 
-extend "users/_base_user"
+extends "users/_base_user"

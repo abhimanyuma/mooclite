@@ -63,3 +63,5 @@ gem 'rabl'
 gem 'oj'
 
 gem 'gon'
+
+gem 'js-routes'
