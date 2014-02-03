@@ -10,13 +10,15 @@
     setCurrentUser: (currentUser) ->
       new Entities.User currentUser
 
-    getUserEntities: ->
+    getUserEntities: (cb) ->
       users = new Entities.UsersCollection
-      users.fetch()
-      users
+      users.fetch
+        success: ->
+          cb users
+        "reset": true
 
   App.reqres.setHandler "set:current:user", (currentUser) ->
     API.setCurrentUser currentUser
 
-  App.reqres.setHandler "user:entities", ->
-    API.getUserEntities()
+  App.reqres.setHandler "user:entities", (cb) ->
+    API.getUserEntities cb
