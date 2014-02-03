@@ -12,11 +12,17 @@
     collectionEvents:
       "reset" : "render"
 
+  class List.Empty extends App.Views.ItemView
+    template: "users/list/templates/_empty"
+
+
   class List.User extends App.Views.ItemView
     template: "users/list/templates/_user"
     className: "item"
 
+
   class List.Users extends App.Views.CompositeView
     template: "users/list/templates/_users"
     itemView: List.User
+    emptyView: List.Empty
     itemViewContainer: "div#user-list"
