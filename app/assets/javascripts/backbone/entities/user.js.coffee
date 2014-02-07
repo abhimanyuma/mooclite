@@ -1,8 +1,8 @@
 @Mooclite.module "Entities", (Entities,App, Backbone,Marionette, $, _) ->
 
-  class Entities.User extends Backbone.Model
+  class Entities.User extends Entities.Model
 
-  class Entities.UsersCollection extends Backbone.Collection
+  class Entities.UsersCollection extends Entities.Collection
     model: Entities.User
     url: -> Routes.users_path()
 
