@@ -2,11 +2,11 @@
 
   Show.Controller =
 
-    showFooter: -> 
+    show: -> 
       currentUser = App.request "get:current:user"
-      footerView = @getFooterView currentUser
+      footerView = @getView currentUser
       App.footerRegion.show footerView
 
-    getFooterView: (currentUser) ->
+    getView: (currentUser) ->
       new Show.Footer
         model: currentUser

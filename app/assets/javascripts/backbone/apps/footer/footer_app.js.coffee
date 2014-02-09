@@ -3,8 +3,8 @@
   @startWithParent = false
 
   API =
-    showFooter:->
-      FooterApp.Show.Controller.showFooter()
+    show:->
+      FooterApp.Show.Controller.show()
   
   FooterApp.on "start", ->
-    API.showFooter()
+    API.show()

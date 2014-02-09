@@ -3,11 +3,11 @@
   class UsersApp.AppRouter extends Marionette.AppRouter
 
     appRoutes:
-      "users" : "listUsers"
+      "users" : "list"
 
   API = 
-    listUsers: ->
-      UsersApp.List.Controller.listUsers()
+    list: ->
+      UsersApp.List.Controller.list()
 
   App.addInitializer ->
     new UsersApp.AppRouter

@@ -2,7 +2,7 @@
 
   List.Controller = 
 
-    listUsers: ->
+    list: ->
       App.request "user:entities", (users) =>
         
         @layout = @getLayoutView()
@@ -21,7 +21,7 @@
       usersView = @getUsersView users
       @layout.usersRegion.show usersView
 
-    getUsersView: (users) ->
+    getUsers View: (users) ->
       new List.Users
         collection: users
 

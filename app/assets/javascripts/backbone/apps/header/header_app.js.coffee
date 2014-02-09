@@ -3,8 +3,8 @@
   @startWithParent = false
 
   API =
-    listHeader:->
-      HeaderApp.List.Controller.listHeader()
+    list:->
+      HeaderApp.List.Controller.list()
   
   HeaderApp.on "start", ->
-    API.listHeader() 
+    API.list() 
