@@ -2,11 +2,11 @@
 
   class CoursesApp.AppRouter extends Marionette.AppRouter
     appRoutes:
-      "courses" : "listCourses"
+      "courses" : "list"
 
   API = 
-    listCourses: ->
-      CoursesApp.List.Controller.listCourses()
+    list: ->
+      CoursesApp.List.Controller.listP()
 
   App.addInitializer ->
     new CoursesApp.AppRouter

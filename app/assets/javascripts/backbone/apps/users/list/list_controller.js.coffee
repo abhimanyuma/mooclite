@@ -21,7 +21,7 @@
       usersView = @getUsersView users
       @layout.usersRegion.show usersView
 
-    getUsers View: (users) ->
+    getUsersView: (users) ->
       new List.Users
         collection: users
 
