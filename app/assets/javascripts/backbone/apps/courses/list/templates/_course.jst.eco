@@ -1,0 +1,3 @@
+<td><%= @name %></td>
+<td><%= @offered_by %></td>
+<td><%= @bio %></td>

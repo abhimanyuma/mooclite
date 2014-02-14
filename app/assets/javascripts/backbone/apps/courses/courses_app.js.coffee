@@ -6,7 +6,7 @@
 
   API = 
     list: ->
-      CoursesApp.List.Controller.listP()
+      CoursesApp.List.Controller.list()
 
   App.addInitializer ->
     new CoursesApp.AppRouter
