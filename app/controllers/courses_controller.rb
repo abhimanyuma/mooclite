@@ -2,11 +2,11 @@ class CoursesController < ApplicationController
   respond_to :json
 
   def index
-    respond_with Course.all
+    @courses= Course.all
   end
 
   def show
-    respond_with Course.find(params[:id]) 
+    @course= Course.find(params[:id]) 
   end
 
   def create
