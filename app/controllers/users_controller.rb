@@ -7,7 +7,7 @@ respond_to :json
   end
 
   def show
-    respond_with(User.find(params[:id]),except: [:password_digest])
+    @user=User.find(params[:id])
   end
 
   def create
