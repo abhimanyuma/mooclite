@@ -8,22 +8,26 @@
         @layout = @getLayoutView()
 
         @layout.on "show", =>
-          @showPanel   courses
+          @showPanel()
+          @showAddCourse()
           @showCourses courses
 
         App.mainRegion.show @layout
 
-    showPanel: (courses) ->
-      panelView = @getPanelView courses
+    showPanel: ->
+      panelView = @getPanelView()
       @layout.panelRegion.show panelView
 
     showCourses: (courses) ->
       coursesView = @getCoursesView courses
       @layout.coursesRegion.show coursesView
 
-    getPanelView: (courses) ->
+    showAddCourse: ->
+      addCourseView = App.request "new:course:view"
+      @layout.addCourseRegion.show addCourseView
+
+    getPanelView: ->
       new List.Panel
-        collection: courses
 
     getCoursesView: (courses) ->
       new List.Courses

@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
   respond_to :json
 
   def index
-    @courses= Course.all
+    @courses= nil
   end
 
   def show

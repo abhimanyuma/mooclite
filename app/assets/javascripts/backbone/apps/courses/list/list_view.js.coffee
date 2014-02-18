@@ -4,15 +4,15 @@
     template: "courses/list/templates/list_layout"
     regions:
       panelRegion: "#panel-region"
+      newCourseRegion: "#new-course-region"
       coursesRegion: "#courses-region"
 
   class List.Panel extends App.Views.ItemView
     template: "courses/list/templates/_panel"
 
   class List.Empty extends App.Views.ItemView
-
     template: "courses/list/templates/_empty"
-
+  
   class List.Course extends App.Views.ItemView
 
     template: "courses/list/templates/_course"
