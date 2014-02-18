@@ -6,9 +6,9 @@
 
   API = 
     list: ->
-      CoursesApp.list.Controller.list()
+      CoursesApp.List.Controller.list()
     newCourse: ->
-      CoursesApp.new.Contorller.newCourse() 
+      CoursesApp.New.Controller.newCourse() 
 
   App.reqres.setHandler "new:course:view", ->
     API.newCourse()

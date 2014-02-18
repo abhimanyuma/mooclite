@@ -4,6 +4,7 @@
 
     newCourse: ->
       newView = @getNewView()
+      
       newView
 
     getNewView: ->

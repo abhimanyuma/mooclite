@@ -23,8 +23,8 @@
       @layout.coursesRegion.show coursesView
 
     showAddCourse: ->
-      addCourseView = App.request "new:course:view"
-      @layout.addCourseRegion.show addCourseView
+      newCourseView = App.request "new:course:view"
+      @layout.newCourseRegion.show newCourseView
 
     getPanelView: ->
       new List.Panel
