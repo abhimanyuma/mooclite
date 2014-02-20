@@ -1,4 +1,4 @@
-<table class="ui table segment">
+<table class="ui celled padded table segment">
   <thead>
     <tr><th>Course</th>
     <th>Offered By</th>

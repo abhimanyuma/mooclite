@@ -1,1 +1,4 @@
-<h1>Courses on MOOClite </h1>
+<div class="ui primary button" id="new-course-button">
+  <i class="icon add" ></i>
+  New Course
+</div>

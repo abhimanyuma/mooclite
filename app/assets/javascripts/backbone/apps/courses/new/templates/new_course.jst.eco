@@ -1,1 +1,31 @@
-This is where you add new users 
+<h2> Enter Course Details </h2>
+<form class="ui error form inverted segment">
+  <div class="field">
+    <label>Course</label>
+    <div class="ui left labeled icon input">
+      <input type="text" placeholder="Course Name">
+      <i class="book icon"></i>
+      <div class="ui corner label">
+        <i class="icon asterisk"></i>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Offered By</label>
+    <div class="ui left labeled icon input">
+      <input type="text" placeholder="Institute">
+      <i class="building icon"></i>
+      <div class="ui corner label">
+        <i class="icon asterisk"></i>
+      </div>
+    </div>
+  </div>
+  <div class="ui error message">
+    <div class="header">We noticed some issues</div>
+  </div>
+  <footer>
+    <button data-form-button="primary" class="ui primary button">Login</button>
+    <button data-form-button="cancel" class="ui secondary button">Cancel</button>
+  </footer>
+  
+</form>
