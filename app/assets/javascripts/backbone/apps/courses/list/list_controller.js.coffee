@@ -28,6 +28,10 @@
 
     showCourses: (courses) ->
       coursesView = @getCoursesView courses
+
+      coursesView.on "childview:course:clicked" , (child,member) ->
+        App.vent.trigger "course:clicked" , member
+
       @layout.coursesRegion.show coursesView
 
     showAddCourse: ->

@@ -28,6 +28,9 @@
     tagName: "tr"
     className: "item" 
 
+    events:
+      "click" : -> @trigger "course:clicked", @model
+
 
   class List.Courses extends App.Views.CompositeView
     template: "courses/list/templates/_courses"
