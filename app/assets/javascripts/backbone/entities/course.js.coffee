@@ -1,20 +1,29 @@
 @Mooclite.module "Entities", (Entities,App, Backbone, Marionette, $, _) ->
 
   class Entities.Course extends Entities.Model
+    urlRoot: -> Routes.courses_path()
 
   class Entities.CoursesCollection extends Entities.Collection
     model:Entities.Course
     url: -> Routes.courses_path()
 
   API=
-    getCourseEntities: (cb) ->
+    getCoursesCollection: (cb) ->
       courses= new Entities.CoursesCollection
       courses.fetch
         success: ->
           cb courses
         "reset":true
 
+    getCourse: (id) ->
+      course = new Entities.Course
+        id: id
+      course.fetch()
+      course 
+
+  App.reqres.setHandler "course:entity",(id) ->
+    API.getCourse(id)
 
   App.reqres.setHandler "course:entities", (cb) ->
-    API.getCourseEntities cb
+    API.getCoursesCollection cb
 
