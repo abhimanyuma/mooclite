@@ -1,1 +1,1 @@
-attributes :id,:name,:description, :offered_by, :bio
+attributes :id,:name, :offered_by, :bio

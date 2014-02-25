@@ -16,12 +16,15 @@
         "reset":true
 
     getCourse: (id) ->
+      console.log "Requested" + id
       course = new Entities.Course
         id: id
       course.fetch()
-      course 
+      console.log course
+      course
 
-  App.reqres.setHandler "course:entity",(id) ->
+
+  App.reqres.setHandler "course:entity", (id) ->
     API.getCourse(id)
 
   App.reqres.setHandler "course:entities", (cb) ->

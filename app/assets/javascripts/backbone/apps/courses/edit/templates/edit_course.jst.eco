@@ -29,7 +29,7 @@
   <div class="field">
     <label>Description</la   bel>
     <div class="ui top labeled input">
-      <textarea name="description" placeholder="Full Description" value="<%= @description %>" ></textarea>
+      <textarea name="description" placeholder="Full Description" value="<%= @description %>" ><%=@description %></textarea>
     </div>
   </div>
   <div class="ui error message">

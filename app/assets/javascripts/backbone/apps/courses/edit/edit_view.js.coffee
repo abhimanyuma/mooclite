@@ -2,3 +2,6 @@
 
   class Edit.Course extends App.Views.ItemView
     template: "courses/edit/templates/edit_course"
+
+    modelEvents:
+      "sync":"render"

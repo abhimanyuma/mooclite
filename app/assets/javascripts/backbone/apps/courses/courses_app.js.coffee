@@ -10,15 +10,15 @@
       CoursesApp.List.Controller.list()
     newCourse: ->
       CoursesApp.New.Controller.newCourse()
-    edit: (id, course) ->
-      CoursesApp.Edit.Controller.edit(id,course)
+    edit: (id) ->
+      CoursesApp.Edit.Controller.edit(id)
 
   App.reqres.setHandler "new:course:view", ->
     API.newCourse()
 
   App.vent.on "course:clicked", (member) ->
     App.navigate Routes.edit_course_path(member.id)
-    API.edit member.id, member
+    API.edit member.id
 
   App.addInitializer ->
     new CoursesApp.AppRouter
