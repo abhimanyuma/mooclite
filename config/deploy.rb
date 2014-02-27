@@ -1,6 +1,6 @@
 require "bundler/capistrano"
 
-server "162.222.180.99", :web, :app, :db, primary: true
+server "54.83.31.205", :web, :app, :db, primary: true
 
 set :application, "mooclite"
 set :user, "manyu"
@@ -10,7 +10,7 @@ set :use_sudo, false
 
 set :scm, "git"
 set :repository, "git@github.com:abhimanyuma/#{application}.git"
-set :branch, "production"
+set :bra nch, "production"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
