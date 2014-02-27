@@ -10,7 +10,7 @@ set :use_sudo, false
 
 set :scm, "git"
 set :repository, "git@github.com:abhimanyuma/#{application}.git"
-set :bra nch, "production"
+set :branch, "production"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
