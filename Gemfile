@@ -65,3 +65,5 @@ gem 'oj'
 gem 'gon'
 
 gem 'js-routes'
+
+gem 'newrelic_rpm'

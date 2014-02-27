@@ -17,3 +17,4 @@
 
 #Additional
 /config/database.yml
+/config/newrelic.yml
