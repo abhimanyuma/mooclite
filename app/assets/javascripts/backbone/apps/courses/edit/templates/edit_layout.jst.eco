@@ -1,0 +1,2 @@
+<h1> Edit <%= @name %> details</h1>
+<div id="form-region"></div>

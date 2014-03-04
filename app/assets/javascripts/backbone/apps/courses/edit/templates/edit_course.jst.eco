@@ -1,5 +1,3 @@
-<h2> Enter Course Details </h2>
-<form class="ui form segment">
   <div class="field">
     <label>Course</label>
     <div class="ui left labeled icon input">
@@ -35,9 +33,4 @@
   <div class="ui error message">
     <div class="header">We noticed some issues</div>
   </div>
-  <footer>
-    <button data-form-button="submit" class="ui submit button">Edit</button>
-    <button data-form-button="cancel" class="ui secondary button">Cancel</button>
-  </footer>
   
-</form>

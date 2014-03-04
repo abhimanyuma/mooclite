@@ -6,19 +6,26 @@
       course = App.request "course:entity", id
 
       App.execute "when:fetched", [course], =>
-        editView = @getEditView course
-        App.mainRegion.show editView
+        @layout = @getLayoutView course
 
-    getEditView: (course) -> 
+        @layout.on "show", =>
+          @formRegion course
+
+        App.mainRegion.show @layout
+
+    formRegion: (course) ->
+      editView= @getEditView course
+
+      formView = App.request "form:wrapper", editView
+
+      @layout.formRegion.show formView
+
+    getLayoutView: (course) ->
+      new Edit.Layout
+        model:course
+
+    getEditView: (course) ->
       new Edit.Course
         model:course
 
-  App.commands.setHandler "when:fetched", (entities,callback) ->
-    xhrs=[]
-    if _.isArray(entities)
-      xhrs.push(entity._fetch) for entity in entities
-    else
-      xhrs.push(entities._fetch)
-      
-    $.when(xhrs...).done ->
-      callback()
+

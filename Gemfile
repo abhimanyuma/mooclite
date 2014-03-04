@@ -5,32 +5,32 @@ gem 'rails', '>= 4.0.3'
 #For Development we use sqlite3, for 
 #Production move to postgres
 group :development, :test do
-  gem 'sqlite3', '>= 1.3.8'
-  gem 'rspec-rails', '>= 2.13.1'
+  gem 'sqlite3'
+  gem 'rspec-rails'
   gem 'thin'
 end
 
 group :production do
-  gem 'pg', '>= 0.15.1'
-  gem 'rails_12factor', '>= 0.0.2'
+  gem 'pg'
+  gem 'rails_12factor'
 end
 
 
 group :test do
-  gem 'selenium-webdriver', '>=2.35.1'
-  gem 'capybara', '>=2.1.0'
+  gem 'selenium-webdriver'
+  gem 'capybara'
 end
 
 # Use SCSS for stylesheets
 
-gem 'sass-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder'
 
 group :doc do
   gem 'sdoc', require: false
@@ -42,11 +42,11 @@ gem 'less-rails'
 gem 'autoprefixer-rails'
 
 gem 'compass-rails'
-gem 'semantic-ui-sass', '~> 0.12.2.0'
+gem 'semantic-ui-sass'
 
 # For backbone support
 gem 'backbone-on-rails'
-gem "marionette-rails", "~> 1.5.1"
+gem "marionette-rails"
 gem 'eco'
 
 # For deployment
@@ -54,7 +54,7 @@ gem 'capistrano'
 gem 'unicorn'
 
 # For password and user auth
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby'
 gem 'email_validator'
 
 # For JSON API support 

@@ -8,25 +8,22 @@
     url: -> Routes.courses_path()
 
   API=
-    getCoursesCollection: (cb) ->
+    getCoursesCollection:  ->
       courses= new Entities.CoursesCollection
-      courses.fetch
-        success: ->
-          cb courses
-        "reset":true
+      courses.fetch()
+      courses
 
     getCourse: (id) ->
       console.log "Requested" + id
       course = new Entities.Course
         id: id
       course.fetch()
-      console.log course
       course
 
 
   App.reqres.setHandler "course:entity", (id) ->
     API.getCourse(id)
 
-  App.reqres.setHandler "course:entities", (cb) ->
-    API.getCoursesCollection cb
+  App.reqres.setHandler "course:entities", ->
+    API.getCoursesCollection()
 

@@ -3,8 +3,9 @@
   List.Controller = 
 
     list: ->
-      App.request "course:entities", (courses) =>
-
+      courses = App.request "course:entities"
+      App.execute "when:fetched", courses, =>
+        
         @layout = @getLayoutView()
 
         @layout.on "show", =>
