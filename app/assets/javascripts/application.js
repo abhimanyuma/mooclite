@@ -20,7 +20,9 @@
 //= require ./backbone/mooclite
 //= require_tree ./backbone/entities
 //= require_tree ./backbone/views
+//= require_tree ./backbone/components
 //= require_tree ./backbone/apps
+
 $(function() {
   Mooclite.start({
     currentUser: gon.current_user
