@@ -1,0 +1,5 @@
+<div id="form-content-region"></div>
+<footer class="right floated column">
+  <div data-form-button="submit" class="ui positive submit button">Submit</div>
+  <div data-form-button="cancel" class="ui negative button">Cancel</div>
+</footer>
