@@ -9,3 +9,6 @@
 
     regions:
       formContentRegion: "#form-content-region"
+
+    serializeData: ->
+      footer: @options.config.footer

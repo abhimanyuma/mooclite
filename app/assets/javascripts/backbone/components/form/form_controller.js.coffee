@@ -17,8 +17,14 @@
     formContentRegion: ->
       @formLayout.formContentRegion.show @contentView
 
-    getFormLayout: (config={}) ->
+    getFormLayout: (options={}) ->
+      config = @getDefaultConfig _.result(@contentView, "form")
       new Form.FormWrapper
+        config: config
+
+    getDefaultConfig: (config = {}) ->
+      _.defaults config,
+        footer: true
 
   App.reqres.setHandler "form:wrapper", (contentView,options={}) ->
 
