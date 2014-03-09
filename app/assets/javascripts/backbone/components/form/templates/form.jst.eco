@@ -1,8 +1,9 @@
 <% console.info "form options" , @%> 
 <div id="form-content-region"></div>
 <% if @footer: %>
-<footer class="right floated column">
-  <div data-form-button="submit" class="ui positive  submit button">Submit</div>
-  <div data-form-button="cancel" class="ui negative button">Cancel</div>
+  <footer class="<%= @buttons.placement %> floated column">
+  <% for button in @buttons: %>
+    <div data-form-button="<%= button.type %>" class="ui <%= button.className %> button"><%= button.text %></div>
+  <% end %>
 </footer>
 <% end %> 

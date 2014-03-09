@@ -13,9 +13,9 @@
       buttonArray.push {type: "cancel", className: "#{buttons.cancelClass} ui button",text: buttons.cancel}
       buttonArray.push {type: "primary", className:"#{buttons.primaryClass} ui button", text: buttons.primary}
 
-      array.reverse() if buttons.placement is "left"
+      buttonArray.reverse() if buttons.placement is "left"
 
-      buttonCollection = new Entities.ButtonsCollection array
+      buttonCollection = new Entities.ButtonsCollection buttonArray
       buttonCollection.placement = buttons.placement
 
       buttonCollection
@@ -29,5 +29,5 @@
         placement: "right"
 
 
-  App.reqres.setHandler "form:button:entities" , (button = {}, model) ->
+  App.reqres.setHandler "form:button:entities" , (buttons = {}, model) ->
     API.getFormButtons buttons, model

@@ -15,7 +15,7 @@
 
     serializeData: ->
       footer: @options.config.footer
-      buttons: @options.config.buttons
+      buttons: @options.buttons.toJSON()
 
     onShow: ->
       _.defer =>
