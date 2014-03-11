@@ -1,9 +1,13 @@
 <% console.info "form options" , @%> 
 <div id="form-content-region"></div>
 <% if @footer: %>
-  <footer class="<%= @buttons.placement %> floated column">
-  <% for button in @buttons: %>
-    <div data-form-button="<%= button.type %>" class="ui <%= button.className %> button"><%= button.text %></div>
+  <footer>
+  <% if @buttons:  %>
+    <div class="floated column" id="footer-div">
+    <% for button in @buttons: %>
+      <div data-form-button="<%= button.type %>" class="ui <%= button.className %> button"><%= button.text %></div>
+    <% end %>
+  </div>
   <% end %>
-</footer>
+  </footer>
 <% end %> 

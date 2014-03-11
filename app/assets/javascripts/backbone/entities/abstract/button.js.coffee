@@ -10,8 +10,8 @@
       buttons = @getDefaultButtons buttons, model
       
       buttonArray = []
-      buttonArray.push {type: "cancel", className: "#{buttons.cancelClass} ui button",text: buttons.cancel}
-      buttonArray.push {type: "primary", className:"#{buttons.primaryClass} ui button", text: buttons.primary}
+      buttonArray.push {type: "cancel", className: "#{buttons.cancelClass}",text: buttons.cancel} unless buttons.cancel is false
+      buttonArray.push {type: "primary", className:"#{buttons.primaryClass}", text: buttons.primary} unless buttons.primary is false 
 
       buttonArray.reverse() if buttons.placement is "left"
 

@@ -19,8 +19,10 @@
 
     getFormLayout: (options={}) ->
       config = @getDefaultConfig _.result(@contentView, "form")
-      
+      _.extend config, options
+
       buttons = @getButtons config.buttons
+      
       new Form.FormWrapper
         config: config
         model: @contentView.model
