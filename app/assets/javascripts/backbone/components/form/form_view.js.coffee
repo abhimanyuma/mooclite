@@ -15,6 +15,9 @@
     ui:
       buttonContainer: "#footer-div"
 
+    triggers:
+      "submit" : "form:submit"
+
     initialize: ->
       @setInstancePropertiesFor "config","buttons"
 

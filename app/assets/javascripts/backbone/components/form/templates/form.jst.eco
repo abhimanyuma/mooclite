@@ -5,7 +5,7 @@
   <% if @buttons:  %>
     <div class="floated column" id="footer-div">
     <% for button in @buttons: %>
-      <div data-form-button="<%= button.type %>" class="ui <%= button.className %> button"><%= button.text %></div>
+      <button data-form-button="<%= button.type %>" class="ui <%= button.className %> button"><%= button.text %></button>
     <% end %>
   </div>
   <% end %>

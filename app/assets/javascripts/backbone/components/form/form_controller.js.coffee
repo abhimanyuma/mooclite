@@ -11,6 +11,11 @@
 
       @listenTo @formLayout, "close", @close
 
+      @listenTo @formLayout, "form:submit", @formSubmit
+
+    formSubmit: ->
+      console.log "Form has been submitted"
+
     onClose: ->
       console.log "onClose", @
 
