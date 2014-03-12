@@ -16,6 +16,7 @@
 //= require backbone  
 //= require backbone.marionette
 //= require js-routes
+//= require backbone-syphone
 //= require_tree ./backbone/config
 //= require ./backbone/mooclite
 //= require_tree ./backbone/entities

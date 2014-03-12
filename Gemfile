@@ -67,3 +67,5 @@ gem 'gon'
 gem 'js-routes'
 
 gem 'newrelic_rpm'
+
+gem 'backbone-syphon-rails'
