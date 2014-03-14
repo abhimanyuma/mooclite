@@ -14,7 +14,13 @@
       @listenTo @formLayout, "form:submit", @formSubmit
 
     formSubmit: ->
-      console.log "Form has been submitted"
+      data = Backbone.Syphon.serialize @formLayout
+      if @contentView.triggerMethod("form:submit", data) isnt false
+        model = @contentView.model
+        @processFormSubmit data, model
+
+    processFormSubmit: (data,model) ->
+      model.save data
 
     onClose: ->
       console.log "onClose", @

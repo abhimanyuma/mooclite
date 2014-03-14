@@ -14,7 +14,12 @@ class CoursesController < ApplicationController
   end
 
   def update
-    respond_with Course.update(params[:id],course_params)
+    @course = Course.find(params[:id])
+    if @course.update_attributes course_params
+      render "courses/show"
+    else
+      respond_with @course
+    end
   end
 
   def destroy

@@ -10,13 +10,14 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//
 //= require jquery
 //= require semantic-ui
 //= require underscore
-//= require backbone  
+//= require backbone
 //= require backbone.marionette
 //= require js-routes
-//= require backbone-syphone
+//= require backbone-syphon
 //= require_tree ./backbone/config
 //= require ./backbone/mooclite
 //= require_tree ./backbone/entities
