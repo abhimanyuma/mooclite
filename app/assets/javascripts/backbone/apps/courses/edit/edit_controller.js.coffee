@@ -7,6 +7,9 @@
       course.on "all", (e) -> 
         console.log e
 
+      course.on "updated", ->
+        App.vent.trigger "course:updated", course
+
       App.execute "when:fetched", [course], =>
         @layout = @getLayoutView course
 

@@ -14,7 +14,7 @@
   <div class="field">
     <label>Offered By</label>
     <div class="ui left labeled icon input">
-      <input type="text"  name="offered-by" value="<%= @offered_by %>" placeholder="Institute" />
+      <input type="text"  name="offered_by" value="<%= @offered_by %>" placeholder="Institute" />
       <i class="building icon"></i>
       <div class="ui corner label">
         <i class="icon asterisk"></i>
@@ -24,7 +24,7 @@
   <div class="field">
     <label>Bio</label>
     <div class="ui top labeled input">
-      <textarea name= "bio" value="<%= @bio %>" placeholder="Short Description <140 chars. " ></textarea>
+      <textarea name= "bio" value="<%= @bio %>" placeholder="Short Description <140 chars. " ><%= @bio %></textarea>
     </div>
   </div>
   <div class="field">

@@ -20,7 +20,7 @@
     App.navigate Routes.edit_course_path(member.id)
     API.edit member.id
 
-  App.vent.on "course:cancelled", (course) ->
+  App.vent.on "course:cancelled course:updated", (course) ->
     App.navigate Routes.courses_path()
     API.list()
 
