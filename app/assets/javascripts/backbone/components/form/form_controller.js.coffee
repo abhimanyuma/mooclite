@@ -13,6 +13,11 @@
 
       @listenTo @formLayout, "form:submit", @formSubmit
 
+      @listenTo @formLayout, "form:cancel", @formCancel
+
+    formCancel: ->
+      @contentView.triggerMethod "form:cancel"
+
     formSubmit: ->
       data = Backbone.Syphon.serialize @formLayout
       if @contentView.triggerMethod("form:submit", data) isnt false

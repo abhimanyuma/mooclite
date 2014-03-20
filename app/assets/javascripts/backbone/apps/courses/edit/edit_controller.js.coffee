@@ -24,6 +24,9 @@
     formRegion: (course) ->
       editView= @getEditView course
 
+      editView.on "form:cancel", ->
+        App.vent.trigger "course:cancelled",course
+
       formView = App.request "form:wrapper", editView
 
       @layout.formRegion.show formView
