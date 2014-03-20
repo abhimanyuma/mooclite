@@ -18,6 +18,7 @@
 //= require backbone.marionette
 //= require js-routes
 //= require backbone-syphon
+//= require toastr
 //= require_tree ./backbone/config
 //= require ./backbone/mooclite
 //= require_tree ./backbone/entities
