@@ -8,8 +8,9 @@
       _.defaults options,
         wait:true
         success: _.bind(@saveSuccess,@,isNew,options.collection)
+        error: _.bind(@saveError,@)
 
-
+      @unset "_errors"
       super data,options
 
     saveSuccess: (isNew,collection) ->
@@ -21,3 +22,7 @@
         collection ?= @collection
         collection.trigger "model:updated", @ if collection
         @trigger "updated",@
+
+    saveError: (model,xhr,options) ->
+      console.warn xhr, model
+      @set _errors: $.parseJSON(xhr.responseText)?.errors unless xhr.status is 500 or xhr.status is 404
