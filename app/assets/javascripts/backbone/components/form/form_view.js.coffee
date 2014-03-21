@@ -19,8 +19,11 @@
       "submit" : "form:submit"
       "click [data-form-button='cancel']": "form:cancel"
 
+
     modelEvents:
       "change:_errors" : "changeErrors"
+      "sync:start"     : "syncStart"
+      "sync:stop"      : "syncStop"
 
 
 
@@ -65,4 +68,9 @@
       field = el.closest(".field")
       field.addClass("error")
       field.append(message)
-      
+    
+    syncStart: ->
+      @$el.addClass("loading") if @config.syncing
+
+    syncStop: ->
+      @$el.removeClass("loading") if @config.syncing

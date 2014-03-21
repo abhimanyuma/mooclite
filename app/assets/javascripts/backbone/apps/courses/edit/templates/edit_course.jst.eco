@@ -20,8 +20,10 @@
   </div>
   <div class="field">
     <label>Bio</label>
-    <div class="ui top labeled input">
-      <textarea name= "bio" value="<%= @bio %>" placeholder="Short Description <140 chars. " ><%= @bio %></textarea>
+    <div class="ui top labeled icon input">
+      <textarea id="bio" name= "bio" value="<%= @bio %>" placeholder="Short Description <140 chars. " ><%= @bio %></textarea>
+      <div class="ui corner label" id="bio-length">
+      </div>
     </div>
   </div>
   <div class="field">

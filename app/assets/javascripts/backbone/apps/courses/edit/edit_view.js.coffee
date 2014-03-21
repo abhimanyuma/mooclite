@@ -11,8 +11,18 @@
 
     template: "courses/edit/edit_course"
 
+    triggers:
+      "keyup #bio": "updateBioLength"
+
+    updateBioLength: ->
+      console.log "Here"
+      gon.bio_length=@$('#bio').val().length
+      @$("#bio-length").text="#{gon.bio_max-gon.bio_length}"
+
   class Edit.Title extends App.Views.ItemView
     template: "courses/edit/title"
 
     modelEvents:
       "updated":"render"
+
+    

@@ -39,6 +39,8 @@
         model:course
 
     getEditView: (course) ->
+      gon.bio_length=0
+      gon.bio_max=140
       new Edit.Course
         model:course
 

@@ -19,6 +19,7 @@ class CoursesController < ApplicationController
   end
 
   def update
+    sleep 2
     @course = Course.find(params[:id])
     if @course.update_attributes course_params
       render "courses/show"
