@@ -19,6 +19,9 @@
         id: id
       course.fetch()
       course
+      
+    newCourse: ->
+      new Entities.Course
 
 
   App.reqres.setHandler "course:entity", (id) ->
@@ -27,3 +30,5 @@
   App.reqres.setHandler "course:entities", ->
     API.getCoursesCollection()
 
+  App.reqres.setHandler "new:course", ->
+    API.newCourse()

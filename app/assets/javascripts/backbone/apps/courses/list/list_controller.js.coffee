@@ -38,7 +38,7 @@
     showAddCourse: ->
       newCourseView = App.request "new:course:view"
 
-      newCourseView.on "form:cancel:button:clicked", =>
+      newCourseView.on "form:cancel", =>
         @layout.newCourseRegion.close()
         
       @layout.newCourseRegion.show newCourseView

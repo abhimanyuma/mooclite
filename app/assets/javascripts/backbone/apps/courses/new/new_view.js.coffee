@@ -4,5 +4,6 @@
     template: "courses/new/templates/new_course"
     className: "ui segment"
 
-    triggers: 
-      "click [data-form-button='cancel']":"form:cancel:button:clicked"
+    form:
+      buttons:
+        placement:"left"

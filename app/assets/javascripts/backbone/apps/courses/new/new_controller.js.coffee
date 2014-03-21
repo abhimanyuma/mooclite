@@ -3,10 +3,16 @@
   New.Controller = 
 
     newCourse: ->
-      newView = @getNewView()
+      course = App.request "new:course"
       
-      
-      newView
+      course.on "created", ->
+        App.vent.trigger "course:created", course
 
-    getNewView: ->
+      newView = @getNewView course
+      
+
+      App.request "form:wrapper", newView
+
+    getNewView: (course) ->
       new New.Course
+        model: course

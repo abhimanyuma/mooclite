@@ -10,7 +10,12 @@ class CoursesController < ApplicationController
   end
 
   def create
-    respond_with Course.create(course_params)
+    @course = Course.new
+    if @course.update_attributes course_params
+      render "courses/show"
+    else
+      respond_with @course
+    end
   end
 
   def update

@@ -1,4 +1,7 @@
-<% console.info "form options" , @%> 
+<% console.info "form options" , @%>
+<div class="ui error message">
+  <div class="header">Zat! You have some errors.</div>
+</div> 
 <div id="form-content-region"></div>
 <% if @footer: %>
   <footer>
@@ -10,4 +13,4 @@
   </div>
   <% end %>
   </footer>
-<% end %> 
+<% end %>
