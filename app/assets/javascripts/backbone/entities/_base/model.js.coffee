@@ -2,6 +2,13 @@
 
   class Entities.Model extends Backbone.Model
 
+    destroy: (options={}) ->
+      _.defaults options,
+        wait: true
+
+      @set _destroy: true
+      super options
+    
     save: (data,options = {}) ->
       isNew = @isNew()
 

@@ -1,7 +1,14 @@
-<h2 class="ui header">
-  <i class="edit icon"></i>
-  <div class="content">
-  Edit Course Details
-  <div class="sub header">Editing details of <%= @name %> </div>
+<div class="ui grid"><div class="row">
+  <div class="twelve wide column">
+    <h2 class="ui header">
+      <i class="edit icon"></i>
+      <div class="content">
+      Edit Course Details
+      <div class="sub header">Editing details of <%= @name %> </div>
+      </div>
+    </h2>
   </div>
-</h2>
+  <div class="four wide column">
+    <button class="ui negative button floated right" id="delete-course">Delete</button>
+  </div>
+</div></div>

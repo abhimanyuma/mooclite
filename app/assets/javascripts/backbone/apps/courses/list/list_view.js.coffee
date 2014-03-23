@@ -28,8 +28,8 @@
     tagName: "tr"
     className: "item" 
 
-    events:
-      "click" : -> @trigger "course:clicked", @model
+    triggers: 
+      "click" : "course:clicked"
 
 
   class List.Courses extends App.Views.CompositeView

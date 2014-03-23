@@ -22,7 +22,9 @@
     <label>Bio</label>
     <div class="ui top labeled icon input">
       <textarea id="bio" name= "bio" value="<%= @bio %>" placeholder="Short Description <140 chars. " ><%= @bio %></textarea>
-      <div class="ui corner label" id="bio-length">
+      <div class="ui corner label">
+      <h4 class="black block header" id="bio-length">
+      </h4>
       </div>
     </div>
   </div>

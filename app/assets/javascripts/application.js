@@ -12,13 +12,14 @@
 //
 //
 //= require jquery
-//= require semantic-ui
 //= require underscore
+//= require toastr
 //= require backbone
-//= require backbone.marionette
+//= require marionette
+//= require eco/lib/eco
+//= require semantic-ui
 //= require js-routes
 //= require backbone-syphon
-//= require toastr
 //= require_tree ./backbone/config
 //= require ./backbone/mooclite
 //= require_tree ./backbone/entities

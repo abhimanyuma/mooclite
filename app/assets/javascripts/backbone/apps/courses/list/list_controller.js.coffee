@@ -30,8 +30,8 @@
     showCourses: (courses) ->
       coursesView = @getCoursesView courses
 
-      coursesView.on "childview:course:clicked" , (child,member) ->
-        App.vent.trigger "course:clicked" , member
+      coursesView.on "childview:course:clicked" , (child,args) ->
+        App.vent.trigger "course:clicked" , args.model
 
       @layout.coursesRegion.show coursesView
 

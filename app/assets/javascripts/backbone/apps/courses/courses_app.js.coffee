@@ -24,7 +24,7 @@
     toastr.success("New course on #{course.get('name')} was created","Course Created")
     App.vent.trigger "course:clicked", course
 
-  App.vent.on "course:cancelled", (course) ->
+  App.vent.on "course:cancelled", (course) -> 
     toastr.info("Details of  #{course.get('name')} was not updated","Edit Cancelled")
     App.navigate Routes.courses_path()
     API.list()
@@ -34,7 +34,12 @@
     toastr.success("Details of #{course.get('name')} was updated successfully","Course Updated")
     App.navigate Routes.courses_path()
     API.list()
-    
+  
+  App.vent.on "course:delete", (course) ->
+    if confirm "Do you really want to delete #{course.get('name')}?" then course.destroy() else false
+    toastr.success("#{course.get('name')} was deleted successfully","Course Deleted")
+    App.navigate Routes.courses_path()
+    API.list()
 
   App.addInitializer ->
     new CoursesApp.AppRouter

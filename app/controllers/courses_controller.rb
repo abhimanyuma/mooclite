@@ -29,7 +29,10 @@ class CoursesController < ApplicationController
   end
 
   def destroy
-    respond_with Course.destroy(params[:id])
+    sleep 2
+    course = Course.find(params[:id])
+    course.destroy()
+    render json: {}
   end
 
 private
