@@ -23,11 +23,7 @@ end
 
 # Use SCSS for stylesheets
 
-gem 'sass-rails'
-gem 'uglifier'
-gem 'coffee-rails'
-gem 'jquery-rails'
-gem 'turbolinks'
+
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
@@ -36,18 +32,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-# For Semantic UI 
-gem 'therubyracer', platforms: :ruby # or any other runtime
-gem 'less-rails'
-gem 'autoprefixer-rails'
-
-gem 'compass-rails'
-gem 'semantic-ui-sass'
-
-# For backbone support
-gem 'backbone-on-rails'
-gem "marionette-rails"
-gem 'eco'
+gem "bower-rails", ">= 0.7.1"
+gem 'ruby-bower', group: :assets
 
 # For deployment
 gem 'capistrano'
@@ -62,12 +48,31 @@ gem 'email_validator'
 gem 'rabl'
 gem 'oj'
 
+
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
+gem 'turbolinks'
+
+# For Semantic UI 
+gem 'therubyracer', platforms: :ruby # or any other runtime
+gem 'less-rails'
+gem 'autoprefixer-rails'
+
+gem 'compass-rails'
+gem 'semantic-ui-sass'
+
+
+
+# For backbone support
+
+gem 'backbone-syphon-rails'
+
+
 gem 'gon'
 
 gem 'js-routes'
 
 gem 'newrelic_rpm'
 
-gem 'backbone-syphon-rails'
 
-gem 'toastr-rails'
