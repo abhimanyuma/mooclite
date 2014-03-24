@@ -7,7 +7,7 @@
 
   API = 
     list: ->
-      CoursesApp.List.Controller.list()
+      new CoursesApp.List.Controller
     newCourse: ->
       CoursesApp.New.Controller.newCourse()
     edit: (id) ->

@@ -16,6 +16,8 @@
       @listenTo @formLayout, "form:cancel", @formCancel
 
     formCancel: ->
+      console.log "Testing" 
+      console.info @contentView
       @contentView.triggerMethod "form:cancel"
 
     formSubmit: ->

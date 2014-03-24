@@ -16,7 +16,6 @@
 //= require toastr
 //= require backbone
 //= require marionette
-//= require eco/lib/eco
 //= require semantic-ui
 //= require js-routes
 //= require backbone-syphon

@@ -1,14 +1,15 @@
 @Mooclite.module "CoursesApp.List", (List,App,Backbone, Marionette,$, _) ->
 
-  List.Controller = 
+  class List.Controller extends Marionette.Controller 
 
-    list: ->
+    initialize: ->
       courses = App.request "course:entities"
+      
       App.execute "when:fetched", courses, =>
         
         @layout = @getLayoutView()
 
-        @layout.on "show", =>
+        @listenTo @layout, "show", =>
           @showTitle()
           @showPanel()
           @showCourses courses
@@ -22,7 +23,7 @@
     showPanel: ->
       panelView = @getPanelView()
 
-      panelView.on "new:course:button:clicked" , =>
+      @listenTo panelView, "new:course:button:clicked" , =>
         @showAddCourse()
 
       @layout.panelRegion.show panelView
@@ -30,7 +31,7 @@
     showCourses: (courses) ->
       coursesView = @getCoursesView courses
 
-      coursesView.on "childview:course:clicked" , (child,args) ->
+      @listenTo coursesView, "childview:course:clicked" , (child,args) ->
         App.vent.trigger "course:clicked" , args.model
 
       @layout.coursesRegion.show coursesView
@@ -38,7 +39,7 @@
     showAddCourse: ->
       newCourseView = App.request "new:course:view"
 
-      newCourseView.on "form:cancel", =>
+      @listenTo newCourseView, "form:cancel", =>
         @layout.newCourseRegion.close()
         
       @layout.newCourseRegion.show newCourseView
