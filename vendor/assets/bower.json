@@ -3,7 +3,6 @@
   "dependencies": {
     "jquery": "latest",
     "marionette": "latest",
-    "eco": "latest",
     "toastr": "latest"
   }
 }

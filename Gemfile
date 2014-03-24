@@ -68,6 +68,7 @@ gem 'semantic-ui-sass'
 
 gem 'backbone-syphon-rails'
 
+gem 'eco'
 
 gem 'gon'
 

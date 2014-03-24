@@ -64,6 +64,11 @@ GEM
       compass (>= 0.12.2)
     daemons (1.1.9)
     diff-lcs (1.2.5)
+    eco (1.0.0)
+      coffee-script
+      eco-source
+      execjs
+    eco-source (1.1.0.rc.1)
     email_validator (1.4.0)
       activemodel
     erubis (2.7.0)
@@ -221,6 +226,7 @@ DEPENDENCIES
   capybara
   coffee-rails
   compass-rails
+  eco
   email_validator
   gon
   jbuilder

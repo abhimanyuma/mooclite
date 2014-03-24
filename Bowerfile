@@ -4,5 +4,4 @@
 # asset 'bootstrap'
 asset 'jquery'
 asset 'marionette'
-asset 'eco'
 asset 'toastr'
