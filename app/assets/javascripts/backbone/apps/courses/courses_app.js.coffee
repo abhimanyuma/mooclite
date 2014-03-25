@@ -8,13 +8,16 @@
   API = 
     list: ->
       new CoursesApp.List.Controller
-    newCourse: ->
-      CoursesApp.New.Controller.newCourse()
+    
+    newCourse: (region) ->
+      new CoursesApp.New.Controller
+        region:region
+    
     edit: (id) ->
       CoursesApp.Edit.Controller.edit(id)
 
-  App.reqres.setHandler "new:course:view", ->
-    API.newCourse()
+  App.commands.setHandler "new:course:view", (region) ->
+    API.newCourse region
 
   App.vent.on "course:clicked", (course) ->
     App.navigate Routes.edit_course_path(course.id)

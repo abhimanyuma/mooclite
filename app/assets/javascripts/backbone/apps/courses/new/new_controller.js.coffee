@@ -1,17 +1,24 @@
 @Mooclite.module "CoursesApp.New", (New, App, Backbone, Marionette, $, _ ) ->
 
-  New.Controller = 
+  class New.Controller extends App.Controllers.Base 
 
-    newCourse: ->
+    initialize: ->
       course = App.request "new:course"
       
-      course.on "created", ->
+      @listenTo course, "created", ->
         App.vent.trigger "course:created", course
+
 
       newView = @getNewView course
       
+      formView = App.request "form:wrapper", newView
 
-      App.request "form:wrapper", newView
+      @listenTo newView, "form:cancel", ->
+        @region.close()
+
+      @show formView
+
+
 
     getNewView: (course) ->
       new New.Course

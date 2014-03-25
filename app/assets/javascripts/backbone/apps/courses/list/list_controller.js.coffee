@@ -40,13 +40,15 @@
       @layout.coursesRegion.show coursesView
 
     showAddCourse: ->
-      newCourseView = App.request "new:course:view"
+      # newCourseView = App.request "new:course:view"
 
-      @listenTo newCourseView, "form:cancel", =>
-        @layout.newCourseRegion.close()
+      # @listenTo newCourseView, "form:cancel", =>
+      #   @layout.newCourseRegion.close()
         
-      @layout.newCourseRegion.show newCourseView
+      # @layout.newCourseRegion.show newCourseView
 
+      App.execute "new:course:view", @layout.newCourseRegion
+    
     getTitleView: ->
       new List.Title
 
