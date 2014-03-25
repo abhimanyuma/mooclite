@@ -1,6 +1,6 @@
 @Mooclite.module "CoursesApp.List", (List,App,Backbone, Marionette,$, _) ->
 
-  class List.Controller extends Marionette.Controller 
+  class List.Controller extends App.Controllers.Base 
 
     initialize: ->
       courses = App.request "course:entities"
@@ -14,7 +14,10 @@
           @showPanel()
           @showCourses courses
 
-        App.mainRegion.show @layout
+        @show @layout
+
+    onClose: ->
+      console.info "closing controller!"
 
     showTitle: ->
       titleView = @getTitleView()

@@ -2,7 +2,7 @@
 
   App = new Marionette.Application
 
-  App.rootRoute = "users"
+  App.rootRoute = "courses"
 
   App.on "initialize:before", (options) ->
     @currentUser = App.request "set:current:user", options.currentUser
@@ -18,6 +18,9 @@
   App.addInitializer ->
     App.module("FooterApp").start()
     App.module("HeaderApp").start()
+
+  App.reqres.setHandler "default:region", ->
+    App.mainRegion
 
   App.on "initialize:after",(options) ->
     @startHistory()
