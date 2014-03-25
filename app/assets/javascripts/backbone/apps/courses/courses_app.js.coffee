@@ -14,7 +14,8 @@
         region:region
     
     edit: (id) ->
-      CoursesApp.Edit.Controller.edit(id)
+      new CoursesApp.Edit.Controller
+        id: id
 
   App.commands.setHandler "new:course:view", (region) ->
     API.newCourse region
