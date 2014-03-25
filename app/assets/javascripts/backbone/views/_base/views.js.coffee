@@ -19,6 +19,3 @@
           external: false
 
         url = "#" + url unless options.external
-      
-      currentUser:
-        App.request("get:current:user").toJSON()

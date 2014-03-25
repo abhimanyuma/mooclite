@@ -5,10 +5,7 @@
   App.rootRoute = "courses"
 
   App.on "initialize:before", (options) ->
-    @currentUser = App.request "set:current:user", options.currentUser
-
-  App.reqres.setHandler "get:current:user", ->
-    App.currentUser
+    console.log "initializing"
 
   App.addRegions 
     headerRegion: "#header-region"

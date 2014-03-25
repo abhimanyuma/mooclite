@@ -28,7 +28,5 @@
 //= require_tree ./backbone/apps
 
 $(function() {
-  Mooclite.start({
-    currentUser: gon.current_user
-  });
+  Mooclite.start();
 });

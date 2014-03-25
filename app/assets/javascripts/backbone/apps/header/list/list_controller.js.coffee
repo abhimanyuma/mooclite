@@ -1,12 +1,12 @@
 @Mooclite.module "HeaderApp.List", (List,App,Backbone,Marionette,$,_) ->
 
-  List.Controller =
+  class List.Controller extends App.Controllers.Base
 
-    list: ->
+    initialize: ->
       links = App.request "header:entities"
 
-      headerView = @getView(links)
-      App.headerRegion.show headerView
+      headerView = @getView links
+      @show headerView
       
     getView: (links) ->
       new List.Headers

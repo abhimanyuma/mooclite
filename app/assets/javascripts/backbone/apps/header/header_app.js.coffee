@@ -4,7 +4,8 @@
 
   API =
     list:->
-      HeaderApp.List.Controller.list()
+      new HeaderApp.List.Controller
+        region: App.headerRegion
   
   HeaderApp.on "start", ->
     API.list() 

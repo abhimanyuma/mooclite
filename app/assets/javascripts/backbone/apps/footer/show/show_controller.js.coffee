@@ -1,12 +1,10 @@
 @Mooclite.module "FooterApp.Show", (Show,App,Backbone,Marionette,$,_) ->
 
-  Show.Controller =
+  class Show.Controller extends App.Controllers.Base
 
-    show: -> 
-      currentUser = App.request "get:current:user"
-      footerView = @getView currentUser
-      App.footerRegion.show footerView
+    initialize: -> 
+      footerView = @getView()
+      @show footerView
 
-    getView: (currentUser) ->
+    getView: ->
       new Show.Footer
-        model: currentUser
