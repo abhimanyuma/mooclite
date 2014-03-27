@@ -1,5 +1,6 @@
 Mooclite::Application.routes.draw do
   
+  devise_for :users
   root to: "main#index"
 
   # This is a Backbone+RoR App all the

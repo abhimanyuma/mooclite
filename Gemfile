@@ -63,6 +63,9 @@ gem 'compass-rails'
 gem 'semantic-ui-sass'
 
 
+# For Users
+
+gem 'devise'
 
 # For backbone support
 
