@@ -1,6 +1,6 @@
 Mooclite::Application.routes.draw do
   
-  devise_for :users
+  
   root to: "main#index"
 
   # This is a Backbone+RoR App all the
@@ -8,7 +8,7 @@ Mooclite::Application.routes.draw do
   # "Jai Bolo REST APIyo Ki"
   scope "api" do
     resources :courses
-    resources :users
+    devise_for :users
   end
 
   
