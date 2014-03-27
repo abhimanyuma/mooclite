@@ -1,0 +1,7 @@
+<p>
+<% if @description: %>
+  <%=  @description %>
+<% else: %>
+<em> Course description has not been added yet </em>
+<% end %>
+</p>

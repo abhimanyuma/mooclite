@@ -40,7 +40,9 @@
         @buttonPlacement() if @buttons
 
     buttonPlacement: ->
-      @ui.buttonContainer.addClass @buttons.placement
+      console.info @ui
+      console.info @ui.buttonContainer
+      $(@ui.buttonContainer).addClass @buttons.placement
 
     focusFirstInput: ->
       $(":input:visible:enabled:first").focus()

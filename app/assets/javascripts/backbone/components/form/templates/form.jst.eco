@@ -6,7 +6,7 @@
 <% if @footer: %>
   <div>
   <% if @buttons:  %>
-    <div class="field " id="footer-div">
+    <div class="field" id="footer-div">
     <% for button in @buttons: %>
       <button data-form-button="<%= button.data %>" class="ui <%= button.className %> button" type="<%= button.type %>"><%= button.text %></button>
     <% end %>

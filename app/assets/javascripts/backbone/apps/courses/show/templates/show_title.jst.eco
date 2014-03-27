@@ -1,0 +1,2 @@
+<h1><%= @name %><small>by <%= @offered_by%></small></h1>
+<h3><%= @bio %></h3>

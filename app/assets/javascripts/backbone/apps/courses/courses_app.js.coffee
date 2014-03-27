@@ -3,6 +3,7 @@
   class CoursesApp.AppRouter extends Marionette.AppRouter
     appRoutes:
       "courses/:id/edit" : "edit"
+      "courses/:id" : "show"
       "courses" : "list"
 
   API = 
@@ -13,16 +14,26 @@
       new CoursesApp.New.Controller
         region:region
     
-    edit: (id) ->
+    show: (id, course) ->
+      new CoursesApp.Show.Controller
+        id: id
+        course: course
+
+    edit: (id, course) ->
       new CoursesApp.Edit.Controller
         id: id
+        course: course
 
   App.commands.setHandler "new:course:view", (region) ->
     API.newCourse region
 
   App.vent.on "course:clicked", (course) ->
+    App.navigate Routes.course_path(course.id)
+    API.show course.id
+
+  App.vent.on "edit:course:clicked", (course) ->
     App.navigate Routes.edit_course_path(course.id)
-    API.edit course.id
+    API.edit course.id,course
 
   App.vent.on "course:created", (course) ->
     toastr.success("New course on #{course.get('name')} was created","Course Created")
@@ -30,14 +41,14 @@
 
   App.vent.on "course:cancelled", (course) -> 
     toastr.info("Details of  #{course.get('name')} was not updated","Edit Cancelled")
-    App.navigate Routes.courses_path()
-    API.list()
+    App.navigate Routes.course_path(course.id)
+    API.show course.id,course
     
 
   App.vent.on "course:updated", (course) ->
     toastr.success("Details of #{course.get('name')} was updated successfully","Course Updated")
-    App.navigate Routes.courses_path()
-    API.list()
+    App.navigate Routes.course_path(course.id)
+    API.show course.id,course
   
   App.vent.on "course:delete", (course) ->
     if confirm "Do you really want to delete #{course.get('name')}?" then course.destroy() else false
