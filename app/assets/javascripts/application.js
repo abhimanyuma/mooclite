@@ -29,6 +29,3 @@
 //= require_tree ./backbone/components
 //= require_tree ./backbone/apps
 
-$(function() {
-  Mooclite.start();
-});

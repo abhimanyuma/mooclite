@@ -15,3 +15,10 @@
     <div id="footer-region" class="column"></div>
   </div>
 </div> 
+<%= javascript_tag do %>
+  $(function() {
+    Mooclite.start({
+      environment: "<%= Rails.env %>"
+    });
+  });
+<% end %>

@@ -5,9 +5,12 @@
     constructor: (options={}) ->
       @region = options.region or App.request "default:region"
       super options
+      @_instance_id = _.uniqueId("constructor")
+      App.execute "register:instance", @,@_instance_id
 
     close: ->
       super
+      App.execute "deregister:instance",@,@_instance_id
   
     show: (view,options={}) ->
       _.defaults options,
