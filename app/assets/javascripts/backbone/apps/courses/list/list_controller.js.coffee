@@ -4,18 +4,18 @@
 
     initialize: ->
       courses = App.request "course:entities"
-      
-      App.execute "when:fetched", courses, =>
-        
-        @layout = @getLayoutView()
+          
+      @layout = @getLayoutView()
 
-        @listenTo @layout, "show", =>
-          @showTitle()
-          @showPanel()
-          @showCourses courses
+      @listenTo @layout, "show", =>
+        @showTitle()
+        @showPanel()
+        @showCourses courses
 
-        @show @layout
-
+      @show @layout,
+        loading:
+          entities: courses 
+ 
     onClose: ->
       console.info "closing controller!"
 

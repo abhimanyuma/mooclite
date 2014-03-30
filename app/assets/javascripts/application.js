@@ -16,6 +16,8 @@
 //= require toastr
 //= require backbone
 //= require marionette
+//= require spin.js/spin
+//= require spin.js/jquery.spin
 //= require semantic-ui
 //= require js-routes
 //= require backbone-syphon

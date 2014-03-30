@@ -5,3 +5,4 @@
 asset 'jquery'
 asset 'marionette'
 asset 'toastr'
+asset 'spin.js'

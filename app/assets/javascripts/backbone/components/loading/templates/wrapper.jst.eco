@@ -1,0 +1,9 @@
+<div class="ui dimmer visible active">
+  <div class="content">
+    <div class="center" >
+      <h2 class="ui inverted icon header"><div id="spin-div"></div></h2>
+      <h2 class="ui inverted header">Loading...</h2>
+      
+   </div>
+  </div>
+</div>

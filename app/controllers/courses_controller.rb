@@ -2,6 +2,7 @@ class CoursesController < ApplicationController
   respond_to :json
 
   def index
+    sleep 15
     @courses= Course.all
   end
 

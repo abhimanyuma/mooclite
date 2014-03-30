@@ -3,6 +3,7 @@
   "dependencies": {
     "jquery": "latest",
     "marionette": "latest",
-    "toastr": "latest"
+    "toastr": "latest",
+    "spin.js": "latest"
   }
 }
