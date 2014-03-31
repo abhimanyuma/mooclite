@@ -10,14 +10,14 @@
       @listenTo course, "updated", ->
         App.vent.trigger "course:updated", course
 
-      App.execute "when:fetched", [course], =>
-        @layout = @getLayoutView course
+      @layout = @getLayoutView course
 
-        @listenTo @layout, "show", =>
-          @titleRegion course
-          @formRegion course
+      @listenTo @layout, "show", =>
+        @titleRegion course
+        @formRegion course
 
-        @show @layout
+      @show @layout,
+        loading:true
 
     titleRegion: (course) ->
       titleView = @getTitleView course
@@ -25,8 +25,8 @@
       @listenTo titleView, "course:delete:clicked", ->
         App.vent.trigger "course:delete", course
 
-      @layout.titleRegion.show titleView
-
+      @show titleView,
+        region: @layout.titleRegion
 
 
     formRegion: (course) ->
@@ -39,8 +39,9 @@
         @updateBio editView
                 
       formView = App.request "form:wrapper", editView
-
-      @layout.formRegion.show formView
+      
+      @show formView,
+        region: @layout.formRegion
 
       editView.trigger "bio:updated", course
 

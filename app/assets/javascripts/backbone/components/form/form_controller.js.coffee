@@ -16,8 +16,6 @@
       @listenTo @formLayout, "form:cancel", @formCancel
 
     formCancel: ->
-      console.log "Testing" 
-      console.info @contentView
       @contentView.triggerMethod "form:cancel"
 
     formSubmit: ->
@@ -30,9 +28,6 @@
     processFormSubmit: (data,model,collection) ->
       model.save data,
         collection: collection
-
-    onClose: ->
-      console.log "onClose", @
 
     formContentRegion: ->
       @formLayout.formContentRegion.show @contentView

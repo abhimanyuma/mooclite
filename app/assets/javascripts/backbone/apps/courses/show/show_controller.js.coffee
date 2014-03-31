@@ -6,31 +6,36 @@
       {course,id} = options
       course or= App.request "course:entity", id
 
-      App.execute "when:fetched", [course], =>
-        @layout = @getLayoutView course
+      @layout = @getLayoutView course
 
-        @listenTo @layout, "show", =>
-          @titleRegion course
-          @panelRegion course
-          @contentRegion course
+      @listenTo @layout, "show", =>
+        @titleRegion course
+        @panelRegion course
+        @contentRegion course
 
-        @show @layout
+      @show @layout,
+        loading:true
 
     titleRegion: (course) ->
       titleView = @getTitleView course
 
-      @layout.titleRegion.show titleView
+      @show titleView,
+        region: @layout.titleRegion
 
     contentRegion: (course) ->
       contentView = @getContentView course
-      @layout.contentRegion.show contentView
+
+      @show contentView,
+        region: @layout.contentRegion
 
     panelRegion: (course) ->
       panelView = @getPanelView course
 
       @listenTo panelView, "edit:course:button:clicked", =>
         App.vent.trigger "edit:course:clicked", course
-      @layout.panelRegion.show panelView
+
+      @show panelView,
+        region: @layout.panelRegion
 
     getLayoutView: (course) ->
       new Show.Layout

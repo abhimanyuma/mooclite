@@ -5,6 +5,8 @@
     initialize: (options) ->
       {view, config}=options
 
+      config = if _.isBoolean(config) then {} else config
+      
       _.defaults config,
         entities: @getEntities view
 
@@ -12,12 +14,12 @@
 
       @show loadingView
 
-      @showRealView view,config
+      @showRealView view, loadingView, config
 
-    showRealView: (realView,config) ->
+    showRealView: (realView, loadingView, config) ->
       App.execute "when:fetched", config.entities, =>
-        console.log "Something has come"
-
+        
+        return realView.close() if @region.currentView isnt loadingView
         @show realView
 
     getEntities: (view) ->
