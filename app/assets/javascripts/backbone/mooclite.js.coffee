@@ -20,12 +20,6 @@
     App.mainRegion
 
 
-  App.commands.setHandler "register:instance", (instance,id) ->
-    App.register instance,id if App.environment is "development"
-
-  App.commands.setHandler "deregister:instance", (instance,id) ->
-    App.deregister instance,id if App.environment is "development"
-
   App.on "initialize:after",(options) ->
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute() 

@@ -1,19 +1,6 @@
-do (Backbone) ->
+@Mooclite.module "Utilities", (Utilities,App, Backbone, Marionette, $, _) ->
 
-  _.extend Backbone.Marionette.Application::,
-
-    navigate: (route,options={}) ->
-      route = "/"+route.substring(5) if route.substring(0,4) == "/api"
-      route = "#" + route if route.charAt(0) is "/"
-      Backbone.history.navigate route,options
-
-    getCurrentRoute: ->
-      frag = Backbone.history.fragment
-      if _.isEmpty(frag) then null else frag
-
-    startHistory: ->
-      if Backbone.history
-        Backbone.history.start()
+  API = 
 
     register: (instance,id) ->
       @_registry ?={}
@@ -33,3 +20,12 @@ do (Backbone) ->
 
     getRegistrySize: ->
       _.size @_registry 
+
+  App.commands.setHandler "register:instance", (instance,id) ->
+    API.register instance,id if App.environment is "development"
+
+  App.commands.setHandler "deregister:instance", (instance,id) ->
+    API.deregister instance,id if App.environment is "development"
+
+  App.commands.setHandler "reset:registry", ->
+    API.resetRegistry()

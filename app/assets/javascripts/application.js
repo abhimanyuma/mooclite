@@ -21,11 +21,16 @@
 //= require semantic-ui
 //= require js-routes
 //= require backbone-syphon
-//= require_tree ./backbone/config
+
+//= require_tree ./config
 //= require ./backbone/mooclite
-//= require_tree ./backbone/controllers
+
+//= require_tree ./backbone/lib/entities
+//= require_tree ./backbone/lib/utilities
+//= require_tree ./backbone/lib/views
+//= require_tree ./backbone/lib/controllers
+//= require_tree ./backbone/lib/components
+
 //= require_tree ./backbone/entities
-//= require_tree ./backbone/views
-//= require_tree ./backbone/components
 //= require_tree ./backbone/apps
 
