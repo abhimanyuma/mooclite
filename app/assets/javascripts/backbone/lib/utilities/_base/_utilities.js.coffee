@@ -1,4 +1,4 @@
-@Mooclite.module "Entities", (Entities,App, Backbone, Marionette, $, _) ->
+@Mooclite.module "Utilities", (Utilities,App, Backbone, Marionette, $, _) ->
   App.commands.setHandler "when:fetched", (entities,callback) ->
       xhrs=[]
       if _.isArray(entities)
