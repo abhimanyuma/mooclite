@@ -1,6 +1,6 @@
 @Mooclite.module "Components.Loading" , (Loading, App, Backbone, Marionette, $, _ ) ->
   
-  class Loading.LoadingController extends App.Controllers.Base
+  class Loading.LoadingController extends App.Controllers.Application
 
     initialize: (options) ->
       {view, config}=options

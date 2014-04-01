@@ -1,6 +1,6 @@
 @Mooclite.module "CoursesApp.Edit", (Edit, App, Backbone, Marionette, $, _ ) ->
 
-  class Edit.Controller extends App.Controllers.Base 
+  class Edit.Controller extends App.Controllers.Application 
 
     initialize: (options) ->
       
