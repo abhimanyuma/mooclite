@@ -3,9 +3,9 @@
   class Edit.Controller extends App.Controllers.Application 
 
     initialize: (options) ->
-      
-      id=options.id
-      course = App.request "course:entity", id
+      {id, course} = options
+
+      course = App.request "course:entity", id unless course
       
       @listenTo course, "updated", ->
         App.vent.trigger "course:updated", course

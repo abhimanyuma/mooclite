@@ -4,7 +4,8 @@
 
     initialize: (options) ->
       {course,id} = options
-      course or= App.request "course:entity", id
+      
+      course = App.request "course:entity", id unless course
 
       @layout = @getLayoutView course
 
