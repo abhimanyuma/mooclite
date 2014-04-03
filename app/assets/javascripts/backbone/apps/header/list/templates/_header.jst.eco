@@ -1,1 +1,1 @@
-<%= @name %>
+<i class="<%= @icon%> icon"></i><%= @name %>

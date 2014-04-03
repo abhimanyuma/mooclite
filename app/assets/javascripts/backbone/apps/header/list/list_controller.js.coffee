@@ -3,7 +3,7 @@
   class List.Controller extends App.Controllers.Application
 
     initialize: ->
-      links = App.request "header:entities"
+      links = App.request "nav:entities"
 
       headerView = @getView links
       @show headerView
