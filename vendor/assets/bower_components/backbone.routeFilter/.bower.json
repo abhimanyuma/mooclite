@@ -1,0 +1,14 @@
+{
+  "name": "backbone.routeFilter",
+  "homepage": "https://github.com/boazsender/backbone.routefilter",
+  "version": "0.2.0",
+  "_release": "0.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.2.0",
+    "commit": "e862e3f06b2bddb5d4e5256596fc9a722724bc5c"
+  },
+  "_source": "git://github.com/boazsender/backbone.routefilter.git",
+  "_target": "*",
+  "_originalSource": "backbone.routeFilter"
+}
