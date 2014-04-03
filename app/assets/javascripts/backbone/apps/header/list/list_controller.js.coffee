@@ -2,10 +2,11 @@
 
   class List.Controller extends App.Controllers.Application
 
-    initialize: ->
-      links = App.request "nav:entities"
+    initialize: (options) ->
 
-      headerView = @getView links
+      { navs } = options
+
+      headerView = @getView navs
       @show headerView
       
     getView: (links) ->

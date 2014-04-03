@@ -3,9 +3,12 @@
   @startWithParent = false
 
   API =
-    list:->
+    list: (navs) ->
       new HeaderApp.List.Controller
         region: App.headerRegion
+        navs: navs
   
-  HeaderApp.on "start", ->
-    API.list() 
+  HeaderApp.on "start", (navs) ->
+    console.info navs
+    API.list navs
+

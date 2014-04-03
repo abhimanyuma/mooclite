@@ -5,7 +5,8 @@
   App.rootRoute = "courses"
 
   App.on "initialize:before", (options) ->
-    App.environment=options.environment
+    App.environment = options.environment
+    App.navs = App.request "nav:entities"
 
   App.addRegions 
     headerRegion: "#header-region"
@@ -14,7 +15,11 @@
 
   App.addInitializer ->
     App.module("FooterApp").start()
-    App.module("HeaderApp").start()
+    App.module("HeaderApp").start(App.navs )
+
+
+  App.vent.on "nav:choose", (nav) ->
+    App.navs.chooseByName nav 
 
   App.reqres.setHandler "default:region", ->
     App.mainRegion

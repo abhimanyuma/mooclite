@@ -18,6 +18,9 @@
       _(@where chosen:true).invoke("unchoose")
       model.choose()
 
+    chooseByName: (nav) ->
+      @choose @findWhere(name: nav)
+
   API =
     getNavs: ->
       navs = new Entities.NavsCollection [
