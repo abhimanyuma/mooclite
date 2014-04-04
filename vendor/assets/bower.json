@@ -5,6 +5,7 @@
     "marionette": "latest",
     "toastr": "latest",
     "spin.js": "latest",
-    "backbone.routeFilter": "latest"
+    "backbone.routeFilter": "latest",
+    "backbone-associations": "latest"
   }
 }
