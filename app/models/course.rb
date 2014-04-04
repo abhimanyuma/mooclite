@@ -4,4 +4,7 @@ class Course < ActiveRecord::Base
   validates_presence_of :offered_by ,:unless => proc {new_record?}
   validates_presence_of :bio ,:unless => proc {new_record?}
   validates :bio, :length => {maximum:140}
+
+
+  has_many :lectures, dependent: :destroy
 end
