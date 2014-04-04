@@ -6,17 +6,11 @@
     className: "red item" 
     attributes: {"href": "#"}
 
-    events:
-      "click" : "choose"
-
     modelEvents:
       "change:chosen" :  "changeChosen"
 
     onBeforeRender: ->
       @$el.attr("href","#{@model.get('url')}")
-
-    choose: ->
-      App.vent.trigger "nav:choose", @model.get('name')
 
     changeChosen: (model,value,options) ->
       @$el.toggleClass "active", value 

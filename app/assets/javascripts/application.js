@@ -21,6 +21,8 @@
 //= require semantic-ui
 //= require js-routes
 //= require backbone-syphon
+//= require backbone-associations
+//= require backbone.routeFilter/dist/backbone.routefilter
 
 //= require_tree ./config
 //= require ./backbone/mooclite

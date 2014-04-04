@@ -9,6 +9,4 @@
         navs: navs
   
   HeaderApp.on "start", (navs) ->
-    console.info navs
     API.list navs
-

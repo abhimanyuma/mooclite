@@ -19,7 +19,7 @@
       model.choose()
 
     chooseByName: (nav) ->
-      @choose @findWhere(name: nav)
+      @choose @findWhere(name: nav) 
 
   API =
     getNavs: ->

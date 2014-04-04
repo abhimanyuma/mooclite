@@ -7,6 +7,7 @@
   App.on "initialize:before", (options) ->
     App.environment = options.environment
     App.navs = App.request "nav:entities"
+    console.log App.navs
 
   App.addRegions 
     headerRegion: "#header-region"
@@ -15,7 +16,7 @@
 
   App.addInitializer ->
     App.module("FooterApp").start()
-    App.module("HeaderApp").start(App.navs )
+    App.module("HeaderApp").start(App.navs)
 
 
   App.vent.on "nav:choose", (nav) ->

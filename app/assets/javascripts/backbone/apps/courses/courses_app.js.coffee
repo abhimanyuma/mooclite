@@ -6,6 +6,9 @@
       "courses/:id" : "show"
       "courses" : "list"
 
+    before: ->
+      App.vent.trigger "nav:choose", "Courses"
+
   API = 
     list: ->
       new CoursesApp.List.Controller

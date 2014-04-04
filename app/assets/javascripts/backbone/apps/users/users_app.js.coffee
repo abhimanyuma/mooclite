@@ -5,6 +5,9 @@
       "users": "list"
       "users/:id": "show"
       "users/:id/edit": "edit"
+
+    before: ->
+      App.vent.trigger "nav:choose", "Users"
     
   API =
     list: ->
