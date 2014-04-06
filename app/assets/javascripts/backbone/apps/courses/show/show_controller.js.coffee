@@ -7,15 +7,18 @@
       
       course = App.request "course:entity", id unless course
 
+      lectures = App.request "lecture:entities", id
+
       @layout = @getLayoutView course
 
       @listenTo @layout, "show", =>
         @titleRegion course
         @panelRegion course
+        @lectureMenuRegion lectures
         @contentRegion course
 
       @show @layout,
-        loading:true
+        loading: [course,lectures]
 
     titleRegion: (course) ->
       titleView = @getTitleView course
@@ -37,6 +40,16 @@
 
       @show panelView,
         region: @layout.panelRegion
+
+    lectureMenuRegion: (lectures) ->
+      lectureMenuView = @getLectureMenuRegion lectures
+
+      @show lectureMenuView,
+        region: @layout.lectureMenuRegion
+
+    getLectureMenuRegion: (lectures) ->
+      new Show.LectureMenu
+        collection: lectures
 
     getLayoutView: (course) ->
       new Show.Layout

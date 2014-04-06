@@ -7,6 +7,7 @@
       titleRegion: "#title-region"
       panelRegion: "#panel-region"
       contentRegion:"#content-region"
+      lectureMenuRegion: "#menu-region"
 
   class Show.Content extends App.Views.ItemView
 
@@ -24,3 +25,16 @@
   class Show.Title extends App.Views.ItemView
     template: "courses/show/show_title"
     className: "ui teal inverted segment"
+
+  class Show.Lecture extends App.Views.ItemView
+    template: "courses/show/list_lecture"
+    tagName: "a"
+    className: "item" 
+    attributes: {"href": "#"}
+
+  class Show.LectureMenu extends App.Views.CompositeView
+    template: "courses/show/list_lectures"
+    className: "ui vertical pointing secondary menu"
+    itemView: Show.Lecture
+    itemViewContainer: "div"
+
