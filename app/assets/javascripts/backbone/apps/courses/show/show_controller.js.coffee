@@ -12,13 +12,12 @@
       @layout = @getLayoutView course
 
       @listenTo lectures, "change:chosen", (model,value,options) ->
-        App.vent.trigger "lecture:clicked", course, model, @layout.contentRegion if value
+        App.vent.trigger "lecture:clicked", course, model, @layout.contentLayout if value
 
       @listenTo @layout, "show", =>
         @titleRegion course
-        @panelRegion course
         @lectureMenuRegion lectures,course
-        @contentRegion course
+        @contentLayout course
 
       @show @layout,
         loading: [course,lectures]
@@ -29,11 +28,21 @@
       @show titleView,
         region: @layout.titleRegion
 
+    contentLayout: (course) ->
+      @contentLayout = @getContentLayout course
+
+      @listenTo @contentLayout, "show", =>
+        @panelRegion course
+        @contentRegion course
+
+      @show @contentLayout,
+        region: @layout.contentLayout
+
     contentRegion: (course) ->
       contentView = @getContentView course
 
       @show contentView,
-        region: @layout.contentRegion
+        region: @contentLayout.contentRegion
 
     panelRegion: (course) ->
       panelView = @getPanelView course
@@ -42,7 +51,7 @@
         App.vent.trigger "edit:course:clicked", course
 
       @show panelView,
-        region: @layout.panelRegion
+        region: @contentLayout.panelRegion
 
     lectureMenuRegion: (lectures,course) ->
       lectureMenuView = @getLectureMenuRegion lectures
@@ -60,6 +69,10 @@
     getLectureMenuRegion: (lectures) ->
       new Show.LectureMenu
         collection: lectures
+
+    getContentLayout: (course) ->
+      new Show.ContentLayout
+        model:course
 
     getLayoutView: (course) ->
       new Show.Layout

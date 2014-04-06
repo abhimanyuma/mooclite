@@ -5,8 +5,7 @@
     <div id="menu-region"></div>
   </div>
   <div class="twelve wide column">
-    <div id="panel-region"></div>
-    <div id="content-region"></div>
+     <div id="content-layout-region"></div>
   </div>
 </div></div>
 </div>

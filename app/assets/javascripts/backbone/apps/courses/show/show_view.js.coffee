@@ -5,9 +5,16 @@
 
     regions:
       titleRegion: "#title-region"
-      panelRegion: "#panel-region"
-      contentRegion:"#content-region"
+      contentLayout:"#content-layout-region"
       lectureMenuRegion: "#menu-region"
+
+  class Show.ContentLayout extends App.Views.Layout
+
+    template: "courses/show/content_layout"
+
+    regions:
+      panelRegion: "#panel-region"
+      contentRegion: "#content-region"
 
   class Show.Content extends App.Views.ItemView
 
