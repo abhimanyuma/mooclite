@@ -32,9 +32,21 @@
     className: "item" 
     attributes: {"href": "#"}
 
+    triggers:
+      "click" : "lecture:link:clicked"
+
+    modelEvents:
+      "change:chosen" :  "changeChosen"
+
+    changeChosen: (model,value,options) ->
+      @$el.toggleClass "active", value 
+
   class Show.LectureMenu extends App.Views.CompositeView
     template: "courses/show/list_lectures"
     className: "ui vertical pointing secondary menu"
     itemView: Show.Lecture
     itemViewContainer: "div"
+
+    triggers:
+      "click #home" : "course:home:clicked"
 

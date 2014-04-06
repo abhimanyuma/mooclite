@@ -1,11 +1,28 @@
 @Mooclite.module "Entities", (Entities, App, Backbone, Marionette, $, _) ->
 
   class Entities.Lecture extends Entities.Model
+
+    choose: ->
+      @set chosen: true
+
+    unchoose: ->
+      @set chosen: false
+
+    chooseByCollection: ->
+      @collection.choose @
+
     urlRoot:  -> '/lectures'
 
   class Entities.LecturesCollection extends Entities.Collection
     model: Entities.Lecture
     url: -> '/lectures'
+
+    choose: (model) ->
+      _(@where chosen:true).invoke("unchoose")
+      model.choose()
+
+    chooseByNo: (num) ->
+      @choose @findWhere(lecture_no: num) 
 
   API =
     getLectures: ->

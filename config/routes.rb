@@ -7,7 +7,11 @@ Mooclite::Application.routes.draw do
   # action happens through API
   # "Jai Bolo REST APIyo Ki"
   scope "api" do
-    resources :courses
+    resources :courses do
+      member do 
+        resources :lectures
+      end
+    end
     devise_for :users
   end
 

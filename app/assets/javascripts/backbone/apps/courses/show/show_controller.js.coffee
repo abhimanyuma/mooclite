@@ -11,10 +11,13 @@
 
       @layout = @getLayoutView course
 
+      @listenTo lectures, "change:chosen", (model,value,options) ->
+        App.vent.trigger "lecture:clicked", course, model, @layout.contentRegion if value
+
       @listenTo @layout, "show", =>
         @titleRegion course
         @panelRegion course
-        @lectureMenuRegion lectures
+        @lectureMenuRegion lectures,course
         @contentRegion course
 
       @show @layout,
@@ -41,8 +44,15 @@
       @show panelView,
         region: @layout.panelRegion
 
-    lectureMenuRegion: (lectures) ->
+    lectureMenuRegion: (lectures,course) ->
       lectureMenuView = @getLectureMenuRegion lectures
+
+      @listenTo lectureMenuView, "course:home:clicked", =>
+        App.vent.trigger "course:clicked", course
+
+      @listenTo lectureMenuView, "childview:lecture:link:clicked" , (child,args) ->
+        lecture=args.model
+        lectures.choose lecture
 
       @show lectureMenuView,
         region: @layout.lectureMenuRegion
