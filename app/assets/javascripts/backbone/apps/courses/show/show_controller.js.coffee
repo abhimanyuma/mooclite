@@ -3,11 +3,11 @@
   class Show.Controller extends App.Controllers.Application
 
     initialize: (options) ->
-      {course,id} = options
+      {course,id,lecture_id} = options
       
       course = App.request "course:entity", id unless course
 
-      lectures = App.request "lecture:entities", id
+      lectures = App.request("lecture:entities",id)
 
       @layout = @getLayoutView course
 
@@ -18,9 +18,14 @@
         @titleRegion course
         @lectureMenuRegion lectures,course
         @contentLayout course
+        @setLecture lectures,lecture_id
 
       @show @layout,
-        loading: [course,lectures]
+        loading: 
+          entities: [course,lectures]
+
+    setLecture: (collection,id) ->
+      collection.chooseByNo(parseInt(id))
 
     titleRegion: (course) ->
       titleView = @getTitleView course

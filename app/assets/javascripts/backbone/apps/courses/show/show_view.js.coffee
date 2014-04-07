@@ -50,9 +50,9 @@
 
   class Show.LectureMenu extends App.Views.CompositeView
     template: "courses/show/list_lectures"
-    className: "ui vertical pointing secondary menu"
+    #className: "ui vertical pointing secondary menu"
     itemView: Show.Lecture
-    itemViewContainer: "div"
+    itemViewContainer: "div#menu-list"
 
     triggers:
       "click #home" : "course:home:clicked"
