@@ -8,16 +8,38 @@
 
       course = App.request "course:entity", course_id
 
+      console.log "Test"
       lecture = App.request "lecture:entity", course_id, lecture_id
 
-      @layout = @getLayoutView course,lecture
+      @layout = @getLayoutView lecture
 
       @listenTo @layout, "show", =>
+        @titleRegion lecture
+        @contentRegion lecture
 
       @show @layout,
         loading: true
 
-    getLayoutView:(course,lecture) ->
+    titleRegion: (lecture) ->
+      titleView = @getTitleView lecture
+
+      @show titleView,
+        region: @layout.titleRegion
+
+    contentRegion: (lecture) ->
+      contentView = @getContentView lecture
+
+      @show contentView,
+        region: @layout.contentRegion
+
+    getTitleView:(lecture) ->
+      new Show.Title 
+        model:lecture
+
+    getContentView: (lecture) ->
+      new Show.Content
+        model:lecture
+
+    getLayoutView:(lecture) ->
       new Show.Layout
-        lecture:lecture
-        course:course
+        model:lecture

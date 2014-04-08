@@ -8,7 +8,7 @@ respond_to :json
   end
 
   def show
-    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id])
+    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
   end
 
   # def create

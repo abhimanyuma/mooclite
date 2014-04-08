@@ -4,4 +4,17 @@
     template: "lectures/show/show_layout"
 
     regions:
-      fooRegion: "#foo-region"
+      titleRegion: "#title-region"
+      contentRegion: "#content-region"
+
+  class Show.Content extends App.Views.ItemView
+
+    template: "lectures/show/show_content"
+    className: "ui segment"
+
+  class Show.Title extends App.Views.ItemView
+    template: "lectures/show/show_title"
+    className: "ui segment"
+
+    triggers: 
+      "click #edit-lecture-button" : "edit:lecture:button:clicked"

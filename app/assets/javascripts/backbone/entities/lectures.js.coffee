@@ -50,11 +50,13 @@
       lectures
 
     getLecture: (course_id,id) ->
-      lectures = new Entities.Lecture
+      lecture = new Entities.Lecture
         course_id: course_id
         id: id
-      lectures.fetch()
-      lectures
+      lecture.fetch()
+      console.log "this", lecture
+      lecture
+
 
     newLecture: ->
       new Entities.Lecture
