@@ -18,7 +18,7 @@
 
     showRealView: (realView, loadingView, config) ->
       App.execute "when:fetched", config.entities, =>
-        
+        console.log "Something here", config.entities
         return realView.close() if @region.currentView isnt loadingView
         @show realView
 

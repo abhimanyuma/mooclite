@@ -4,15 +4,18 @@
 
     initialize: (options) ->
      
-      {course,lecture} = options
+      {course_id,lecture_id} = options
+
+      course = App.request "course:entity", course_id
+
+      lecture = App.request "lecture:entity", course_id, lecture_id
 
       @layout = @getLayoutView course,lecture
 
-      console.log course,lecture
-
       @listenTo @layout, "show", =>
 
-      @show @layout
+      @show @layout,
+        loading: true
 
     getLayoutView:(course,lecture) ->
       new Show.Layout
