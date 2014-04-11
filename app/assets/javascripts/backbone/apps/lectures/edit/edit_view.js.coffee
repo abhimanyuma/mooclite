@@ -1,7 +1,24 @@
 @Mooclite.module "LecturesApp.Edit", (Edit, App, Backbone, Marionette, $, _) ->
 
-  class Edit.Layout extends Marionette.Layout
+  class Edit.Layout extends App.Views.Layout
     template: "lectures/edit/edit_layout"
 
     regions:
-      fooRegion: "#foo-region"
+      titleRegion: "#title-region"
+      formRegion:  "#form-region"
+
+  class Edit.Form extends App.Views.ItemView
+    
+    template: "lectures/edit/edit_lecture"
+
+    triggers:
+      "keyup #overview": "overview:updated"
+
+  class Edit.Title extends App.Views.ItemView
+    template: "lectures/edit/title"
+
+    triggers:
+      "click #delete-lecture": "lecture:delete:clicked"
+    
+    modelEvents:
+      "updated":"render"

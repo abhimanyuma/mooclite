@@ -8,20 +8,23 @@
 
       course = App.request "course:entity", course_id
 
-      console.log "Test"
       lecture = App.request "lecture:entity", course_id, lecture_id
 
       @layout = @getLayoutView lecture
 
       @listenTo @layout, "show", =>
-        @titleRegion lecture
+        @titleRegion course, lecture
         @contentRegion lecture
 
       @show @layout,
         loading: true
 
-    titleRegion: (lecture) ->
+    titleRegion: (course, lecture) ->
       titleView = @getTitleView lecture
+
+      @listenTo titleView, "edit:lecture:button:clicked", ->
+        console.log "Edit lecture button clicked"
+        App.vent.trigger "lecture:edit:clicked", course, lecture, @region
 
       @show titleView,
         region: @layout.titleRegion

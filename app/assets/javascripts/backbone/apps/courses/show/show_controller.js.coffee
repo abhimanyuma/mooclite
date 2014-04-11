@@ -3,7 +3,7 @@
   class Show.Controller extends App.Controllers.Application
 
     initialize: (options) ->
-      {course,id,lecture_id} = options
+      {course,id,lecture_id,toEdit} = options
       
       course = App.request "course:entity", id unless course
 
@@ -12,7 +12,13 @@
       @layout = @getLayoutView course
 
       @listenTo lectures, "change:chosen", (model,value,options) ->
-        App.vent.trigger "lecture:clicked", course, model, @layout.contentLayout if value
+        if toEdit
+          toEdit = false
+          console.log "Reached here a97"
+          App.vent.trigger "lecture:edit:clicked", course, model, @layout.contentLayout if value
+        else
+          console.log "Not supposed to reach here a97"
+          App.vent.trigger "lecture:clicked", course, model, @layout.contentLayout if value
 
       @listenTo @layout, "show", =>
         @titleRegion course

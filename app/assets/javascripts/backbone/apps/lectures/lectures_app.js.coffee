@@ -4,6 +4,9 @@
     appRoutes:
       "courses/:id/lectures/:id": "show"
       "courses/:id/lectures/:id/edit": "edit"
+
+    before: ->
+      App.vent.trigger "nav:choose", "Courses"
     
   API =
     show: (course_id,lecture_id,region) ->
@@ -13,8 +16,12 @@
         lecture_id:lecture_id
         region:region
 
-    edit: ->
+    edit: (course_id,lecture_id,region) ->
+      return App.execute "course:show", course_id,lecture_id,true if not region
       new LecturesApp.Edit.Controller
+        course_id:course_id
+        lecture_id:lecture_id
+        region:region
 
   
 
@@ -22,6 +29,12 @@
     # Not using Routes because it doesn't support nesting
     App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
     API.show(course.id,lecture.get("lecture_no"),region)
+
+
+  App.vent.on "lecture:edit:clicked", (course,lecture,region) ->
+    App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}/edit"
+    API.edit course.id, lecture.get("lecture_no"), region
+
 
   App.addInitializer ->
     new LecturesApp.Router

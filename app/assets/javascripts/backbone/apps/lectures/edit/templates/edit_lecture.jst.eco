@@ -1,0 +1,38 @@
+  <div class="field">
+    <label>Title</label>
+    <div class="ui left labeled icon input">
+      <input type="text" name="title" value="<%= @title%>" placeholder="Title">
+      <i class="book icon"></i>
+      <div class="ui corner label">
+        <i class="icon asterisk"></i>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Date</label>
+    <div class="ui left labeled icon input">
+      <input type="date"  name="date" value="<%= @date %>" />
+      <i class="building icon"></i>
+      <div class="ui corner label">
+        <i class="icon asterisk"></i>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>overview</label>
+    <div class="ui top labeled icon input">
+      <textarea id="overview" name= "overview" value="<%= @overview %>" placeholder="Short Description <140 chars. " ><%= @overview %></textarea>
+      <div class="ui corner label">
+      <h4 class="black block header" id="overview-length">
+      </h4>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Content</label>
+    <div class="ui top labeled input">
+      <textarea name="content" placeholder="Full Description" value="<%= @content %>" ><%=@content %></textarea>
+    </div>
+  </div>
+
+  

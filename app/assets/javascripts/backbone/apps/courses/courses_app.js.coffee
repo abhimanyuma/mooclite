@@ -22,10 +22,11 @@
         id: id
         course: course
 
-    showLecture: (id,lecture_id) ->
+    showLecture: (id,lecture_id,toEdit) ->
       new CoursesApp.Show.Controller
         id: id
         lecture_id: lecture_id
+        toEdit: toEdit
 
     edit: (id, course) ->
       new CoursesApp.Edit.Controller
@@ -35,8 +36,8 @@
   App.commands.setHandler "new:course:view", (region) ->
     API.newCourse region
 
-  App.commands.setHandler "course:show", (course_id,lecture_id) ->
-    API.showLecture course_id,lecture_id
+  App.commands.setHandler "course:show", (course_id,lecture_id,toEdit) ->
+    API.showLecture course_id,lecture_id,toEdit
 
   App.vent.on "course:clicked", (course) ->
     App.navigate Routes.course_path(course.id)
