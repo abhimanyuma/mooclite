@@ -35,6 +35,15 @@
     App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}/edit"
     API.edit course.id, lecture.get("lecture_no"), region
 
+  App.vent.on "lecture:updated", (course, lecture, region) ->
+    toastr.success("Details of #{lecture.get('title')} was updated successfully","Lecture Updated")
+    App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
+    API.show(course.id,lecture.get("lecture_no"),region)
+
+  App.vent.on "lecture:cancelled", (course, lecture, region) ->
+    toastr.info("Editing of #{lecture.get('title')} was cancelled", "Lecture not edited")
+    App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
+    API.show(course.id,lecture.get("lecture_no"),region)
 
   App.addInitializer ->
     new LecturesApp.Router

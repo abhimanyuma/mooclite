@@ -11,14 +11,14 @@
       lecture = App.request "lecture:entity", course_id, lecture_id
 
       @listenTo lecture, "updated", ->
-        App.vent.trigger "lecture:updated", lecture
+        App.vent.trigger "lecture:updated", course, lecture, @region
 
 
       @layout = @getLayoutView lecture
 
       @listenTo @layout, "show", =>
         @titleRegion lecture
-        @formRegion  lecture
+        @formRegion  lecture, course
 
       @show @layout,
         loading: true
@@ -30,11 +30,11 @@
       @show titleView,
         region: @layout.titleRegion
 
-    formRegion: (lecture) ->
+    formRegion: (lecture, course) ->
       editView = @getEditView lecture
 
       @listenTo editView, "form:cancel", ->
-        App.vent.trigger "lecture:cancelled",lecture
+        App.vent.trigger "lecture:cancelled", course, lecture, @region
 
       @listenTo editView, "overview:updated", =>
         @updateOverview editView

@@ -15,6 +15,15 @@ respond_to :json
   #   respond_with User.create(user_params)
   # end
 
+  def update
+    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
+    if @lecture.update_attributes lecture_params
+      render "lectures/show"
+    else
+      respond_with @lecture
+    end
+  end
+
   # def update
   #   respond_with User.update(params[:id],user_params)
   # end
@@ -25,10 +34,10 @@ respond_to :json
 
 private
   
-  def user_params
-    params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation, :institute,
-                                   :role, :slug)
+  def lecture_params
+    params.require(:lecture).permit(:title, :instructor_id, :content,
+                                   :date, :overview,
+                                   :course_id )
 
   end
 
