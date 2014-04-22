@@ -23,6 +23,7 @@
 //= require backbone-syphon
 //= require backbone-associations
 //= require backbone.routeFilter/dist/backbone.routefilter
+//= require jquery-file-upload/js/jquery.fileupload
 
 //= require_tree ./config
 //= require ./backbone/mooclite

@@ -6,6 +6,7 @@
     "toastr": "latest",
     "spin.js": "latest",
     "backbone.routeFilter": "latest",
-    "backbone-associations": "latest"
+    "backbone-associations": "latest",
+    "jquery-file-upload": "latest"
   }
 }
