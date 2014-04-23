@@ -1,0 +1,5 @@
+<h3> Uploading for <%= @lecture.title %> </h3>
+<%= form_for @lecture, :url => "courses/#{@lecture.course_id}/lectures/#{@lecture.id}/upload_update", :html => { :multipart => true } do |form| %>
+  <%= form.file_field :video %>
+  <%= form.file_field :slide %>
+<% end %>

@@ -4,7 +4,7 @@ respond_to :json
 
   def index
 
-    @lectures=Lecture.where(course_id: params[:course_id]) 
+    @lectures=Lecture.where(course_id: params[:course_id])
   end
 
   def show
@@ -24,6 +24,18 @@ respond_to :json
     end
   end
 
+  def upload
+    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
+  end
+
+  def upload_update
+    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
+    if @lecture.update_attributes upload_params
+      render "lectures/show"
+    else
+      respond_with @lecture
+    end
+  end
   # def update
   #   respond_with User.update(params[:id],user_params)
   # end
@@ -33,7 +45,7 @@ respond_to :json
   # end
 
 private
-  
+
   def lecture_params
     params.require(:lecture).permit(:title, :instructor_id, :content,
                                    :date, :overview,

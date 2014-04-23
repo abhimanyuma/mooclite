@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '>= 4.0.3'
 
-#For Development we use sqlite3, for 
+#For Development we use sqlite3, for
 #Production move to postgres
 group :development, :test do
   gem 'sqlite3'
@@ -43,7 +43,7 @@ gem 'unicorn'
 gem 'bcrypt-ruby'
 gem 'email_validator'
 
-# For JSON API support 
+# For JSON API support
 
 gem 'rabl'
 gem 'oj'
@@ -54,7 +54,7 @@ gem 'uglifier'
 gem 'coffee-rails'
 gem 'turbolinks'
 
-# For Semantic UI 
+# For Semantic UI
 gem 'therubyracer', platforms: :ruby # or any other runtime
 gem 'less-rails'
 gem 'autoprefixer-rails'
@@ -79,4 +79,5 @@ gem 'js-routes'
 
 gem 'newrelic_rpm'
 
+gem "paperclip", "~> 4.1"
 
