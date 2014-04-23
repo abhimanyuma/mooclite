@@ -6,7 +6,7 @@
     "./lib/backbone.marionette.js",
     "./lib/core/amd/backbone.marionette.js"
   ],
-  "version": "1.7.4",
+  "version": "1.8.2",
   "keywords": [
     "backbone",
     "framework",
@@ -45,11 +45,11 @@
     "sinonjs": "1.7.3",
     "jasmine-sinon": "0.3.1"
   },
-  "_release": "1.7.4",
+  "_release": "1.8.2",
   "_resolution": {
     "type": "version",
-    "tag": "v1.7.4",
-    "commit": "d6daba9ee13760397b830aa4b8da776fd54ed323"
+    "tag": "v1.8.2",
+    "commit": "c95b830d0addaa8b0e321164374535c8e63832bd"
   },
   "_source": "git://github.com/marionettejs/backbone.marionette.git",
   "_target": "*",
