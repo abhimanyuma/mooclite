@@ -1,5 +1,19 @@
-<h3> Uploading for <%= @lecture.title %> </h3>
-<%= form_for @lecture, :url => "courses/#{@lecture.course_id}/lectures/#{@lecture.id}/upload_update", :html => { :multipart => true } do |form| %>
-  <%= form.file_field :video %>
-  <%= form.file_field :slide %>
-<% end %>
+<form id="lecture-upload-form" action="courses/#{@lecture.course_id}/lectures/#{@lecture.id}/upload_update"
+      method="post" enctype="multipart/form-data" class="ui form segment">
+  <div class="field">
+    <label>Video</label>
+    <div class="ui left labeled input">
+      <input id="lecture_video" name="lecture[video]" type="file">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Slide</label>
+    <div class="ui left labeled input">
+      <input id="lecture_slide" name="lecture[slide]" type="file">
+    </div>
+  </div>
+  <button data-form-button="cancel" class="ui negative button" type="button">Cancel</button>
+  <button data-form-button="primary" class="ui positive button" type="submit">Update</button>
+</form>
+
