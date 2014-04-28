@@ -1,0 +1,7 @@
+<div id="upload-button">
+<a class="ui black button"> Upload Files </a>
+</div>
+
+<div id="upload-form-modal" class="ui large modal">
+<iframe id="upload-iframe" class="row" src=<%="#{Routes.upload_course_lecture_path(@course_id,@id)}"%>></iframe>
+</div>

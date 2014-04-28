@@ -12,10 +12,16 @@ Mooclite::Application.routes.draw do
     end
     devise_for :users
   end
+resources :courses, only: [] do
+ resources :lectures, only: [] do
+    get 'upload', on: :member
+    put 'upload_update', on: :member
+  end
+end
 
   #resources :lectures, only: [:upload,:upload_update]
-  get "courses/:course_id/lectures/:id/upload" => "lectures#upload"
-  post "courses/:course_id/lectures/:id/upload_update" => "lectures#upload_update"
+  #get "courses/:course_id/lectures/:id/upload" => "lectures#upload"
+  #post "courses/:course_id/lectures/:id/upload_update" => "lectures#upload_update"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

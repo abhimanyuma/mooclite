@@ -6,9 +6,10 @@
     regions:
       titleRegion: "#title-region"
       formRegion:  "#form-region"
+      modalRegion: "#modal-region"
 
   class Edit.Form extends App.Views.ItemView
-    
+
     template: "lectures/edit/edit_lecture"
 
     triggers:
@@ -19,6 +20,14 @@
 
     triggers:
       "click #delete-lecture": "lecture:delete:clicked"
-    
+
     modelEvents:
       "updated":"render"
+
+  class Edit.Modal extends App.Views.ItemView
+    template: "lectures/edit/modal"
+
+    className: "ui segment"
+
+    triggers:
+      "click a": "show:modal:clicked"

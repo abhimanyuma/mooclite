@@ -19,6 +19,7 @@
       @listenTo @layout, "show", =>
         @titleRegion lecture
         @formRegion  lecture, course
+        @modalRegion lecture
 
       @show @layout,
         loading: true
@@ -38,17 +39,29 @@
 
       @listenTo editView, "overview:updated", =>
         @updateOverview editView
-                
+
       formView = App.request "form:wrapper", editView
-      
+
       @show formView,
         region: @layout.formRegion
 
       editView.trigger "overview:updated", lecture
 
+    modalRegion: (lecture) ->
+      modalView = @getModalRegion lecture
+
+      @listenTo modalView, "show:modal:clicked", =>
+        @showModal modalView
+
+      @show modalView,
+        region: @layout.modalRegion
+
+    getModalRegion: (lecture) ->
+      new Edit.Modal
+        model: lecture
 
     getTitleView:(lecture) ->
-      new Edit.Title 
+      new Edit.Title
         model:lecture
 
     getEditView: (lecture) ->
@@ -60,6 +73,10 @@
     getLayoutView:(lecture) ->
       new Edit.Layout
         model:lecture
+
+    showModal: (modalView) ->
+      console.log "Test"
+      modalView.$('#upload-form-modal').modal('show')
 
     updateOverview: (view) ->
       lecture = view.model
@@ -76,7 +93,7 @@
               lecture.unset "_errors"
               lecture.set "_errors", errors
           else
-            lecture.set "_errors", error 
+            lecture.set "_errors", error
       else
         if lecture.has("_errors")
           errors=lecture.get("_errors")
