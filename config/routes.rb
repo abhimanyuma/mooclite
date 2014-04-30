@@ -15,7 +15,7 @@ Mooclite::Application.routes.draw do
 resources :courses, only: [] do
  resources :lectures, only: [] do
     get 'upload', on: :member
-    put 'upload_update', on: :member
+    post 'upload_update', on: :member
   end
 end
 

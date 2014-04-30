@@ -19,3 +19,4 @@
 /config/database.yml
 /config/newrelic.yml
 lib/generators/marionette
+public/system/

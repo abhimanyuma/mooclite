@@ -31,9 +31,9 @@ respond_to :json
   def upload_update
     @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
     if @lecture.update_attributes upload_params
-      render "lectures/show"
+      render root_path
     else
-      respond_with @lecture
+      render "lectures/upload"
     end
   end
   # def update
@@ -51,6 +51,10 @@ private
                                    :date, :overview,
                                    :course_id )
 
+  end
+
+  def upload_params
+    params.require(:lecture).permit(:video,:slide)
   end
 
 end

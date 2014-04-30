@@ -1,4 +1,4 @@
-<form id="lecture-upload-form" action=<%= "courses/#{@lecture.course_id}/lectures/#{@lecture.id}/upload_update" %>
+<form id="lecture-upload-form" action=<%= "/courses/#{@lecture.course_id}/lectures/#{@lecture.id}/upload_update" %>
       method="post" enctype="multipart/form-data" class="ui form segment">
   <div class="field">
     <label>Video</label>
@@ -13,6 +13,7 @@
       <input id="lecture_slide" name="lecture[slide]" type="file">
     </div>
   </div>
+  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
   <button data-form-button="cancel" class="ui negative button" type="button">Cancel</button>
   <button data-form-button="primary" class="ui positive button" type="submit">Update</button>
 </form>
