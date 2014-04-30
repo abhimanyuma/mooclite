@@ -76,7 +76,13 @@
 
     showModal: (modalView) ->
       console.log "Test"
+      modalView.$('#upload-iframe').iframeHeight(
+        minimumHeight: 100
+        );
+      modalView.$el.css("min-height","350px")
+
       modalView.$('#upload-form-modal').modal('show')
+
 
     updateOverview: (view) ->
       lecture = view.model

@@ -23,6 +23,7 @@
 //= require backbone-syphon
 //= require backbone-associations
 //= require backbone.routeFilter/dist/backbone.routefilter
+//= require iframe-auto-height-jquery-plugin/Src/iframeheight.min.js
 
 //= require_tree ./config
 //= require ./backbone/mooclite
