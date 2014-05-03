@@ -6,14 +6,14 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     meta: {
       version: '<%= pkg.version %>',
-      banner: 
+      banner:
         '// Backbone.Wreqr (Backbone.Marionette)\n' +
-        '// ----------------------------------\n' + 
+        '// ----------------------------------\n' +
         '// v<%= pkg.version %>\n' +
-        '//\n' + 
+        '//\n' +
         '// Copyright (c)<%= grunt.template.today("yyyy") %> Derick Bailey, Muted Solutions, LLC.\n' +
         '// Distributed under MIT license\n' +
-        '//\n' + 
+        '//\n' +
         '// http://github.com/marionettejs/backbone.wreqr\n' +
         '\n\n'
     },
@@ -24,15 +24,21 @@ module.exports = function(grunt) {
 
     preprocess: {
       core_build: {
-        files: {
-          'lib/backbone.wreqr.js' : 'src/wreqr.js'
+        src: 'src/wreqr.js',
+        dest: 'lib/backbone.wreqr.js'
+      }
+    },
+
+    template: {
+      options: {
+        data: {
+          version: '<%= meta.version %>'
         }
       },
-      core_amd: {
-        files: {
-          'lib/amd/backbone.wreqr.js' : 'src/amd.js'
-        }
-      },
+      core: {
+        src: '<%= preprocess.core_build.dest %>',
+        dest: '<%= preprocess.core_build.dest %>'
+      }
     },
 
     concat: {
@@ -48,10 +54,6 @@ module.exports = function(grunt) {
     uglify : {
       options: {
         banner: "<%= meta.banner %>"
-      },
-      amd : {
-        src : 'lib/amd/backbone.wreqr.js',
-        dest : 'lib/amd/backbone.wreqr.min.js'
       },
       core : {
         src : 'lib/backbone.wreqr.js',
@@ -134,6 +136,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-preprocess');
+  grunt.loadNpmTasks('grunt-template');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -149,6 +152,6 @@ module.exports = function(grunt) {
   grunt.registerTask('server', ['jasmine:wreqr:build', 'connect:server', 'watch:server']);
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'jasmine:coverage', 'preprocess', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'jasmine:coverage', 'preprocess', 'template', 'concat', 'uglify']);
 
 };

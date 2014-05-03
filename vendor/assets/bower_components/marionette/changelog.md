@@ -1,3 +1,13 @@
+### v1.8.4 [view commit logs](https://github.com/marionettejs/backbone.marionette/compare/v1.8.3...v1.8.4)
+
+  * General
+    * Update bundled build to use the latest version of babysitter and wreqr.
+
+### v1.8.3 [view commit logs](https://github.com/marionettejs/backbone.marionette/compare/v1.8.2...v1.8.3)
+
+  * Fixes
+    * Behaviors now have access to the views options and events during their initialize.
+
 ### v1.8.2 [view commit logs](https://github.com/marionettejs/backbone.marionette/compare/v1.8.0...v1.8.2)
 
   * Fixes
@@ -130,7 +140,7 @@ Version 1.7 represents a significant step in formalizing the ways to improve you
       ```js
         ui: function() {
           return {
-            "click @ui.foo": "attack"
+            "foo": ".foo"
           }
         }
       ```

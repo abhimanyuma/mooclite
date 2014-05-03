@@ -1,5 +1,7 @@
 # Backbone.BabySitter
 
+[![Build Status](https://travis-ci.org/marionettejs/backbone.babysitter.svg?branch=master)](https://travis-ci.org/marionettejs/backbone.babysitter)
+
 Manage child views in a Backbone.View.
 
 ## About Backbone.BabySitter

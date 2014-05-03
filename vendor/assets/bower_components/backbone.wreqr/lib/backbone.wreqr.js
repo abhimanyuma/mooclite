@@ -1,6 +1,6 @@
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
-// v1.1.0
+// v1.3.0
 //
 // Copyright (c)2014 Derick Bailey, Muted Solutions, LLC.
 // Distributed under MIT license
@@ -8,9 +8,33 @@
 // http://github.com/marionettejs/backbone.wreqr
 
 
-Backbone.Wreqr = (function(Backbone, Marionette, _){
+(function(root, factory) {
+
+  if (typeof define === 'function' && define.amd) {
+    define(['exports', 'backbone', 'underscore'], function(exports, Backbone, _) {
+      factory(exports, Backbone, _);
+    });
+  } else if (typeof exports !== 'undefined') {
+    var Backbone = require('backbone');
+    var _ = require('underscore');
+    factory(exports, Backbone, _);
+  } else {
+    factory({}, root.Backbone, root._);
+  }
+
+}(this, function(Wreqr, Backbone, _) {
   "use strict";
-  var Wreqr = {};
+
+  var previousWreqr = Backbone.Wreqr;
+
+  Backbone.Wreqr = Wreqr;
+
+  Backbone.Wreqr.VERSION = '1.3.0';
+
+  Backbone.Wreqr.noConflict = function () {
+    Backbone.Wreqr = previousWreqr;
+    return this;
+  };
 
   // Handlers
 // --------
@@ -402,7 +426,7 @@ Wreqr.radio = (function(Wreqr){
       var messageSystem = radio._getChannel(channelName)[system];
       var args = Array.prototype.slice.call(arguments, 1);
 
-      messageSystem[method].apply(messageSystem, args);
+      return messageSystem[method].apply(messageSystem, args);
     };
   };
 
@@ -411,5 +435,4 @@ Wreqr.radio = (function(Wreqr){
 })(Wreqr);
 
 
-  return Wreqr;
-})(Backbone, Backbone.Marionette, _);
+}));
