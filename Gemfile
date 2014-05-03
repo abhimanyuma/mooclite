@@ -81,3 +81,5 @@ gem 'newrelic_rpm'
 
 gem "paperclip", "~> 4.1"
 
+gem 'redis', '2.1.1'
+

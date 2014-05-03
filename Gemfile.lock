@@ -154,6 +154,7 @@ GEM
     rake (10.1.1)
     rdoc (4.1.1)
       json (~> 1.4)
+    redis (2.1.1)
     ref (1.0.5)
     rspec-core (2.14.8)
     rspec-expectations (2.14.5)
@@ -258,6 +259,7 @@ DEPENDENCIES
   rabl
   rails (>= 4.0.3)
   rails_12factor
+  redis (= 2.1.1)
   rspec-rails
   ruby-bower
   sass-rails
