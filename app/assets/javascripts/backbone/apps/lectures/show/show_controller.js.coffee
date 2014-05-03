@@ -3,7 +3,7 @@
   class Show.Controller extends App.Controllers.Application
 
     initialize: (options) ->
-     
+
       {course_id,lecture_id} = options
 
       course = App.request "course:entity", course_id
@@ -35,8 +35,12 @@
       @show contentView,
         region: @layout.contentRegion
 
+      @listenTo contentView, "show", ->
+        console.log "Is this showed somewhere"
+
+
     getTitleView:(lecture) ->
-      new Show.Title 
+      new Show.Title
         model:lecture
 
     getContentView: (lecture) ->

@@ -16,5 +16,5 @@
     template: "lectures/show/show_title"
     className: "ui segment"
 
-    triggers: 
+    triggers:
       "click #edit-lecture-button" : "edit:lecture:button:clicked"
