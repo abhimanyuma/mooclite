@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140423204151) do
+ActiveRecord::Schema.define(version: 20140504174143) do
 
   create_table "courses", force: true do |t|
     t.string   "name"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20140423204151) do
     t.string   "slide_content_type"
     t.integer  "slide_file_size"
     t.datetime "slide_updated_at"
+    t.string   "video_fingerprint"
+    t.string   "slide_fingerprint"
   end
 
   add_index "lectures", ["course_id", "lecture_no"], name: "index_lectures_on_course_id_and_lecture_no"

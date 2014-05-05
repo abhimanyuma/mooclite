@@ -31,8 +31,10 @@ respond_to :json
   def upload_update
     @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
     if @lecture.update_attributes upload_params
-      render root_path
+      flash[:success] = "Model updated"
+      render "lectures/upload"
     else
+      flash[:error] = "Contains errors"
       render "lectures/upload"
     end
   end

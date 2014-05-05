@@ -21,7 +21,18 @@ module Mooclite
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
-
+    $process_statuses = {
+        UNPROCESSED: 0,
+        H264FORMATS: 1,
+        OGGFORMATS: 2,
+        M4AFORMATS: 3,
+        OPUSFORMATS: 4,
+        MPEGDASH: 5,
+        FRAMER: 6,
+        SLIDEADDER: 7,
+        SLIDESUBST: 8,
+        BKGEXTRACT: 9
+    }
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
