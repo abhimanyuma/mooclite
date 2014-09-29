@@ -1,12 +1,12 @@
 @Mooclite.module "Components.Loading" , (Loading, App, Backbone, Marionette, $, _ ) ->
-  
+
   class Loading.LoadingController extends App.Controllers.Application
 
     initialize: (options) ->
       {view, config}=options
 
       config = if _.isBoolean(config) then {} else config
-      
+
       _.defaults config,
         entities: @getEntities view
 
@@ -18,7 +18,6 @@
 
     showRealView: (realView, loadingView, config) ->
       App.execute "when:fetched", config.entities, =>
-        console.log "Something here", config.entities
         return realView.close() if @region.currentView isnt loadingView
         @show realView
 

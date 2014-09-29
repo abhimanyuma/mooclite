@@ -4,7 +4,7 @@
 
     initialize: (options) ->
       {course,id,lecture_id,toEdit} = options
-      
+
       course = App.request "course:entity", id unless course
 
       lectures = App.request("lecture:entities",id)
@@ -14,20 +14,18 @@
       @listenTo lectures, "change:chosen", (model,value,options) ->
         if toEdit
           toEdit = false
-          console.log "Reached here a97"
           App.vent.trigger "lecture:edit:clicked", course, model, @layout.contentLayout if value
         else
-          console.log "Not supposed to reach here a97"
           App.vent.trigger "lecture:clicked", course, model, @layout.contentLayout if value
 
       @listenTo @layout, "show", =>
         @titleRegion course
         @lectureMenuRegion lectures,course
         @contentLayout course
-        @setLecture lectures,lecture_id
+        @setLecture lectures,lecture_id if lecture_id
 
       @show @layout,
-        loading: 
+        loading:
           entities: [course,lectures]
 
     setLecture: (collection,id) ->
@@ -69,6 +67,9 @@
 
       @listenTo lectureMenuView, "course:home:clicked", =>
         App.vent.trigger "course:clicked", course
+
+      @listenTo lectureMenuView, "new:lecture:clicked", =>
+        App.vent.trigger "new:lecture:clicked", course
 
       @listenTo lectureMenuView, "childview:lecture:link:clicked" , (child,args) ->
         lecture=args.model

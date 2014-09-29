@@ -1,5 +1,5 @@
 @Mooclite.module "Controllers", (Controllers, App, Backbone, Marionette, $, _) ->
-  
+
   class Controllers.Application extends Marionette.Controller
 
     constructor: (options={}) ->
@@ -11,14 +11,14 @@
     close: ->
       super
       App.execute "deregister:instance",@,@_instance_id
-  
+
     show: (view,options={}) ->
       _.defaults options,
         loading: false
         region: @region
 
       @_setMainView view
-       
+
       @_manageView view, options
 
     _setMainView: (view) ->
@@ -28,9 +28,6 @@
 
     _manageView: (view,options) ->
       if options.loading
-        console.log "only once"
-        console.info view
         App.execute "show:loading", view, options
       else
-        console.info view
         options.region.show view

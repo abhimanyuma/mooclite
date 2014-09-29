@@ -75,7 +75,6 @@
         model:lecture
 
     showModal: (modalView) ->
-      console.log "Test"
       modalView.$('#upload-iframe').iframeHeight(
         minimumHeight: 100
         );

@@ -14,12 +14,11 @@
       courses
 
     getCourse: (id) ->
-      console.log "Requested" + id
       course = new Entities.Course
         id: id
       course.fetch()
       course
-      
+
     newCourse: ->
       new Entities.Course
 

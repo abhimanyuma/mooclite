@@ -1,10 +1,10 @@
 @Mooclite.module "CoursesApp.List", (List,App,Backbone, Marionette,$, _) ->
 
-  class List.Controller extends App.Controllers.Application 
+  class List.Controller extends App.Controllers.Application
 
     initialize: ->
       courses = App.request "course:entities"
-          
+
       @layout = @getLayoutView()
 
       @listenTo @layout, "show", =>
@@ -14,10 +14,9 @@
 
       @show @layout,
         loading:
-          entities: courses 
- 
+          entities: courses
+
     onClose: ->
-      console.info "closing controller!"
 
     showTitle: ->
       titleView = @getTitleView()
@@ -44,11 +43,11 @@
 
       # @listenTo newCourseView, "form:cancel", =>
       #   @layout.newCourseRegion.close()
-        
+
       # @layout.newCourseRegion.show newCourseView
 
       App.execute "new:course:view", @layout.newCourseRegion
-    
+
     getTitleView: ->
       new List.Title
 

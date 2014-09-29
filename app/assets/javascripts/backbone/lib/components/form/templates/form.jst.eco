@@ -1,7 +1,6 @@
-<% console.info "form options" , @%>
 <div class="ui error message">
   <div class="header">Oh oh! You have some errors.</div>
-</div> 
+</div>
 <div id="form-content-region"></div>
 <% if @footer: %>
   <div>

@@ -7,10 +7,10 @@
 
     before: ->
       App.vent.trigger "nav:choose", "Courses"
-    
+
   API =
     show: (course_id,lecture_id,region) ->
-      return App.execute "course:show", course_id,lecture_id if not region 
+      return App.execute "course:show", course_id,lecture_id if not region
       new LecturesApp.Show.Controller
         course_id:course_id
         lecture_id:lecture_id
@@ -23,7 +23,7 @@
         lecture_id:lecture_id
         region:region
 
-  
+
 
   App.vent.on "lecture:clicked", (course,lecture,region) ->
     # Not using Routes because it doesn't support nesting

@@ -8,7 +8,7 @@
 
       @set _destroy: true
       super options
-    
+
     save: (data,options = {}) ->
       isNew = @isNew()
 
@@ -31,5 +31,4 @@
         @trigger "updated",@
 
     saveError: (model,xhr,options) ->
-      console.warn xhr, model
       @set _errors: $.parseJSON(xhr.responseText)?.errors unless xhr.status is 500 or xhr.status is 404

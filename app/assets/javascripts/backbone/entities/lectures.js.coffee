@@ -2,12 +2,12 @@
 
   class Entities.Lecture extends Entities.Model
 
-    initialize: (options) -> 
+    initialize: (options) ->
       {course_id,id} = options
 
       if @collection and @collection.course_id
         @course_id = @collection.course_id
-      else 
+      else
         @course_id = course_id
 
     choose: ->
@@ -37,13 +37,11 @@
       model.choose()
 
     chooseByNo: (num) ->
-      console.log "Now here", num, @
-      console.log @findWhere(lecture_no: num)
-      @choose @findWhere(lecture_no: num) 
+      @choose @findWhere(lecture_no: num)
 
   API =
     getLectures: (course_id) ->
-      lectures = new Entities.LecturesCollection 
+      lectures = new Entities.LecturesCollection
         course_id:course_id
       lectures.fetch
         reset: true
@@ -54,7 +52,6 @@
         course_id: course_id
         id: id
       lecture.fetch()
-      console.log "this", lecture
       lecture
 
 

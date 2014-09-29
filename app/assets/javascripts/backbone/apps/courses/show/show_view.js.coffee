@@ -25,7 +25,7 @@
     template: "courses/show/_panel"
     className: "ui segment"
 
-    triggers: 
+    triggers:
       "click #edit-course-button" : "edit:course:button:clicked"
 
 
@@ -36,17 +36,18 @@
   class Show.Lecture extends App.Views.ItemView
     template: "courses/show/list_lecture"
     tagName: "a"
-    className: "item" 
+    className: "item"
     attributes: {"href": "#"}
 
     triggers:
       "click" : "lecture:link:clicked"
 
+
     modelEvents:
       "change:chosen" :  "changeChosen"
 
     changeChosen: (model,value,options) ->
-      @$el.toggleClass "active", value 
+      @$el.toggleClass "active", value
 
   class Show.LectureMenu extends App.Views.CompositeView
     template: "courses/show/list_lectures"
@@ -56,4 +57,5 @@
 
     triggers:
       "click #home" : "course:home:clicked"
+      "click .new-lecture" : "new:lecture:clicked"
 

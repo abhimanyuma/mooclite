@@ -1,6 +1,6 @@
 @Mooclite.module "Utilities", (Utilities,App, Backbone, Marionette, $, _) ->
 
-  API = 
+  API =
 
     register: (instance,id) ->
       @_registry ?={}
@@ -16,10 +16,8 @@
         controller.region.close()
       msg="There were #{oldCount} controllers in the registry, there are now #{@getRegistrySize()}"
 
-      if @getRegistrySize() > 0 then console.warn msg,@_registry else console.log msg
-
     getRegistrySize: ->
-      _.size @_registry 
+      _.size @_registry
 
   App.commands.setHandler "register:instance", (instance,id) ->
     API.register instance,id if App.environment is "development"

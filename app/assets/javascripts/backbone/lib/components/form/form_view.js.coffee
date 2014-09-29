@@ -40,8 +40,6 @@
         @buttonPlacement() if @buttons
 
     buttonPlacement: ->
-      console.info @ui
-      console.info @ui.buttonContainer
       $(@ui.buttonContainer).addClass @buttons.placement
 
     focusFirstInput: ->
@@ -70,7 +68,7 @@
       field = el.closest(".field")
       field.addClass("error")
       field.append(message)
-    
+
     syncStart: ->
       @$el.addClass("loading") if @config.syncing
 

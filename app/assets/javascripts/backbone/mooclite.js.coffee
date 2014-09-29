@@ -7,9 +7,8 @@
   App.on "initialize:before", (options) ->
     App.environment = options.environment
     App.navs = App.request "nav:entities"
-    console.log App.navs
 
-  App.addRegions 
+  App.addRegions
     headerRegion: "#header-region"
     mainRegion: "#main-region"
     footerRegion: "#footer-region"
@@ -20,7 +19,7 @@
 
 
   App.vent.on "nav:choose", (nav) ->
-    App.navs.chooseByName nav 
+    App.navs.chooseByName nav
 
   App.reqres.setHandler "default:region", ->
     App.mainRegion
@@ -28,6 +27,6 @@
 
   App.on "initialize:after",(options) ->
     @startHistory()
-    @navigate(@rootRoute, trigger: true) unless @getCurrentRoute() 
+    @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()
 
   App

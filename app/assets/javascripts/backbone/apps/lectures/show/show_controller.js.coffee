@@ -23,7 +23,6 @@
       titleView = @getTitleView lecture
 
       @listenTo titleView, "edit:lecture:button:clicked", ->
-        console.log "Edit lecture button clicked"
         App.vent.trigger "lecture:edit:clicked", course, lecture, @region
 
       @show titleView,
@@ -36,7 +35,6 @@
         region: @layout.contentRegion
 
       @listenTo contentView, "show", ->
-        console.log "Is this showed somewhere"
 
 
     getTitleView:(lecture) ->
