@@ -20,7 +20,11 @@
       @collection.choose @
 
     urlRoot:  -> "/api/courses/#{@course_id}/lectures"
-    url: -> "/api/courses/#{@course_id}/lectures/#{@id}"
+    url: ->
+      if @id
+        "/api/courses/#{@course_id}/lectures/#{@id}"
+      else
+        "/api/courses/#{@course_id}/lectures"
 
   class Entities.LecturesCollection extends Entities.Collection
     model: Entities.Lecture
@@ -55,8 +59,10 @@
       lecture
 
 
-    newLecture: ->
-      new Entities.Lecture
+    newLecture:(course_id) ->
+      lecture = new Entities.Lecture
+        course_id: course_id
+      lecture
 
   App.reqres.setHandler "lecture:entities", (course_id) ->
     API.getLectures(course_id)
@@ -64,5 +70,5 @@
   App.reqres.setHandler "lecture:entity", (course_id,id) ->
     API.getLecture course_id, id
 
-  #App.reqres.setHandler "new:lectures:entity", ->
-    #API.newLecture()
+  App.reqres.setHandler "new:lecture:entity",(course_id) ->
+    API.newLecture(course_id)

@@ -1,0 +1,14 @@
+<div class="ui grid"><div class="row">
+  <div class="twelve wide column">
+    <h2 class="ui header">
+      <i class="edit icon"></i>
+      <div class="content">
+      Add New Lecture
+      <div class="sub header">Adding lecture for <% console.log(@course)%> </div>
+      </div>
+    </h2>
+  </div>
+  <div class="four wide column">
+    <button class="ui negative button floated right" id="delete-lecture">Delete</button>
+  </div>
+</div></div>

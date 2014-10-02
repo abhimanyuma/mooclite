@@ -10,7 +10,7 @@
 
   class Edit.Form extends App.Views.ItemView
 
-    template: "lectures/edit/edit_lecture"
+    template: "lectures/shared/edit_lecture"
 
     triggers:
       "keyup #overview": "overview:updated"
@@ -25,7 +25,7 @@
       "updated":"render"
 
   class Edit.Modal extends App.Views.ItemView
-    template: "lectures/edit/modal"
+    template: "lectures/shared/modal"
 
     className: "ui segment"
 

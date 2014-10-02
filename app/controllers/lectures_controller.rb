@@ -11,9 +11,14 @@ respond_to :json
     @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
   end
 
-  # def create
-  #   respond_with User.create(user_params)
-  # end
+  def create
+    @lecture = Lecture.new
+    if @lecture.update_attributes lecture_params
+      render "lectures/show"
+    else
+      respond_with @lecture
+    end
+  end
 
   def update
     @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first

@@ -22,11 +22,11 @@
         id: id
         course: course
 
-    showLecture: (id,lecture_id,toEdit) ->
+    showLecture: (id,lecture_id,lecture_action) ->
       new CoursesApp.Show.Controller
         id: id
         lecture_id: lecture_id
-        toEdit: toEdit
+        lecture_action: lecture_action
 
     edit: (id, course) ->
       new CoursesApp.Edit.Controller
@@ -36,8 +36,8 @@
   App.commands.setHandler "new:course:view", (region) ->
     API.newCourse region
 
-  App.commands.setHandler "course:show", (course_id,lecture_id,toEdit) ->
-    API.showLecture course_id,lecture_id,toEdit
+  App.commands.setHandler "course:show", (course_id,lecture_id,lecture_action) ->
+    API.showLecture course_id,lecture_id,lecture_action
 
   App.vent.on "course:clicked", (course) ->
     App.navigate Routes.course_path(course.id)
@@ -46,9 +46,6 @@
   App.vent.on "edit:course:clicked", (course) ->
     App.navigate Routes.edit_course_path(course.id)
     API.edit course.id,course
-
-  App.vent.on "new:lecture:clicked", (course,region) ->
-    console.log arguments
 
   App.vent.on "course:created", (course) ->
     toastr.success("New course on #{course.get('name')} was created","Course Created")

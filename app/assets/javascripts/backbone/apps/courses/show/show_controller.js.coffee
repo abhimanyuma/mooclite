@@ -3,7 +3,7 @@
   class Show.Controller extends App.Controllers.Application
 
     initialize: (options) ->
-      {course,id,lecture_id,toEdit} = options
+      {course,id,lecture_id,lecture_action} = options
 
       course = App.request "course:entity", id unless course
 
@@ -12,8 +12,7 @@
       @layout = @getLayoutView course
 
       @listenTo lectures, "change:chosen", (model,value,options) ->
-        if toEdit
-          toEdit = false
+        if lecture_action == "editLecture"
           App.vent.trigger "lecture:edit:clicked", course, model, @layout.contentLayout if value
         else
           App.vent.trigger "lecture:clicked", course, model, @layout.contentLayout if value
@@ -22,7 +21,11 @@
         @titleRegion course
         @lectureMenuRegion lectures,course
         @contentLayout course
-        @setLecture lectures,lecture_id if lecture_id
+        if lecture_id
+          @setLecture lectures,lecture_id
+        else if lecture_action == "newLecture"
+          @setNewLecture course
+
 
       @show @layout,
         loading:
@@ -30,6 +33,9 @@
 
     setLecture: (collection,id) ->
       collection.chooseByNo(parseInt(id))
+
+    setNewLecture: (course) ->
+      App.vent.trigger "lecture:new:clicked", course, @layout.contentLayout
 
     titleRegion: (course) ->
       titleView = @getTitleView course
@@ -69,7 +75,7 @@
         App.vent.trigger "course:clicked", course
 
       @listenTo lectureMenuView, "new:lecture:clicked", =>
-        App.vent.trigger "new:lecture:clicked", course
+        App.vent.trigger "new:lecture:clicked", course, @layout.contentLayout
 
       @listenTo lectureMenuView, "childview:lecture:link:clicked" , (child,args) ->
         lecture=args.model
