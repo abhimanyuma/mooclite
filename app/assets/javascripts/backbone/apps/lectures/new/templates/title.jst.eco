@@ -4,7 +4,7 @@
       <i class="edit icon"></i>
       <div class="content">
       Add New Lecture
-      <div class="sub header">Adding lecture for <% console.log(@course)%> </div>
+      <div class="sub header">Adding lecture for </div>
       </div>
     </h2>
   </div>

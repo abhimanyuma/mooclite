@@ -9,8 +9,19 @@ class Lecture < ActiveRecord::Base
 
   after_save :set_attach_hash
 
+  ## Set the Lecture number after creation, this is important since lectures are even indexed by
+  before_create :set_lecture_number
+
   after_commit :add_to_queue
 
+  def set_lecture_number
+    lecture_num_max = Lecture.where(:course_id => self.course_id).pluck(:lecture_no).max
+    if lecture_num_max == nil
+      self.lecture_no = 1
+    else
+      self.lecture_no = lecture_num_max + 1
+    end
+  end
 
   def set_attach_hash
     self.video_fingerprint = self.video.fingerprint

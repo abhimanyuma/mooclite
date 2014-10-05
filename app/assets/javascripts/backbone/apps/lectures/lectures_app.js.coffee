@@ -39,7 +39,6 @@
 
   App.vent.on "new:lecture:clicked", (course,region) ->
     App.navigate "courses/#{course.id}/lectures/new"
-    console.log "Ivide"
     API.newLecture course.id, region
 
   App.vent.on "lecture:edit:clicked", (course,lecture,region) ->
