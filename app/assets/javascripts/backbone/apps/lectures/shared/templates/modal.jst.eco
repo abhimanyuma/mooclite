@@ -3,5 +3,5 @@
 </div>
 
 <div id="upload-form-modal" class="ui large modal">
-<iframe id="upload-iframe" width="100%" class="row" src=<%="#{Routes.upload_course_lecture_path(@course_id,@id)}"%>></iframe>
+<iframe id="upload-iframe" width="100%" class="row" src='<%= "courses/#{@course_id}/lectures/#{@lecture_no}/upload" %>'></iframe>
 </div>

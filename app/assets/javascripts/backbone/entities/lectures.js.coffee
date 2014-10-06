@@ -3,12 +3,13 @@
   class Entities.Lecture extends Entities.Model
 
     initialize: (options) ->
-      {course_id,id} = options
+      {course_id,lecture_no} = options
 
       if @collection and @collection.course_id
         @course_id = @collection.course_id
       else
         @course_id = course_id
+        @set("course_id",course_id)
 
     choose: ->
       @set chosen: true
@@ -21,8 +22,10 @@
 
     urlRoot:  -> "/api/courses/#{@course_id}/lectures"
     url: ->
-      if @id
-        "/api/courses/#{@course_id}/lectures/#{@id}"
+      if @lecture_no
+        "/api/courses/#{@course_id}/lectures/#{@lecture_no}"
+      else if @get('lecture_no')
+        "/api/courses/#{@course_id}/lectures/#{@get('lecture_no')}"
       else
         "/api/courses/#{@course_id}/lectures"
 
@@ -54,7 +57,7 @@
     getLecture: (course_id,id) ->
       lecture = new Entities.Lecture
         course_id: course_id
-        id: id
+        lecture_no: id
       lecture.fetch()
       lecture
 
