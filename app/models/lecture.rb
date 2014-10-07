@@ -1,4 +1,5 @@
 class Lecture < ActiveRecord::Base
+  include LecturesHelper
 
   belongs_to :course
 
