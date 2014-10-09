@@ -25,6 +25,8 @@ module LecturesHelper
     }
 
     DEFAULT_VIDEO_ONLY_OPTIONS = "-vcodec copy -an"
+
+    EXTRACT_FRAMES_OPTIONS = "-vf 'select=eq(pict_type\,I),showinfo' -vsync 0"
   end
 
   def resolution_formatize (lecture_video,resolution,dir)
@@ -156,11 +158,15 @@ module LecturesHelper
 
   end
 
+  def extract_iframes
+
+  end
+
   def formatize
 
     all_resolution_formatize
     all_silent_formatize
-
+    extract_iframes
   end
 
 end
