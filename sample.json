@@ -1,0 +1,30 @@
+{
+  "videos": {
+    "1080"  : "url",
+    "720"   : "url",
+    "560"   : "url",
+    "frames": "url"
+  },
+  "dash": "url",
+  "pdf": {
+    "folder" : "directory", //Should be named 0001.png
+    "pages"  : "directory", //Should be named 0001.pdf
+    "pdf"    : "file-url"
+  },
+  "frames": {
+    "location": "url",
+    "frame-rate": 29.32,
+    "timing": [
+      [0.00,0,"slide"],
+      [1.23,1,"video"],
+      [2.34,0,"slide"],
+
+    ]
+  },
+  "audio": {
+    "aac": "url",
+    "opus": "url",
+    "speex": "url",
+    "mp3": "url",
+  }
+}

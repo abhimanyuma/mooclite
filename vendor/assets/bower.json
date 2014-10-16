@@ -7,6 +7,7 @@
     "spin.js": "latest",
     "backbone.routeFilter": "latest",
     "backbone-associations": "latest",
-    "iframe-auto-height-jquery-plugin": "latest"
+    "iframe-auto-height-jquery-plugin": "latest",
+    "pdfjs-dist": "latest"
   }
 }

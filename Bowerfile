@@ -2,10 +2,11 @@
 # Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
 
 # asset 'bootstrap'
-asset 'jquery'
+asset 'jquery', '1.8.3'
 asset 'marionette'
 asset 'toastr'
 asset 'spin.js'
 asset 'backbone.routeFilter'
 asset 'backbone-associations'
 asset 'iframe-auto-height-jquery-plugin'
+asset 'pdfjs-dist '
