@@ -1,11 +1,40 @@
-class Lecture < ActiveRecord::Base
+class Lecture
+
+  include Mongoid::Document
+  include Mongoid::Timestamps
+  include Mongoid::Paranoia
+  include Mongoid::Paperclip
+
+  field :_id, type: BigDecimal, default: -> {id.to_i.parameterize}
+
   include LecturesHelper
+
+  field :id, type: BigDecimal
+  field :title, type: String
+  field :instructor_id, type: BigDecimal
+  field :content, type: String
+  field :date, type: String
+  field :overview, type: String
+  field :course_id, type: BigDecimal
+  field :lecture_no, type: BigDecimal
+  field :video_file_name, type: String
+  field :video_content_type, type: String
+  field :video_file_size, type: String
+  field :video_updated_at, type: String
+  field :slide_file_name, type: String
+  field :slide_content_type, type: String
+  field :slide_file_size, type: String
+  field :slide_updated_at, type: String
+  field :video_fingerprint, type: String
+  field :slide_fingerprint, type: String
+  field :processed_video_fingerprint, type: String
+  field :process_status, type: String
 
   belongs_to :course
 
-  has_attached_file :video
+  has_mongoid_attached_file :video
   validates_attachment_content_type :video, :content_type => ['video/mp4']
-  has_attached_file :slide
+  has_mongoid_attached_file :slide
   validates_attachment_content_type :slide, :content_type => ['application/pdf']
 
   after_save :set_attach_hash

@@ -90,8 +90,6 @@ GEM
       eco-source
       execjs
     eco-source (1.1.0.rc.1)
-    email_validator (1.4.0)
-      activemodel
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.2.2)
@@ -128,6 +126,10 @@ GEM
       moped (~> 2.0.0)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
+    mongoid-paperclip (0.0.9)
+      paperclip (>= 2.3.6)
+    mongoid_paranoia (0.1.2)
+      mongoid (> 3)
     moped (2.0.0)
       bson (~> 2.2)
       connection_pool (~> 2.0)
@@ -219,7 +221,7 @@ GEM
       websocket (~> 1.0)
     semantic-ui-sass (0.19.3.0)
       sass (~> 3.2)
-    sprockets (2.12.2)
+    sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -277,12 +279,13 @@ DEPENDENCIES
   compass-rails
   devise
   eco
-  email_validator
   gon
   jbuilder
   js-routes
   less-rails
   mongoid (= 4.0.0)
+  mongoid-paperclip
+  mongoid_paranoia
   newrelic_rpm
   oj
   paperclip (~> 4.1)
@@ -297,6 +300,7 @@ DEPENDENCIES
   sdoc
   selenium-webdriver
   semantic-ui-sass
+  sprockets (= 2.11.0)
   sqlite3
   streamio-ffmpeg
   therubyracer

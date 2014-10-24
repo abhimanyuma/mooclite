@@ -2,11 +2,11 @@ class CoursesController < ApplicationController
   respond_to :json
 
   def index
-    @courses= Course.all
+    @courses= Course.all.to_a
   end
 
   def show
-    @course= Course.find(params[:id]) 
+    @course= Course.find(params[:id])
   end
 
   def create
@@ -34,7 +34,7 @@ class CoursesController < ApplicationController
   end
 
 private
-  
+
   def course_params
     params.require(:course).permit(:name,:description,:bio,:offered_by)
   end

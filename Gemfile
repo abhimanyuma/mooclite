@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '>= 4.0.3'
-
+gem 'sprockets', '2.11.0'
 #For Development we use sqlite3, for
 #Production move to postgres
 group :development, :test do
@@ -9,6 +9,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'thin'
 end
+
 
 group :production do
   gem 'pg'
@@ -41,7 +42,6 @@ gem 'unicorn'
 
 # For password and user auth
 gem 'bcrypt-ruby'
-gem 'email_validator'
 
 # For JSON API support
 
@@ -86,3 +86,5 @@ gem 'redis', '2.1.1'
 gem 'streamio-ffmpeg'
 
 gem 'mongoid' , '4.0.0'
+gem 'mongoid_paranoia'
+gem "mongoid-paperclip", :require => "mongoid_paperclip"
