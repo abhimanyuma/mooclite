@@ -152,6 +152,8 @@ GEM
       mime-types
     pg (0.17.1)
     polyglot (0.3.5)
+    puma (2.9.1)
+      rack (>= 1.1, < 2.0)
     rabl (0.11.0)
       activesupport (>= 2.3.14)
     rack (1.5.2)
@@ -290,6 +292,7 @@ DEPENDENCIES
   oj
   paperclip (~> 4.1)
   pg
+  puma (= 2.9.1)
   rabl
   rails (>= 4.0.3)
   rails_12factor

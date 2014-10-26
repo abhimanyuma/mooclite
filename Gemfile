@@ -88,3 +88,5 @@ gem 'streamio-ffmpeg'
 gem 'mongoid' , '4.0.0'
 gem 'mongoid_paranoia'
 gem "mongoid-paperclip", :require => "mongoid_paperclip"
+
+gem 'puma', '2.9.1'
