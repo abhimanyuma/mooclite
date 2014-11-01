@@ -2,8 +2,8 @@ class Course
 
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Paranoia
 
+  #attr_accessible :id,:name,:slug,:description,:offered_by,:bio, :created_at, :updated_at
 
   field :id, type: BigDecimal
   field :name, type: String
@@ -14,7 +14,7 @@ class Course
   field :created_at, type: Date
   field :updated_at, type: Date
 
-  field :_id, type: String, default: ->{ name.to_s.parameterize }
+  index({ starred: 1 })
 
   validates_presence_of :name, :presence => true
   validates_uniqueness_of :_id
