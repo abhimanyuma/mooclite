@@ -65,8 +65,6 @@ gem 'semantic-ui-sass'
 
 # For Users
 
-gem 'devise'
-
 # For backbone support
 
 gem 'backbone-syphon-rails'
@@ -90,3 +88,4 @@ gem 'mongoid_paranoia'
 gem "mongoid-paperclip", :require => "mongoid_paperclip"
 
 gem 'puma', '2.9.1'
+gem 'warden', '1.2.3'
