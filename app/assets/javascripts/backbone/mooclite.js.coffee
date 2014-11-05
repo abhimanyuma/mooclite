@@ -2,7 +2,7 @@
 
   App = new Marionette.Application
 
-  App.rootRoute = "courses"
+  App.rootRoute = ""
 
   App.on "initialize:before", (options) ->
     App.environment = options.environment
