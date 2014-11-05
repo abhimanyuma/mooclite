@@ -3,6 +3,7 @@
   class UsersApp.Router extends Marionette.AppRouter
     appRoutes:
       "users": "list"
+      "users/new":"new"
       "users/:id": "show"
       "users/:id/edit": "edit"
 
@@ -10,6 +11,9 @@
       App.vent.trigger "nav:choose", "Users"
     
   API =
+    new: ->
+      new UsersApp.New.Controller
+
     list: ->
       new UsersApp.List.Controller
 

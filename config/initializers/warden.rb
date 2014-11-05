@@ -1,5 +1,5 @@
 Rails.application.config.middleware.use Warden::Manager do |manager|
-  manager.default_startegies :password
+  manager.default_strategies :password
 end
 
 Warden::Manager.serialize_into_session do |user|

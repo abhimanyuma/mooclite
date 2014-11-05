@@ -15,6 +15,8 @@ class User
   field :slug, type: String
   field :created_at, type: Date
   field :updated_at, type: Date
+  field :api_id, type: String
+  field :api_secret, type: String
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -28,8 +30,7 @@ class User
   validates :name, presence: true,
                    length: { maximum: 50 }
   validates :email, presence: true,
-                    uniqueness: { case_sensitive: false },
-                    email: true
+                    uniqueness: { case_sensitive: false }
 
 
   has_secure_password
