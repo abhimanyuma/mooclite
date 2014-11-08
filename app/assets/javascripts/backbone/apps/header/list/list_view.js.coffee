@@ -1,4 +1,11 @@
- @Mooclite.module "HeaderApp.List", (List,App,Backbone,Marionette,$,_) ->
+@Mooclite.module "HeaderApp.List", (List,App,Backbone,Marionette,$,_) ->
+
+  class List.Layout extends Marionette.Layout
+    template: "header/list/layout"
+    regions:
+      listRegion: "#list-region"
+      loginPatchRegion: "#login-patch-region"
+
 
   class List.Header extends App.Views.ItemView
     template: "header/list/templates/_header"
@@ -15,7 +22,9 @@
     changeChosen: (model,value,options) ->
       @$el.toggleClass "active", value 
 
-  class List.Headers extends App.Views.CompositeView
-    template: "header/list/templates/list_headers"
+  class List.Headers extends App.Views.CollectionView
     itemView: List.Header
     itemViewContainer: "div#links"
+
+  class List.LoginPatch extends App.Views.ItemView
+    template: "header/list/login_patch"

@@ -3,5 +3,6 @@
     <div class="title item">
       <b>MOOC</b>lite
     </div>
-    <div class="right menu" id="links"></div>
+    <div class="right menu" id="links-region"></div>
+    <div class="right menu" id="login-patch-region"></div>
 </div> 
