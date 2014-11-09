@@ -6,6 +6,7 @@
       "users/new":"new"
       "users/:id": "show"
       "users/:id/edit": "edit"
+      "signup" : "new"
 
     before: ->
       App.vent.trigger "nav:choose", "Users"
@@ -27,4 +28,7 @@
   App.addInitializer ->
     new UsersApp.Router
       controller: API
-  
+
+  App.vent.on "new:user:clicked", ->
+    App.navigate Routes.new_user_path()
+    API.new()

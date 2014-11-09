@@ -6,10 +6,10 @@
       @layout = @getView()
 
       @listenTo @layout, "new:user:button:clicked" , (model,args) ->
-        App.vent.trigger "new:user:clicked" , args.model
+        App.vent.trigger "new:user:clicked"
 
       @listenTo @layout, "login:user:button:clicked", (model,args) ->
-        App.vent.trigger "login:user" , args.model
+        App.vent.trigger "login:user"
 
       @show @layout
 
