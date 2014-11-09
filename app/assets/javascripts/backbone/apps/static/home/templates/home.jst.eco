@@ -1,1 +1,16 @@
-This is where the home is
+<div class="masthead segment">
+  <div class="column">
+    <div class="introduction">
+      <h1 class="ui header">MOOClite</h1>
+      <h2> Making MOOCs lighter</h2>
+      <p>MOOClite is the control panel to create MOOC videos that can be played in MOOCplayer
+      MOOCplayer brings forward all the things that are there in high-end players to MOOCs, and
+      tailor it for MOOCs, Multiple Resolutions - Check. Adaptive Streaming - Check. Ultra low bandwidth
+      solutions - Check. All that and more. Login or Sign Up to MOOClite to get either dahsboard or API access
+      to creating videos that can be played in MOOCPlayer</p>
+
+      <a class="ui blue large labeled launch button" id="home-signup-button">Sign Up</a>
+      <a class="ui green large labeled launch button" id="home-login-button">Log In</a>
+    </div>
+  </div>
+</div>

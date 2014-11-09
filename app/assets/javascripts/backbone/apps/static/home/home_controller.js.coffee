@@ -5,7 +5,11 @@
     initialize: ->
       @layout = @getView()
 
-      @listenTo @layout, "show", =>
+      @listenTo @layout, "new:user:button:clicked" , (model,args) ->
+        App.vent.trigger "new:user:clicked" , args.model
+
+      @listenTo @layout, "login:user:button:clicked", (model,args) ->
+        App.vent.trigger "login:user" , args.model
 
       @show @layout
 
