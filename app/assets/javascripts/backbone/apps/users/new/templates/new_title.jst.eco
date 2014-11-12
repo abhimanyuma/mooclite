@@ -1,0 +1,10 @@
+<div class="ui grid"><div class="row">
+  <div class="twelve wide column">
+    <h2 class="ui header">
+      <i class="edit icon"></i>
+      <div class="content">
+        Sign Up Details
+      </div>
+    </h2>
+  </div>
+</div></div>

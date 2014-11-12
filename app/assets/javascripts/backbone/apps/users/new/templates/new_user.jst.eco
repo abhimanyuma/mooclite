@@ -1,0 +1,39 @@
+<div class="field">
+  <label>Name</label>
+  <div class="ui left labeled icon input">
+    <input type="text"  name="name" value="<%= @name %>" placeholder="Name" />
+    <i class="user icon"></i>
+    <div class="ui corner label">
+      <i class="icon asterisk"></i>
+    </div>
+  </div>
+</div>
+<div class="field">
+  <label>Email</label>
+  <div class="ui left labeled icon input">
+    <input type="email" name="name" value="<%= @email%>" placeholder="Email">
+    <i class="mail icon"></i>
+    <div class="ui corner label">
+      <i class="icon asterisk"></i>
+    </div>
+  </div>
+</div>
+<div class="field">
+  <label>Password</label>
+  <div class="ui left labeled icon input">
+    <input type="password" name="password" value="<%= @password%>" >
+    <div class="ui corner label">
+      <i class="icon asterisk"></i>
+    </div>
+  </div>
+</div>
+<div class="field">
+  <label>Password Confirmation</label>
+  <div class="ui left labeled icon input">
+    <input type="password" name="password_confirmation" value="<%= @password_confrimation%>" >
+    <div class="ui corner label">
+      <i class="icon asterisk"></i>
+    </div>
+  </div>
+</div>
+
