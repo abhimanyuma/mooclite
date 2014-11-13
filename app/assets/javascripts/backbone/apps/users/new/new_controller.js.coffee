@@ -22,7 +22,7 @@
       new New.Layout
 
     showNewUserView: (user) ->
-      baseView = getNewUserView user
+      baseView = @getNewUserView user
 
       formView = App.request "form:wrapper", baseView
 
@@ -30,12 +30,12 @@
         region: @layout.formRegion
 
 
-    getNewUserView: ->
+    getNewUserView: (user) ->
       new New.User
         model: user
 
     showTitleView: ->
-      titleView = getTitleView()
+      titleView = @getTitleView()
       @layout.titleRegion.show titleView
 
     getTitleView: ->

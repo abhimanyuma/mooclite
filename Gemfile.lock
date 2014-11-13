@@ -143,6 +143,8 @@ GEM
       mime-types
     pg (0.17.1)
     polyglot (0.3.5)
+    protected_attributes (1.0.8)
+      activemodel (>= 4.0.1, < 5.0)
     puma (2.9.1)
       rack (>= 1.1, < 2.0)
     rabl (0.11.4)
@@ -279,6 +281,7 @@ DEPENDENCIES
   oj
   paperclip (~> 4.1)
   pg
+  protected_attributes
   puma (= 2.9.1)
   rabl
   rails (>= 4.0.3)

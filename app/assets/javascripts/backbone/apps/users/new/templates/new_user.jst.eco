@@ -11,7 +11,7 @@
 <div class="field">
   <label>Email</label>
   <div class="ui left labeled icon input">
-    <input type="email" name="name" value="<%= @email%>" placeholder="Email">
+    <input type="email" name="email" value="<%= @email%>" placeholder="Email">
     <i class="mail icon"></i>
     <div class="ui corner label">
       <i class="icon asterisk"></i>
@@ -22,6 +22,7 @@
   <label>Password</label>
   <div class="ui left labeled icon input">
     <input type="password" name="password" value="<%= @password%>" >
+    <i class="lock icon"></i>
     <div class="ui corner label">
       <i class="icon asterisk"></i>
     </div>
@@ -31,6 +32,7 @@
   <label>Password Confirmation</label>
   <div class="ui left labeled icon input">
     <input type="password" name="password_confirmation" value="<%= @password_confrimation%>" >
+    <i class="lock icon"></i>
     <div class="ui corner label">
       <i class="icon asterisk"></i>
     </div>

@@ -2,22 +2,21 @@ class User
 
   include Mongoid::Document
   include Mongoid::Timestamps
-  include ActiveModel::SecurePassword
-
-  field :_id, type: BigDecimal, default: ->{id.to_i.parameterize}
 
   field :id, type: BigDecimal
   field :name, type: String
   field :email, type: String
   field :password_digest, type: String
-  field :institute, type: String
-  field :role, type: String
-  field :slug, type: String
   field :created_at, type: Date
   field :updated_at, type: Date
   field :api_id, type: String
   field :api_secret, type: String
 
+
+  index({ starred: 1 })
+
+  include ActiveModel::SecurePassword
+  include ActiveModel::MassAssignmentSecurity
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   #devise :database_authenticatable, :registerable,
@@ -34,6 +33,8 @@ class User
 
 
   has_secure_password
+  attr_accessible :password , :password_confirmation
+  attr_accessible :name, :email
   validates :password, presence: true,
                       confirmation: true,
                       length: { minimum: 6 }

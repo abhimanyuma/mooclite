@@ -25,9 +25,10 @@ respond_to :json
 private
   
   def user_params
+    puts "There is no spoon"
+    puts params
     params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation, :institute,
-                                   :role, :slug)
+                                   :password_confirmation)
 
   end
 

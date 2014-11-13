@@ -10,7 +10,7 @@ Mooclite::Application.routes.draw do
     resources :courses do
       resources :lectures
     end
-    resources :users, only: [:new,:edit,:delete]
+    resources :users, except: [:index]
   end
 resources :courses, only: [] do
  resources :lectures, only: [] do
