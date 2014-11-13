@@ -6,7 +6,7 @@
       user = App.request "new:user"
 
       @listenTo user, "created", ->
-        App.vent.trigger "user:created", course
+        App.vent.trigger "user:created", user
 
 
       @layout = @getLayoutView()
@@ -25,6 +25,9 @@
       baseView = @getNewUserView user
 
       formView = App.request "form:wrapper", baseView
+
+      @listenTo baseView, "form:cancel", ->
+        App.vent.trigger "user:create:cancelled"
 
       @show formView,
         region: @layout.formRegion
