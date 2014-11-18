@@ -24,6 +24,8 @@
         model = @contentView.model
         collection = @contentView.collection
         @processFormSubmit data, model, collection
+      else
+        @contentView.triggerMethod "form:submit", data
 
     processFormSubmit: (data,model,collection) ->
       model.save data,

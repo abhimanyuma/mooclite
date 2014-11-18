@@ -11,6 +11,7 @@ Mooclite::Application.routes.draw do
       resources :lectures
     end
     resources :users, except: [:index]
+    post 'login' => 'sessions#create'
   end
 resources :courses, only: [] do
  resources :lectures, only: [] do

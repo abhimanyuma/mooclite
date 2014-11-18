@@ -7,6 +7,7 @@
       "users/:id": "show"
       "users/:id/edit": "edit"
       "signup" : "new"
+      "login" : "login"
 
     before: ->
       App.vent.trigger "nav:choose", "Users"
@@ -23,6 +24,9 @@
 
     edit: ->
       new UsersApp.Edit.Controller
+
+    login: ->
+      App.request "get:loginpatch"
 
       
   App.addInitializer ->

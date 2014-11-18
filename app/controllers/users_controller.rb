@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-
-respond_to :json
+  skip_before_filter  :verify_authenticity_token
+  respond_to :json
 
   def index
-    @users=User.all 
+    @users=User.all
   end
 
   def show
@@ -23,7 +23,7 @@ respond_to :json
   end
 
 private
-  
+
   def user_params
     puts "There is no spoon"
     puts params

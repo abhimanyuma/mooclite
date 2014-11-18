@@ -1,28 +1,29 @@
 class SessionsController < ApplicationController
-
+  skip_before_filter  :verify_authenticity_token
   def new
   end
 
   def create
-    user = env['warden'].authenticate
-    if user
-      render json: {
-        authentication: true,
-        message: "Authentication successful"
-      }
-    else
-      render status: 402, json: {
-        authentication: false,
-        error: true,
-        message: "Authentication unsuccessful"
-      }
-    end
+    params.require(:session).permit(:email,:password)
+    warden.authenticate!
+    render json: {
+      authentication: true,
+      message: "Authentication successful"
+    }
+  end
+
+  def failed
+    render status: 401, json: {
+      authentication: false,
+      error: true,
+      message: "Authentication unsuccessful"
+    }
   end
 
   def destroy
-    env['warden'].logout
+    warden.logout
     render json: {
-      status: true
+      status: true,
       message: "Successfully logged out"
     }
   end

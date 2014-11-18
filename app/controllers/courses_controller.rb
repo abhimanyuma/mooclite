@@ -1,5 +1,7 @@
 class CoursesController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   respond_to :json
+
 
   def index
     @courses= Course.all.to_a
