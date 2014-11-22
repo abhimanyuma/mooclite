@@ -11,7 +11,7 @@
 
     before: ->
       App.vent.trigger "nav:choose", "Users"
-    
+
   API =
     new: ->
       new UsersApp.New.Controller
@@ -28,7 +28,7 @@
     login: ->
       App.request "get:loginpatch"
 
-      
+
   App.addInitializer ->
     new UsersApp.Router
       controller: API
@@ -41,6 +41,17 @@
     toastr.success("Let us build the future of MOOCs together","Welcome #{user.get('name')}")
     App.navigate Routes.root_path()
 
+  App.vent.on "login:user", ->
+    current_user = App.request "current:user"
+    if current_user
+      toastr.error("","Successfully Logged In")
+      App.navigate Routes.root_path()
+    else
+      App.navigate "/login"
+
   App.vent.on "user:create:cancelled", ->
     toastr.error("","User Creation Failed")
     App.navigate Routes.root_path()
+
+  App.vent.on "user:login:cancelled", ->
+    toastr.error("","User Login Cancelled")

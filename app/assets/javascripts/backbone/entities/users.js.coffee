@@ -3,6 +3,9 @@
   class Entities.User extends Entities.Model
     urlRoot: -> Routes.users_path()
 
+  class Entities.CurrentUser extends Entities.User
+    urlRoot: -> "#{Routes.users_path()}/me"
+
   API=
     getCourse: (id) ->
       user = new Entities.User
@@ -19,3 +22,6 @@
 
   App.reqres.setHandler "new:user", ->
     API.newUser()
+
+  App.reqres.setHandler "current:user", ->
+    API.currentUser()

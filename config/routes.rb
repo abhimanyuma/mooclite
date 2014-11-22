@@ -10,7 +10,9 @@ Mooclite::Application.routes.draw do
     resources :courses do
       resources :lectures
     end
-    resources :users, except: [:index]
+    resources :users, except: [:index] do
+      get 'me', on: :collection
+    end
     post 'login' => 'sessions#create'
   end
 resources :courses, only: [] do

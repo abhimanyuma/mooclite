@@ -1,18 +1,20 @@
 class UsersController < ApplicationController
   skip_before_filter  :verify_authenticity_token
+  before_filter :authorize, :only => [:update,:destroy]
   respond_to :json
-
-  def index
-    @users=User.all
-  end
-
-  def show
-    @user=User.find(params[:id])
-  end
 
   def create
     respond_with User.create(user_params)
   end
+
+  def me
+    if current_user
+      respond_with current_user
+    else
+      render status: 401, json: {}
+    end
+  end
+
 
   def update
     respond_with User.update(params[:id],user_params)
@@ -24,12 +26,20 @@ class UsersController < ApplicationController
 
 private
 
-  def user_params
-    puts "There is no spoon"
-    puts params
-    params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+  def authorize
+    id_params
+    unless current_user.owns(params[:id])
+      render status: 401, json: {}
+    end
+  end
 
+  def user_params
+    params.require(:user).permit(:name, :email, :password,
+                                  :password_confirmation)
+  end
+
+  def id_params
+    params.require(:user).permit(:id)
   end
 
 end
