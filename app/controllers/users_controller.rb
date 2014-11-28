@@ -9,7 +9,8 @@ class UsersController < ApplicationController
 
   def me
     if current_user
-      respond_with current_user
+      @user = current_user
+      render "users/show"
     else
       render status: 401, json: {}
     end

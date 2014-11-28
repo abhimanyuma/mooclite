@@ -15,8 +15,7 @@ class User
   field :password_digest, type: String
   field :created_at, type: Date
   field :updated_at, type: Date
-  field :api_id, type: String
-  field :api_secret, type: String
+  embeds_many :api_keys
 
 
   index({ starred: 1 })
@@ -52,4 +51,20 @@ class User
   def admin?
     return false
   end
+
+  def create_api_key
+    key = SecureRandom.hex(16)
+    secret = SecureRandom.base64(32)
+    self.api_keys.create( key: key, secret: secret)
+    self.save
+  end
+
+  def remove_api_key(key)
+    if self.api_keys
+      self.api_keys.where(key: key).destroy_all
+      self.save
+    end
+  end
+
+
 end
