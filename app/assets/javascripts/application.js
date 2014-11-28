@@ -22,6 +22,7 @@
 //= require js-routes
 //= require backbone-syphon
 //= require backbone-associations
+//= require backbone.wreqr
 //= require backbone.routeFilter/dist/backbone.routefilter
 
 //= require_tree ./config
