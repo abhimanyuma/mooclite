@@ -16,6 +16,14 @@
     newUser: ->
       new Entities.User
 
+    currentUser:(fetch) ->
+      unless App.currentUser
+        App.currentUser = new Entities.CurrentUser
+        App.currentUser.fetch()
+
+      App.currentUser.fetch() if fetch
+
+      App.currentUser
 
   App.reqres.setHandler "user:entity", (id) ->
     API.getUser(id)
@@ -23,5 +31,6 @@
   App.reqres.setHandler "new:user", ->
     API.newUser()
 
-  App.reqres.setHandler "current:user", ->
-    API.currentUser()
+  App.reqres.setHandler "current:user", (fetch)->
+    API.currentUser(fetch)
+

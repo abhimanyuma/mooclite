@@ -4,10 +4,10 @@
     appRoutes:
       "users": "list"
       "users/new":"new"
-      "users/:id": "show"
       "users/:id/edit": "edit"
       "signup" : "new"
       "login" : "login"
+      "me": "me"
 
     before: ->
       App.vent.trigger "nav:choose", "Users"
@@ -19,14 +19,18 @@
     list: ->
       new UsersApp.List.Controller
 
-    show: ->
-      new UsersApp.Show.Controller
+    me: ->
+      new UsersApp.Me.Controller
 
     edit: ->
       new UsersApp.Edit.Controller
 
-    login: ->
-      App.request "get:loginpatch"
+    login: (profile) ->
+      if profile
+        App.request "get:loginpatch",
+          profile: profile
+      else
+        App.vent.trigger "login:user"
 
 
   App.addInitializer ->
@@ -43,11 +47,8 @@
 
   App.vent.on "login:user", ->
     current_user = App.request "current:user"
-    if current_user
-      toastr.error("","Successfully Logged In")
-      App.navigate Routes.root_path()
-    else
-      App.navigate "/login"
+    App.navigate "/login"
+    API.login current_user
 
   App.vent.on "user:create:cancelled", ->
     toastr.error("","User Creation Failed")
@@ -55,3 +56,9 @@
 
   App.vent.on "user:login:cancelled", ->
     toastr.error("","User Login Cancelled")
+
+  App.vent.on "user:loging:success", ->
+    toastr.success("","Successful Login")
+    App.navigate "/me"
+    API.me
+

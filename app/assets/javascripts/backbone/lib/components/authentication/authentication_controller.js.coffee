@@ -3,8 +3,17 @@
   class Authentication.Controller extends App.Controllers.Application
 
     initialize: (options={}) ->
+      {view,@profile} = options
 
-      {view} = options
+
+      if @profile
+        if @profile.sync_status
+          @redirectIfLoggedIn()
+        else
+          @listenTo @profile, "sync", ->
+            @redirectIfLoggedIn()
+          @listenTo @profile, "error", ->
+            @redirectIfLoggedIn()
 
       authModel = App.request "new:authmodel"
 
@@ -21,14 +30,23 @@
       @listenTo baseView, "form:cancel", ->
         App.vent.trigger "user:login:cancelled"
 
-      @show formView
+      if @profile
+        @show formView,
+          entities: @profile
+      else
+        @show formView
 
     getAuthView: (authModel) ->
       new Authentication.View
         model: authModel
 
     authenticateProcess: (authModel) ->
-      console.log authModel
+      App.vent.trigger "user:login:success"
 
-  App.reqres.setHandler "get:loginpatch", ->
-    new Authentication.Controller
+    redirectIfLoggedIn: () ->
+      if @profile.get('id')
+        App.vent.trigger "user:login:success"
+
+
+  App.reqres.setHandler "get:loginpatch", (options) ->
+    new Authentication.Controller(options)
