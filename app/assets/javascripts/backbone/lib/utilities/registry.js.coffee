@@ -13,7 +13,7 @@
       oldCount=@getRegistrySize()
 
       for key,controller of @_registry
-        controller.region.close()
+        controller.region.destroy()
       msg="There were #{oldCount} controllers in the registry, there are now #{@getRegistrySize()}"
 
     getRegistrySize: ->

@@ -9,7 +9,7 @@ Download the [production version][min] or the [development version][max].
 [max]: https://raw.github.com/boazsender/backbone.routefilter/master/dist/backbone.routefilter.js
 
 ## Overview
-Backbone.routefilter works by overriding `Backbone.Router.prototype.route`. Whenever the a router's `route` method is called, Backbone.routefilter wraps the route callback (or route handler) that's passed in a 'wrapper handler', that calls whatever `before` or `after` "filters" you have written along with the original route callback.
+Backbone.routefilter works by overriding `Backbone.Router.prototype.route`. Whenever a router's `route` method is called, Backbone.routefilter wraps the route callback (or route handler) that's passed in a 'wrapper handler', that calls whatever `before` or `after` "filters" you have written along with the original route callback.
 
 Because `Backbone.Router.prototype.route` is used internally to bind routes to `Backbone.history`, in addition to being available publicly for ad hoc route handling, Backbone.routefilter will work for you any way you choose to consume `Backbone.Router`.
 
@@ -172,13 +172,14 @@ jQuery(function($) {
 ```
 
 ## Release History
+* v0.2.1 - 04/05/2014 - becomes AMD compliant and adds bower support. thanks to [MrBri](https://github.com/MrBri) (and @powmedia and @gdw2 as well).
 * v0.2.0 - 02/16/2013 - changes route handler param order and adds support for targeting specific routes in each filters thanks to [Irene Ros](https://github.com/iros).
 * v0.1.1 - 02/16/2013 - adds support for getting access to matched routes thanks to [@wanderer](https://github.com/wanderer).
 * v0.1.0 - 08/29/2012 - backbone.routefilter first release (unit test coverage, stable api, and stable plugin approach).
 * v0.1.0-pre - 08/28/2012 - backbone.routefilter is pre release
 
 ## License
-Copyright (c) 2013 Boaz Sender
+Copyright (c) 2014 Boaz Sender
 Licensed under the MIT, GPL licenses.
 
 ## Contributing

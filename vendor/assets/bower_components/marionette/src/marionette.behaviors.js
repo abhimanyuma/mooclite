@@ -1,115 +1,36 @@
+/* jshint maxlen: 143 */
 // Marionette.Behaviors
 // --------
 
 // Behaviors is a utility class that takes care of
-// glueing your behavior instances to their given View.
+// gluing your behavior instances to their given View.
 // The most important part of this class is that you
 // **MUST** override the class level behaviorsLookup
 // method for things to work properly.
 
 Marionette.Behaviors = (function(Marionette, _) {
 
-  function Behaviors(view) {
+  function Behaviors(view, behaviors) {
+
+    if (!_.isObject(view.behaviors)) {
+      return {};
+    }
+
     // Behaviors defined on a view can be a flat object literal
     // or it can be a function that returns an object.
-    this.behaviors = Behaviors.parseBehaviors(view, _.result(view, 'behaviors'));
+    behaviors = Behaviors.parseBehaviors(view, behaviors || _.result(view, 'behaviors'));
 
     // Wraps several of the view's methods
     // calling the methods first on each behavior
     // and then eventually calling the method on the view.
-    Behaviors.wrap(view, this.behaviors, [
-      'bindUIElements', 'unbindUIElements',
-      'delegateEvents', 'undelegateEvents',
-      'onShow', 'onClose',
-      'behaviorEvents', 'triggerMethod',
-      'setElement', 'close'
-    ]);
+    Behaviors.wrap(view, behaviors, _.keys(methods));
+    return behaviors;
   }
 
   var methods = {
-    setElement: function(setElement, behaviors) {
-      setElement.apply(this, _.tail(arguments, 2));
-
-      // proxy behavior $el to the view's $el.
-      // This is needed because a view's $el proxy
-      // is not set until after setElement is called.
-      _.each(behaviors, function(b) {
-        b.$el = this.$el;
-      }, this);
-    },
-
-    close: function(close, behaviors) {
-      var args = _.tail(arguments, 2);
-      close.apply(this, args);
-
-      // Call close on each behavior after
-      // closing down the view.
-      // This unbinds event listeners
-      // that behaviors have registerd for.
-      _.invoke(behaviors, 'close', args);
-    },
-
-    onShow: function(onShow, behaviors) {
-      var args = _.tail(arguments, 2);
-
-      _.each(behaviors, function(b) {
-        Marionette.triggerMethod.apply(b, ["show"].concat(args));
-      });
-
-      if (_.isFunction(onShow)) {
-        onShow.apply(this, args);
-      }
-    },
-
-    onClose: function(onClose, behaviors){
-      var args = _.tail(arguments, 2);
-
-      _.each(behaviors, function(b) {
-        Marionette.triggerMethod.apply(b, ["close"].concat(args));
-      });
-
-      if (_.isFunction(onClose)) {
-        onClose.apply(this, args);
-      }
-    },
-
-    bindUIElements: function(bindUIElements, behaviors) {
-      bindUIElements.apply(this);
-      _.invoke(behaviors, bindUIElements);
-    },
-
-    unbindUIElements: function(unbindUIElements, behaviors) {
-      unbindUIElements.apply(this);
-      _.invoke(behaviors, unbindUIElements);
-    },
-
-    triggerMethod: function(triggerMethod, behaviors) {
-      var args = _.tail(arguments, 2);
-      triggerMethod.apply(this, args);
-
-      _.each(behaviors, function(b) {
-        triggerMethod.apply(b, args);
-      });
-    },
-
-    delegateEvents: function(delegateEvents, behaviors) {
-      var args = _.tail(arguments, 2);
-      delegateEvents.apply(this, args);
-
-      _.each(behaviors, function(b){
-        Marionette.bindEntityEvents(b, this.model, Marionette.getOption(b, "modelEvents"));
-        Marionette.bindEntityEvents(b, this.collection, Marionette.getOption(b, "collectionEvents"));
-      }, this);
-    },
-
-    undelegateEvents: function(undelegateEvents, behaviors) {
-      var args = _.tail(arguments, 2);
-      undelegateEvents.apply(this, args);
-
-      _.each(behaviors, function(b) {
-        Marionette.unbindEntityEvents(b, this.model, Marionette.getOption(b, "modelEvents"));
-        Marionette.unbindEntityEvents(b, this.collection, Marionette.getOption(b, "collectionEvents"));
-      }, this);
+    behaviorTriggers: function(behaviorTriggers, behaviors) {
+      var triggerBuilder = new BehaviorTriggersBuilder(this, behaviors);
+      return triggerBuilder.buildBehaviorTriggers();
     },
 
     behaviorEvents: function(behaviorEvents, behaviors) {
@@ -118,7 +39,7 @@ Marionette.Behaviors = (function(Marionette, _) {
 
       _.each(behaviors, function(b, i) {
         var _events = {};
-        var behaviorEvents = _.result(b, 'events') || {};
+        var behaviorEvents = _.clone(_.result(b, 'events')) || {};
         var behaviorUI = _.result(b, 'ui');
 
         // Construct an internal UI hash first using
@@ -133,12 +54,12 @@ Marionette.Behaviors = (function(Marionette, _) {
         behaviorEvents = Marionette.normalizeUIKeys(behaviorEvents, ui);
 
         _.each(_.keys(behaviorEvents), function(key) {
-          // append white-space at the end of each key to prevent behavior key collisions
-          // this is relying on the fact backbone events considers "click .foo" the same  "click .foo "
-          // starts with an array of two so the first behavior has one space
+          // Append white-space at the end of each key to prevent behavior key collisions.
+          // This is relying on the fact that backbone events considers "click .foo" the same as
+          // "click .foo ".
 
-          // +2 is uses becauce new Array(1) or 0 is "" and not " "
-          var whitespace = (new Array(i+2)).join(" ");
+          // +2 is used because new Array(1) or 0 is "" and not " "
+          var whitespace = (new Array(i + 2)).join(' ');
           var eventKey   = key + whitespace;
           var handler    = _.isFunction(behaviorEvents[key]) ? behaviorEvents[key] : b[behaviorEvents[key]];
 
@@ -154,22 +75,27 @@ Marionette.Behaviors = (function(Marionette, _) {
 
   _.extend(Behaviors, {
 
-    // placeholder method to be extended by the user
-    // should define the object that stores the behaviors
+    // Placeholder method to be extended by the user.
+    // The method should define the object that stores the behaviors.
     // i.e.
     //
+    // ```js
     // Marionette.Behaviors.behaviorsLookup: function() {
     //   return App.Behaviors
     // }
+    // ```
     behaviorsLookup: function() {
-      throw new Error("You must define where your behaviors are stored. See https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.behaviors.md#behaviorslookup");
+      throw new Marionette.Error({
+        message: 'You must define where your behaviors are stored.',
+        url: 'marionette.behaviors.html#behaviorslookup'
+      });
     },
 
     // Takes care of getting the behavior class
     // given options and a key.
     // If a user passes in options.behaviorClass
     // default to using that. Otherwise delegate
-    // the lookup to the users behaviorsLookup implementation.
+    // the lookup to the users `behaviorsLookup` implementation.
     getBehaviorClass: function(options, key) {
       if (options.behaviorClass) {
         return options.behaviorClass;
@@ -179,25 +105,66 @@ Marionette.Behaviors = (function(Marionette, _) {
       return _.isFunction(Behaviors.behaviorsLookup) ? Behaviors.behaviorsLookup.apply(this, arguments)[key] : Behaviors.behaviorsLookup[key];
     },
 
-    // Maps over a view's behaviors. Performing
-    // a lookup on each behavior and the instantiating
-    // said behavior passing its options and view.
-    parseBehaviors: function(view, behaviors){
-      return _.map(behaviors, function(options, key){
+    // Iterate over the behaviors object, for each behavior
+    // instantiate it and get its grouped behaviors.
+    parseBehaviors: function(view, behaviors) {
+      return _.chain(behaviors).map(function(options, key) {
         var BehaviorClass = Behaviors.getBehaviorClass(options, key);
-        return new BehaviorClass(options, view);
-      });
+
+        var behavior = new BehaviorClass(options, view);
+        var nestedBehaviors = Behaviors.parseBehaviors(view, _.result(behavior, 'behaviors'));
+
+        return [behavior].concat(nestedBehaviors);
+      }).flatten().value();
     },
 
-    // wrap view internal methods so that they delegate to behaviors.
-    // For example, onClose should trigger close on all of the behaviors and then close itself.
+    // Wrap view internal methods so that they delegate to behaviors. For example,
+    // `onDestroy` should trigger destroy on all of the behaviors and then destroy itself.
     // i.e.
     //
-    // view.delegateEvents = _.partial(methods.delegateEvents, view.delegateEvents, behaviors);
+    // `view.delegateEvents = _.partial(methods.delegateEvents, view.delegateEvents, behaviors);`
     wrap: function(view, behaviors, methodNames) {
       _.each(methodNames, function(methodName) {
         view[methodName] = _.partial(methods[methodName], view[methodName], behaviors);
       });
+    }
+  });
+
+  // Class to build handlers for `triggers` on behaviors
+  // for views
+  function BehaviorTriggersBuilder(view, behaviors) {
+    this._view      = view;
+    this._viewUI    = _.result(view, 'ui');
+    this._behaviors = behaviors;
+    this._triggers  = {};
+  }
+
+  _.extend(BehaviorTriggersBuilder.prototype, {
+    // Main method to build the triggers hash with event keys and handlers
+    buildBehaviorTriggers: function() {
+      _.each(this._behaviors, this._buildTriggerHandlersForBehavior, this);
+      return this._triggers;
+    },
+
+    // Internal method to build all trigger handlers for a given behavior
+    _buildTriggerHandlersForBehavior: function(behavior, i) {
+      var ui = _.extend({}, this._viewUI, _.result(behavior, 'ui'));
+      var triggersHash = _.clone(_.result(behavior, 'triggers')) || {};
+
+      triggersHash = Marionette.normalizeUIKeys(triggersHash, ui);
+
+      _.each(triggersHash, _.partial(this._setHandlerForBehavior, behavior, i), this);
+    },
+
+    // Internal method to create and assign the trigger handler for a given
+    // behavior
+    _setHandlerForBehavior: function(behavior, i, eventName, trigger) {
+      // Unique identifier for the `this._triggers` hash
+      var triggerKey = trigger.replace(/^\S+/, function(triggerName) {
+        return triggerName + '.' + 'behaviortriggers' + i;
+      });
+
+      this._triggers[triggerKey] = this._view._buildViewTrigger(eventName);
     }
   });
 

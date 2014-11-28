@@ -18,7 +18,7 @@
 
     showRealView: (realView, loadingView, config) ->
       App.execute "when:fetched", config.entities, =>
-        return realView.close() if @region.currentView isnt loadingView
+        return realView.destroy() if @region.currentView isnt loadingView
         @show realView
 
     getEntities: (view) ->

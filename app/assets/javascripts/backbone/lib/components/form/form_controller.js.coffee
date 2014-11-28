@@ -9,7 +9,7 @@
 
       @listenTo @formLayout, "show", @formContentRegion
 
-      @listenTo @formLayout, "close", @close
+      @listenTo @formLayout, "destroy", @destroy
 
       @listenTo @formLayout, "form:submit", @formSubmit
 

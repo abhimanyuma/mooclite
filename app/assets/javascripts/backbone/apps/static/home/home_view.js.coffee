@@ -1,6 +1,6 @@
 @Mooclite.module "StaticApp.Home", (Home, App, Backbone, Marionette, $, _) ->
 
-  class Home.Layout extends Marionette.Layout
+  class Home.Layout extends Marionette.LayoutView
     template: "static/home/home"
 
     triggers:

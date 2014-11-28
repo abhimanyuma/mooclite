@@ -1,12 +1,13 @@
-﻿/*
+/*
  * Toastr
- * Copyright 2012-2014 John Papa and Hans Fjällemark.
+ * Copyright 2012-2014 
+ * Authors: John Papa, Hans Fjällemark, and Tim Ferrell.
  * All Rights Reserved.
  * Use, reproduction, distribution, and modification of this code is subject to the terms and
  * conditions of the MIT license, available at http://www.opensource.org/licenses/mit-license.php
  *
- * Author: John Papa and Hans Fjällemark
  * ARIA Support: Greta Krafsig
+ *
  * Project: https://github.com/CodeSeven/toastr
  */
 ; (function (define) {
@@ -31,9 +32,11 @@
                 options: {},
                 subscribe: subscribe,
                 success: success,
-                version: '2.0.2',
+                version: '2.1.0',
                 warning: warning
             };
+
+            var previousToast;
 
             return toastr;
 
@@ -46,6 +49,18 @@
                     optionsOverride: optionsOverride,
                     title: title
                 });
+            }
+
+            function getContainer(options, create) {
+                if (!options) { options = getOptions(); }
+                $container = $('#' + options.containerId);
+                if ($container.length) {
+                    return $container;
+                }
+                if (create) {
+                    $container = createContainer(options);
+                }
+                return $container;
             }
 
             function info(message, title, optionsOverride) {
@@ -105,14 +120,14 @@
 
             //#region Internal Methods
 
-            function clearContainer(options){
+            function clearContainer (options) {
                 var toastsToClear = $container.children();
                 for (var i = toastsToClear.length - 1; i >= 0; i--) {
                     clearToast($(toastsToClear[i]), options);
-                };
+                }
             }
 
-            function clearToast($toastElement, options){
+            function clearToast ($toastElement, options) {
                 if ($toastElement && $(':focus', $toastElement).length === 0) {
                     $toastElement[options.hideMethod]({
                         duration: options.hideDuration,
@@ -122,6 +137,17 @@
                     return true;
                 }
                 return false;
+            }
+
+            function createContainer(options) {
+                $container = $('<div/>')
+                    .attr('id', options.containerId)
+                    .addClass(options.positionClass)
+                    .attr('aria-live', 'polite')
+                    .attr('role', 'alert');
+
+                $container.appendTo($(options.target));
+                return $container;
             }
 
             function getDefaults() {
@@ -149,26 +175,33 @@
                     },
                     iconClass: 'toast-info',
                     positionClass: 'toast-top-right',
-                    timeOut: 5000, // Set timeOut and extendedTimeout to 0 to make it sticky
+                    timeOut: 5000, // Set timeOut and extendedTimeOut to 0 to make it sticky
                     titleClass: 'toast-title',
                     messageClass: 'toast-message',
                     target: 'body',
                     closeHtml: '<button>&times;</button>',
-                    newestOnTop: true
+                    newestOnTop: true,
+                    preventDuplicates: false,
+                    progressBar: false
                 };
             }
 
             function publish(args) {
-                if (!listener) {
-                    return;
-                }
+                if (!listener) { return; }
                 listener(args);
             }
 
             function notify(map) {
-                var
-                    options = getOptions(),
+                var options = getOptions(),
                     iconClass = map.iconClass || options.iconClass;
+
+                if (options.preventDuplicates) {
+                    if (map.message === previousToast) {
+                        return;
+                    } else {
+                        previousToast = map.message;
+                    }
+                }
 
                 if (typeof (map.optionsOverride) !== 'undefined') {
                     options = $.extend(options, map.optionsOverride);
@@ -177,13 +210,18 @@
 
                 toastId++;
 
-                $container = getContainer(options);
-                var
-                    intervalId = null,
+                $container = getContainer(options, true);
+                var intervalId = null,
                     $toastElement = $('<div/>'),
                     $titleElement = $('<div/>'),
                     $messageElement = $('<div/>'),
+                    $progressElement = $('<div/>'),
                     $closeElement = $(options.closeHtml),
+                    progressBar = {
+                        intervalId: null,
+                        hideEta: null,
+                        maxHideTime: null
+                    },
                     response = {
                         toastId: toastId,
                         state: 'visible',
@@ -207,8 +245,13 @@
                 }
 
                 if (options.closeButton) {
-                    $closeElement.addClass('toast-close-button').attr("role", "button");
+                    $closeElement.addClass('toast-close-button').attr('role', 'button');
                     $toastElement.prepend($closeElement);
+                }
+
+                if (options.progressBar) {
+                    $progressElement.addClass('toast-progress');
+                    $toastElement.prepend($progressElement);
                 }
 
                 $toastElement.hide();
@@ -217,24 +260,29 @@
                 } else {
                     $container.append($toastElement);
                 }
-
-
                 $toastElement[options.showMethod](
-                    { duration: options.showDuration, easing: options.showEasing, complete: options.onShown }
+                    {duration: options.showDuration, easing: options.showEasing, complete: options.onShown}
                 );
+
                 if (options.timeOut > 0) {
                     intervalId = setTimeout(hideToast, options.timeOut);
+                    progressBar.maxHideTime = parseFloat(options.timeOut);
+                    progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
+                    if (options.progressBar) {
+                        progressBar.intervalId = setInterval(updateProgress, 10);
+                    }
                 }
 
-                $toastElement.hover(stickAround, delayedhideToast);
+                $toastElement.hover(stickAround, delayedHideToast);
                 if (!options.onclick && options.tapToDismiss) {
                     $toastElement.click(hideToast);
                 }
+
                 if (options.closeButton && $closeElement) {
                     $closeElement.click(function (event) {
-                        if( event.stopPropagation ) {
+                        if (event.stopPropagation) {
                             event.stopPropagation();
-                        } else if( event.cancelBubble !== undefined && event.cancelBubble !== true ) {
+                        } else if (event.cancelBubble !== undefined && event.cancelBubble !== true) {
                             event.cancelBubble = true;
                         }
                         hideToast(true);
@@ -260,6 +308,7 @@
                     if ($(':focus', $toastElement).length && !override) {
                         return;
                     }
+                    clearTimeout(progressBar.intervalId);
                     return $toastElement[options.hideMethod]({
                         duration: options.hideDuration,
                         easing: options.hideEasing,
@@ -275,33 +324,26 @@
                     });
                 }
 
-                function delayedhideToast() {
+                function delayedHideToast() {
                     if (options.timeOut > 0 || options.extendedTimeOut > 0) {
                         intervalId = setTimeout(hideToast, options.extendedTimeOut);
+                        progressBar.maxHideTime = parseFloat(options.extendedTimeOut);
+                        progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
                     }
                 }
 
                 function stickAround() {
                     clearTimeout(intervalId);
+                    progressBar.hideEta = 0;
                     $toastElement.stop(true, true)[options.showMethod](
-                        { duration: options.showDuration, easing: options.showEasing }
+                        {duration: options.showDuration, easing: options.showEasing}
                     );
                 }
-            }
-            function getContainer(options) {
-                if (!options) { options = getOptions(); }
-                $container = $('#' + options.containerId);
-                if ($container.length) {
-                    return $container;
-                }
-                $container = $('<div/>')
-                    .attr('id', options.containerId)
-                    .addClass(options.positionClass)
-                    .attr('aria-live', 'polite')
-                    .attr('role', 'alert');
 
-                $container.appendTo($(options.target));
-                return $container;
+                function updateProgress() {
+                    var percentage = ((progressBar.hideEta - (new Date().getTime())) / progressBar.maxHideTime) * 100;
+                    $progressElement.width(percentage + '%');
+                }
             }
 
             function getOptions() {

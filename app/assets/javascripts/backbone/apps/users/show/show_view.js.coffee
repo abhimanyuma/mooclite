@@ -1,6 +1,6 @@
 @Mooclite.module "UsersApp.Show", (Show, App, Backbone, Marionette, $, _) ->
 
-  class Show.Layout extends Marionette.Layout
+  class Show.Layout extends Marionette.LayoutView
     template: "users/show/show_layout"
 
     regions:

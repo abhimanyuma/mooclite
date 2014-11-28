@@ -1,14 +1,10 @@
+/* jshint unused: false */
+
 // Helpers
 // -------
 
 // For slicing `arguments` in functions
 var slice = Array.prototype.slice;
-
-function throwError(message, name) {
-  var error = new Error(message);
-  error.name = name || 'Error';
-  throw error;
-}
 
 // Marionette.extend
 // -----------------
@@ -21,11 +17,11 @@ Marionette.extend = Backbone.Model.extend;
 
 // Retrieve an object, function or other value from a target
 // object or its `options`, with `options` taking precedence.
-Marionette.getOption = function(target, optionName){
-  if (!target || !optionName){ return; }
+Marionette.getOption = function(target, optionName) {
+  if (!target || !optionName) { return; }
   var value;
 
-  if (target.options && (optionName in target.options) && (target.options[optionName] !== undefined)){
+  if (target.options && (target.options[optionName] !== undefined)) {
     value = target.options[optionName];
   } else {
     value = target[optionName];
@@ -34,15 +30,19 @@ Marionette.getOption = function(target, optionName){
   return value;
 };
 
+// Proxy `Marionette.getOption`
+Marionette.proxyGetOption = function(optionName) {
+  return Marionette.getOption(this, optionName);
+};
+
 // Marionette.normalizeMethods
 // ----------------------
 
 // Pass in a mapping of events => functions or function names
 // and return a mapping of events => functions
 Marionette.normalizeMethods = function(hash) {
-  var normalizedHash = {}, method;
-  _.each(hash, function(fn, name) {
-    method = fn;
+  var normalizedHash = {};
+  _.each(hash, function(method, name) {
     if (!_.isFunction(method)) {
       method = this[method];
     }
@@ -54,22 +54,47 @@ Marionette.normalizeMethods = function(hash) {
   return normalizedHash;
 };
 
+// utility method for parsing @ui. syntax strings
+// into associated selector
+Marionette.normalizeUIString = function(uiString, ui) {
+  return uiString.replace(/@ui\.[a-zA-Z_$0-9]*/g, function(r) {
+    return ui[r.slice(4)];
+  });
+};
 
 // allows for the use of the @ui. syntax within
 // a given key for triggers and events
-// swaps the @ui with the associated selector
+// swaps the @ui with the associated selector.
+// Returns a new, non-mutated, parsed events hash.
 Marionette.normalizeUIKeys = function(hash, ui) {
-  if (typeof(hash) === "undefined") {
+  if (typeof(hash) === 'undefined') {
     return;
   }
 
-  _.each(_.keys(hash), function(v) {
-    var pattern = /@ui.[a-zA-Z_$0-9]*/g;
-    if (v.match(pattern)) {
-      hash[v.replace(pattern, function(r) {
-        return ui[r.slice(4)];
-      })] = hash[v];
-      delete hash[v];
+  hash = _.clone(hash);
+
+  _.each(_.keys(hash), function(key) {
+    var normalizedKey = Marionette.normalizeUIString(key, ui);
+    if (normalizedKey !== key) {
+      hash[normalizedKey] = hash[key];
+      delete hash[key];
+    }
+  });
+
+  return hash;
+};
+
+// allows for the use of the @ui. syntax within
+// a given value for regions
+// swaps the @ui with the associated selector
+Marionette.normalizeUIValues = function(hash, ui) {
+  if (typeof(hash) === 'undefined') {
+    return;
+  }
+
+  _.each(hash, function(val, key) {
+    if (_.isString(val)) {
+      hash[key] = Marionette.normalizeUIString(val, ui);
     }
   });
 
@@ -79,7 +104,7 @@ Marionette.normalizeUIKeys = function(hash, ui) {
 // Mix in methods from Underscore, for iteration, and other
 // collection related features.
 // Borrowing this code from Backbone.Collection:
-// http://backbonejs.org/docs/backbone.html#section-106
+// http://backbonejs.org/docs/backbone.html#section-121
 Marionette.actAsCollection = function(object, listProperty) {
   var methods = ['forEach', 'each', 'map', 'find', 'detect', 'filter',
     'select', 'reject', 'every', 'all', 'some', 'any', 'include',

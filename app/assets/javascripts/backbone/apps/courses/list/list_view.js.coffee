@@ -34,7 +34,7 @@
 
   class List.Courses extends App.Views.CompositeView
     template: "courses/list/templates/_courses"
-    itemView: List.Course
+    childView: List.Course
     emptyView: List.Empty
-    itemViewContainer:"tbody"
+    childViewContainer:"tbody"
 

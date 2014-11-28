@@ -1,89 +1,90 @@
+/* jshint maxcomplexity: 10, maxstatements: 29 */
+
 // Region
 // ------
 //
 // Manage the visual regions of your composite application. See
 // http://lostechies.com/derickbailey/2011/12/12/composite-js-apps-regions-and-region-managers/
 
-Marionette.Region = function(options){
+Marionette.Region = function(options) {
   this.options = options || {};
-  this.el = Marionette.getOption(this, "el");
+  this.el = this.getOption('el');
 
-  if (!this.el){
-    throwError("An 'el' must be specified for a region.", "NoElError");
+  // Handle when this.el is passed in as a $ wrapped element.
+  this.el = this.el instanceof Backbone.$ ? this.el[0] : this.el;
+
+  if (!this.el) {
+    throw new Marionette.Error({
+      name: 'NoElError',
+      message: 'An "el" must be specified for a region.'
+    });
   }
 
-  if (this.initialize){
-    var args = Array.prototype.slice.apply(arguments);
+  this.$el = this.getEl(this.el);
+
+  if (this.initialize) {
+    var args = slice.apply(arguments);
     this.initialize.apply(this, args);
   }
 };
 
 
-// Region Type methods
+// Region Class methods
 // -------------------
 
 _.extend(Marionette.Region, {
 
   // Build an instance of a region by passing in a configuration object
-  // and a default region type to use if none is specified in the config.
+  // and a default region class to use if none is specified in the config.
   //
   // The config object should either be a string as a jQuery DOM selector,
-  // a Region type directly, or an object literal that specifies both
-  // a selector and regionType:
+  // a Region class directly, or an object literal that specifies both
+  // a selector and regionClass:
   //
   // ```js
   // {
   //   selector: "#foo",
-  //   regionType: MyCustomRegion
+  //   regionClass: MyCustomRegion
   // }
   // ```
   //
-  buildRegion: function(regionConfig, defaultRegionType){
-    var regionIsString = _.isString(regionConfig);
-    var regionSelectorIsString = _.isString(regionConfig.selector);
-    var regionTypeIsUndefined = _.isUndefined(regionConfig.regionType);
-    var regionIsType = _.isFunction(regionConfig);
-
-    if (!regionIsType && !regionIsString && !regionSelectorIsString) {
-      throwError("Region must be specified as a Region type, a selector string or an object with selector property");
+  buildRegion: function(regionConfig, DefaultRegionClass) {
+    if (_.isString(regionConfig)) {
+      return this._buildRegionFromSelector(regionConfig, DefaultRegionClass);
     }
 
-    var selector, RegionType;
-
-    // get the selector for the region
-
-    if (regionIsString) {
-      selector = regionConfig;
+    if (regionConfig.selector || regionConfig.el || regionConfig.regionClass) {
+      return this._buildRegionFromObject(regionConfig, DefaultRegionClass);
     }
 
-    if (regionConfig.selector) {
-      selector = regionConfig.selector;
-      delete regionConfig.selector;
+    if (_.isFunction(regionConfig)) {
+      return this._buildRegionFromRegionClass(regionConfig);
     }
 
-    // get the type for the region
+    throw new Marionette.Error({
+      message: 'Improper region configuration type.',
+      url: 'marionette.region.html#region-configuration-types'
+    });
+  },
 
-    if (regionIsType){
-      RegionType = regionConfig;
+  // Build the region from a string selector like '#foo-region'
+  _buildRegionFromSelector: function(selector, DefaultRegionClass) {
+    return new DefaultRegionClass({ el: selector });
+  },
+
+  // Build the region from a configuration object
+  // ```js
+  // { selector: '#foo', regionClass: FooRegion }
+  // ```
+  _buildRegionFromObject: function(regionConfig, DefaultRegionClass) {
+    var RegionClass = regionConfig.regionClass || DefaultRegionClass;
+    var options = _.omit(regionConfig, 'selector', 'regionClass');
+
+    if (regionConfig.selector && !options.el) {
+      options.el = regionConfig.selector;
     }
 
-    if (!regionIsType && regionTypeIsUndefined) {
-      RegionType = defaultRegionType;
-    }
-
-    if (regionConfig.regionType) {
-      RegionType = regionConfig.regionType;
-      delete regionConfig.regionType;
-    }
-
-    if (regionIsString || regionIsType) {
-      regionConfig = {};
-    }
-
-    regionConfig.el = selector;
-
-    // build the region instance
-    var region = new RegionType(regionConfig);
+    var region = new RegionClass(options);
 
     // override the `getEl` function if we have a parentEl
     // this must be overridden to ensure the selector is found
@@ -91,17 +92,25 @@ _.extend(Marionette.Region, {
     // region's `el` to `parentEl.find(selector)` in the object
     // literal to build the region, the element will not be
     // guaranteed to be in the DOM already, and will cause problems
-    if (regionConfig.parentEl){
-      region.getEl = function(selector) {
+    if (regionConfig.parentEl) {
+      region.getEl = function(el) {
+        if (_.isObject(el)) {
+          return Backbone.$(el);
+        }
         var parentEl = regionConfig.parentEl;
-        if (_.isFunction(parentEl)){
+        if (_.isFunction(parentEl)) {
           parentEl = parentEl();
         }
-        return parentEl.find(selector);
+        return parentEl.find(el);
       };
     }
 
     return region;
+  },
+
+  // Build the region directly from a given `RegionClass`
+  _buildRegionFromRegionClass: function(RegionClass) {
+    return new RegionClass();
   }
 
 });
@@ -114,87 +123,172 @@ _.extend(Marionette.Region.prototype, Backbone.Events, {
   // Displays a backbone view instance inside of the region.
   // Handles calling the `render` method for you. Reads content
   // directly from the `el` attribute. Also calls an optional
-  // `onShow` and `close` method on your view, just after showing
-  // or just before closing the view, respectively.
-  // The `preventClose` option can be used to prevent a view from being destroyed on show.
+  // `onShow` and `onDestroy` method on your view, just after showing
+  // or just before destroying the view, respectively.
+  // The `preventDestroy` option can be used to prevent a view from
+  // the old view being destroyed on show.
+  // The `forceShow` option can be used to force a view to be
+  // re-rendered if it's already shown in the region.
+
   show: function(view, options){
-    this.ensureEl();
+    this._ensureElement();
 
-    var showOptions = options || {};
-    var isViewClosed = view.isClosed || _.isUndefined(view.$el);
+    var showOptions     = options || {};
     var isDifferentView = view !== this.currentView;
-    var preventClose =  !!showOptions.preventClose;
+    var preventDestroy  = !!showOptions.preventDestroy;
+    var forceShow       = !!showOptions.forceShow;
 
-    // only close the view if we don't want to preventClose and the view is different
-    var _shouldCloseView = !preventClose && isDifferentView;
+    // We are only changing the view if there is a current view to change to begin with
+    var isChangingView = !!this.currentView;
 
-    if (_shouldCloseView) {
-      this.close();
+    // Only destroy the current view if we don't want to `preventDestroy` and if
+    // the view given in the first argument is different than `currentView`
+    var _shouldDestroyView = isDifferentView && !preventDestroy;
+
+    // Only show the view given in the first argument if it is different than
+    // the current view or if we want to re-show the view. Note that if
+    // `_shouldDestroyView` is true, then `_shouldShowView` is also necessarily true.
+    var _shouldShowView = isDifferentView || forceShow;
+
+    if (isChangingView) {
+      this.triggerMethod('before:swapOut', this.currentView);
     }
 
-    view.render();
-    Marionette.triggerMethod.call(this, "before:show", view);
-    Marionette.triggerMethod.call(view, "before:show");
-
-    if (isDifferentView || isViewClosed) {
-      this.open(view);
+    if (_shouldDestroyView) {
+      this.empty();
     }
 
-    this.currentView = view;
+    if (_shouldShowView) {
 
-    Marionette.triggerMethod.call(this, "show", view);
-    Marionette.triggerMethod.call(view, "show");
+      // We need to listen for if a view is destroyed
+      // in a way other than through the region.
+      // If this happens we need to remove the reference
+      // to the currentView since once a view has been destroyed
+      // we can not reuse it.
+      view.once('destroy', this.empty, this);
+      view.render();
+
+      if (isChangingView) {
+        this.triggerMethod('before:swap', view);
+      }
+
+      this.triggerMethod('before:show', view);
+      Marionette.triggerMethodOn(view, 'before:show');
+
+      this.attachHtml(view);
+
+      if (isChangingView) {
+        this.triggerMethod('swapOut', this.currentView);
+      }
+
+      this.currentView = view;
+
+      if (isChangingView) {
+        this.triggerMethod('swap', view);
+      }
+
+      this.triggerMethod('show', view);
+      Marionette.triggerMethodOn(view, 'show');
+
+      return this;
+    }
+
+    return this;
   },
 
-  ensureEl: function(){
-    if (!this.$el || this.$el.length === 0){
+  _ensureElement: function(){
+    if (!_.isObject(this.el)) {
       this.$el = this.getEl(this.el);
+      this.el = this.$el[0];
+    }
+
+    if (!this.$el || this.$el.length === 0) {
+      throw new Marionette.Error('An "el" ' + this.$el.selector + ' must exist in DOM');
     }
   },
 
   // Override this method to change how the region finds the
   // DOM element that it manages. Return a jQuery selector object.
-  getEl: function(selector){
-    return Marionette.$(selector);
+  getEl: function(el) {
+    return Backbone.$(el);
   },
 
   // Override this method to change how the new view is
   // appended to the `$el` that the region is managing
-  open: function(view){
-    this.$el.empty().append(view.el);
+  attachHtml: function(view) {
+    // empty the node and append new view
+    this.el.innerHTML='';
+    this.el.appendChild(view.el);
   },
 
-  // Close the current view, if there is one. If there is no
+  // Destroy the current view, if there is one. If there is no
   // current view, it does nothing and returns immediately.
-  close: function(){
+  empty: function() {
     var view = this.currentView;
-    if (!view || view.isClosed){ return; }
 
-    // call 'close' or 'remove', depending on which is found
-    if (view.close) { view.close(); }
-    else if (view.remove) { view.remove(); }
+    // If there is no view in the region
+    // we should not remove anything
+    if (!view) { return; }
 
-    Marionette.triggerMethod.call(this, "close", view);
+    view.off('destroy', this.empty, this);
+    this.triggerMethod('before:empty', view);
+    this._destroyView();
+    this.triggerMethod('empty', view);
 
+    // Remove region pointer to the currentView
     delete this.currentView;
+    return this;
+  },
+
+  // call 'destroy' or 'remove', depending on which is found
+  // on the view (if showing a raw Backbone view or a Marionette View)
+  _destroyView: function() {
+    var view = this.currentView;
+
+    if (view.destroy && !view.isDestroyed) {
+      view.destroy();
+    } else if (view.remove) {
+      view.remove();
+    }
   },
 
   // Attach an existing view to the region. This
   // will not call `render` or `onShow` for the new view,
   // and will not replace the current HTML for the `el`
   // of the region.
-  attachView: function(view){
+  attachView: function(view) {
     this.currentView = view;
+    return this;
   },
 
-  // Reset the region by closing any existing view and
+  // Checks whether a view is currently present within
+  // the region. Returns `true` if there is and `false` if
+  // no view is present.
+  hasView: function() {
+    return !!this.currentView;
+  },
+
+  // Reset the region by destroying any existing view and
   // clearing out the cached `$el`. The next time a view
   // is shown via this region, the region will re-query the
   // DOM for the region's `el`.
-  reset: function(){
-    this.close();
+  reset: function() {
+    this.empty();
+
+    if (this.$el) {
+      this.el = this.$el.selector;
+    }
+
     delete this.$el;
-  }
+    return this;
+  },
+
+  // Proxy `getOption` to enable getting options from this or this.options by name.
+  getOption: Marionette.proxyGetOption,
+
+  // import the `triggerMethod` to trigger events with corresponding
+  // methods if the method exists
+  triggerMethod: Marionette.triggerMethod
 });
 
 // Copy the `extend` function used by Backbone's classes

@@ -16,7 +16,7 @@
         loading:
           entities: courses
 
-    onClose: ->
+    onDestroy: ->
 
     showTitle: ->
       titleView = @getTitleView()
@@ -42,7 +42,7 @@
       # newCourseView = App.request "new:course:view"
 
       # @listenTo newCourseView, "form:cancel", =>
-      #   @layout.newCourseRegion.close()
+      #   @layout.newCourseRegion.destroy()
 
       # @layout.newCourseRegion.show newCourseView
 

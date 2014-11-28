@@ -8,7 +8,7 @@
       @_instance_id = _.uniqueId("constructor")
       App.execute "register:instance", @,@_instance_id
 
-    close: ->
+    destroy: ->
       super
       App.execute "deregister:instance",@,@_instance_id
 
@@ -24,7 +24,7 @@
     _setMainView: (view) ->
       return if @_mainView
       @_mainView = view
-      @listenTo view, "close", @close
+      @listenTo view, "destroy", @destroy
 
     _manageView: (view,options) ->
       if options.loading

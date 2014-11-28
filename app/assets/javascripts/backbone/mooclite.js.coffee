@@ -4,7 +4,7 @@
 
   App.rootRoute = ""
 
-  App.on "initialize:before", (options) ->
+  App.on "before:start", (options) ->
     App.environment = options.environment
     App.navs = App.request "nav:entities"
 
@@ -25,7 +25,7 @@
     App.mainRegion
 
 
-  App.on "initialize:after",(options) ->
+  App.on "start",(options) ->
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()
 

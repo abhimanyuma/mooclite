@@ -1,8 +1,12 @@
 # Change log
 
+### v1.3.1
+  * Fix UMD setup and build process
+
 ### v1.3.0
   * Add Wreqr.noConflict()
   * Add Wreqr.VERSION
+  * Fixed a bug where reqres would not return a value using the 'top-level' Channel API.
 
 ### v1.2.1
   * Remove AMD builds and add a single UMD style build.
