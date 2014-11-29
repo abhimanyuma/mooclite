@@ -23,6 +23,7 @@
 //= require backbone-syphon
 //= require backbone-associations
 //= require backbone.wreqr
+//= require backbone.babysitter
 //= require backbone.routeFilter/dist/backbone.routefilter
 
 //= require_tree ./config
