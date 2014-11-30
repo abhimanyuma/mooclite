@@ -26,30 +26,30 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <% for api in @api_keys: %>
+      <% for api in @api_keys: %>
+        <tr>
           <td class="collapsing">
             <div class="ui fitted slider checkbox">
               <input type="checkbox"> <label></label>
             </div>
           </td>
-          <td><%= @api.key %></td>
-          <td><%= @api.secret %></td>
-        <% end %>
-      </tr>
+          <td><%= api.key %></td>
+          <td><%= api.secret %></td>
+        </tr>
+      <% end %>
 
     </tbody>
     <tfoot class="full-width">
       <tr>
         <th></th>
         <th colspan="4">
-          <div class="ui right floated small primary labeled icon button">
+          <div class="ui right floated small positive labeled icon button">
             <i class="user icon"></i> Create New API Key
           </div>
-          <div class="ui small error button">
+          <div class="ui small negative button">
             Delete
           </div>
-          <div class="ui small  error disabled button">
+          <div class="ui small  negative disabled button">
             Delete All
           </div>
         </th>

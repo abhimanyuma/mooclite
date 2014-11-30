@@ -57,8 +57,8 @@
   App.vent.on "user:login:cancelled", ->
     toastr.error("","User Login Cancelled")
 
-  App.vent.on "user:loging:success", ->
+  App.vent.on "user:login:success", ->
     toastr.success("","Successful Login")
     App.navigate "/me"
-    API.me
+    API.me()
 
