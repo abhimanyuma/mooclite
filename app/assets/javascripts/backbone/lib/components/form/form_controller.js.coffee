@@ -4,16 +4,21 @@
 
     initialize: (options={}) ->
       @contentView = options.view
+      @type = options.config.type if options.config.type
+      @type ?= "default"
 
-      @formLayout = @getFormLayout options.config
+
+      config = @getDefaultConfig _.result(@contentView, "form")
+      _.extend config, options.config
+
+      @formLayout = @getFormLayout config
 
       @listenTo @formLayout, "show", @formContentRegion
 
       @listenTo @formLayout, "destroy", @destroy
 
-      @listenTo @formLayout, "form:submit", @formSubmit
-
-      @listenTo @formLayout, "form:cancel", @formCancel
+      for trigger in config.triggers
+          @listenTo @formLayout, trigger.string, trigger.function
 
     formCancel: ->
       @contentView.triggerMethod "form:cancel"
@@ -34,26 +39,32 @@
     formContentRegion: ->
       @formLayout.formContentRegion.show @contentView
 
-    getFormLayout: (options={}) ->
-      config = @getDefaultConfig _.result(@contentView, "form")
-      _.extend config, options
+    getFormLayout: (config) ->
+      if config.type == "default"
+        buttons = @getButtons config.buttons
+      else if config.type == "login"
+        buttons = @getButtons config.buttons,"login:button:entities"
 
-      buttons = @getButtons config.buttons
-      
       new Form.FormWrapper
         config: config
         model: @contentView.model
         buttons: buttons
 
     getDefaultConfig: (config = {}) ->
+      that = @
       _.defaults config,
         footer: true
         focusFirstInput: true
         errors: true
         syncing: true
+        type: "default"
+        triggers: [
+          {action: "submit", string: "form:submit", function: that.formSubmit},
+          {action: "click [data-form-button='cancel']", string: "form:cancel",function: that.formCancel}
+        ]
 
-    getButtons: (buttons= {}) ->
-      App.request("form:button:entities",buttons,@contentView.model) unless buttons is false
+    getButtons: (buttons= {},reqString = "form:button:entities") ->
+      App.request(reqString,buttons,@contentView.model) unless buttons is false
 
   App.reqres.setHandler "form:wrapper", (contentView,options={}) ->
     throw new Error "No model found inside" unless contentView.model

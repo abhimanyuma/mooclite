@@ -15,20 +15,16 @@
     ui:
       buttonContainer: "#footer-div"
 
-    triggers:
-      "submit" : "form:submit"
-      "click [data-form-button='cancel']": "form:cancel"
-
-
     modelEvents:
       "change:_errors" : "changeErrors"
       "sync:start"     : "syncStart"
       "sync:stop"      : "syncStop"
 
-
-
-    initialize: ->
+    initialize: (options = {}) ->
       @setInstancePropertiesFor "config","buttons"
+      @triggers = {}
+      for trigger in options.config.triggers
+        @triggers[trigger.action] = trigger.string
 
     serializeData: ->
       footer:@config.footer
