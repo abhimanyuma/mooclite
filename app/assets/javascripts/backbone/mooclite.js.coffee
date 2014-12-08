@@ -29,4 +29,5 @@
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()
 
+  window.App = App
   App

@@ -58,6 +58,7 @@
     toastr.error("","User Login Cancelled")
 
   App.vent.on "user:login:success", ->
+    App.vent.trigger "navbar:refresh"
     toastr.success("","Successful Login")
     App.navigate "/me"
     API.me()

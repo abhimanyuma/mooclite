@@ -6,11 +6,10 @@
       listRegion: "#list-region"
       loginPatchRegion: "#login-patch-region"
 
-
   class List.Header extends App.Views.ItemView
     template: "header/list/templates/_header"
     tagName: "a"
-    className: "red item" 
+    className: "red item"
     attributes: {"href": "#"}
 
     modelEvents:
@@ -20,7 +19,7 @@
       @$el.attr("href","#{@model.get('url')}")
 
     changeChosen: (model,value,options) ->
-      @$el.toggleClass "active", value 
+      @$el.toggleClass "active", value
 
   class List.Headers extends App.Views.CollectionView
     childView: List.Header

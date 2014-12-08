@@ -8,11 +8,18 @@
 
       @layout = @getLayoutView()
 
+      currentUser = App.request "current:user"
+
+      App.execute "when:fetched", currentUser, =>
+        @layout.render()
+        @showLoginPatch(currentUser)
+
       @listenTo @layout, "show", =>
         # @showList navs
-        @showLoginPatch()
+        @showLoginPatch(currentUser)
 
-      @show @layout
+      @show @layout,
+        loading: false
 
     showList: (links) ->
       listView = @getListView links
@@ -22,12 +29,13 @@
       new List.Headers
         collection: links
 
-    showLoginPatch: ->
-      loginPatchView = @getLoginPatchView()
+    showLoginPatch:(user) ->
+      loginPatchView = @getLoginPatchView(user)
       @layout.loginPatchRegion.show loginPatchView
 
-    getLoginPatchView: ->
+    getLoginPatchView: (user) ->
       new List.LoginPatch
+        model: user
 
     getLayoutView: ->
       new List.Layout

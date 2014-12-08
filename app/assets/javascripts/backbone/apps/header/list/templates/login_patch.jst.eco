@@ -1,1 +1,5 @@
-<div class="title item">Login</div>
+<% if @name: %>
+  <div class="title item navbar-logout">Logout</div>
+<% else: %>
+  <div class="title item navbar-login">Login</div>
+<% end %>
