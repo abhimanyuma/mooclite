@@ -25,6 +25,11 @@
 
       App.currentUser
 
+    setCurrentUser: (user) ->
+      currentUser = new Entities.CurrentUser(user)
+      App.currentUser = currentUser
+      App.currentUser
+
   App.reqres.setHandler "user:entity", (id) ->
     API.getUser(id)
 
@@ -33,4 +38,7 @@
 
   App.reqres.setHandler "current:user", (fetch)->
     API.currentUser(fetch)
+
+  App.reqres.setHandler "set:current:user", (user) ->
+    API.setCurrentUser(user)
 

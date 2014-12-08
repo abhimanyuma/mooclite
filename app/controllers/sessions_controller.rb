@@ -6,10 +6,8 @@ class SessionsController < ApplicationController
   def create
     params.require(:session).permit(:email,:password)
     warden.authenticate!
-    render json: {
-      authentication: true,
-      message: "Authentication successful"
-    }
+    @user = current_user
+    render "users/show"
   end
 
   def failed

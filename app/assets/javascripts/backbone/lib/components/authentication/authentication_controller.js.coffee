@@ -36,8 +36,12 @@
 
     onLogin:  () =>
       @formView.removeErrors()
+
       onLoginSuccess = (data,status,jqXHR) =>
-        console.log data,status,jqXHR
+        @formView.syncStop()
+        currentUser = App.request "set:current:user", data
+        App.vent.trigger "user:login:success"
+
 
       onLoginError = (jqXHR, status, error) =>
         @formView.syncStop()
