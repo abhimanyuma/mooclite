@@ -19,16 +19,36 @@ end
 
 
 Warden::Strategies.add(:password) do
-  def valid?
-    params['email'] && params['password']
-  end
+
 
   def authenticate!
-    user = User.where(email: params['email']).first
-    if user && user.authenticate(params['password'])
-      success! user
-    else
-      fail "Authentication unsuccessful"
+
+    errors = {}
+
+    if params['password'].blank?
+       errors[:password] = ["cannot be blank"]
     end
+
+    if params['email'].blank?
+      errors[:email] = ["cannot be blank"]
+    end
+
+    return fail(errors) unless errors.empty?
+
+    user = User.where(email: params['email']).first
+
+    if user
+      if user.authenticate(params['password'])
+        return success!(user)
+      else
+        errors[:password] = ["is not valid"]
+      end
+    end
+
+    if user.nil?
+      errors[:email] = ["does not exist"]
+    end
+
+    fail errors
   end
 end

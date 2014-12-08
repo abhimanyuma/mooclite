@@ -15,26 +15,49 @@
           @listenTo @profile, "error", ->
             @redirectIfLoggedIn()
 
-      authModel = App.request "new:authmodel"
-
-      @listenTo authModel, "created", ->
-        @authenticateProcess authModel
+      authModel = new Mooclite.Entities.Model
 
       if @view
         baseView = @view
       else
         baseView = @getAuthView authModel
 
-      formView = App.request "form:wrapper", baseView
-
-      @listenTo baseView, "form:cancel", ->
-        App.vent.trigger "user:login:cancelled"
+      @formView = App.request "form:wrapper", baseView,
+        type:"login"
+        triggers: [
+          {action: "click .login-button",string: "login:button:clicked",function: @onLogin}
+        ]
 
       if @profile
-        @show formView,
+        @show @formView,
           entities: @profile
       else
-        @show formView
+        @show @formView
+
+    onLogin:  () =>
+      @formView.removeErrors()
+      onLoginSuccess = (data,status,jqXHR) =>
+        console.log data,status,jqXHR
+
+      onLoginError = (jqXHR, status, error) =>
+        @formView.syncStop()
+        errors =  jqXHR.responseJSON.errors
+        @formView.addErrors(errors)
+
+
+      data = Backbone.Syphon.serialize @formView
+      data["session"] = Backbone.Syphon.serialize @formView
+
+      $.ajax
+        url:  Routes.sessions_path()
+        type: "POST"
+        data: data
+        dataType: "json"
+        success: onLoginSuccess
+        error: onLoginError
+
+      @formView.syncStart()
+
 
     getAuthView: (authModel) ->
       new Authentication.View
@@ -50,3 +73,5 @@
 
   App.reqres.setHandler "get:loginpatch", (options) ->
     new Authentication.Controller(options)
+
+  App.vent.on "login:"

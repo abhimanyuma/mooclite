@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
   def failed
     render status: 401, json: {
       authentication: false,
-      error: true,
+      errors: warden.message,
       message: "Authentication unsuccessful"
     }
   end
