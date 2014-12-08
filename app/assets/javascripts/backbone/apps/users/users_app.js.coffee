@@ -50,6 +50,15 @@
     App.navigate "/login"
     API.login current_user
 
+  App.vent.on "logout:user", ->
+    App.vent.trigger "reset:current:user"
+    $.ajax
+      url:  "api/logout"
+      type: "DELETE"
+
+    App.vent.trigger "navbar:refresh"
+    App.navigate "/"
+
   App.vent.on "user:create:cancelled", ->
     toastr.error("","User Creation Failed")
     App.navigate Routes.root_path()

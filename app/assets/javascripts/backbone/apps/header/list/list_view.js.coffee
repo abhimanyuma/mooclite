@@ -27,3 +27,7 @@
 
   class List.LoginPatch extends App.Views.ItemView
     template: "header/list/login_patch"
+
+    triggers:
+      "click .navbar-login":"navbar:login:clicked"
+      "click .navbar-logout":"navbar:logout:clicked"

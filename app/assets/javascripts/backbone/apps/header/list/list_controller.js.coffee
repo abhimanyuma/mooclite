@@ -31,6 +31,12 @@
 
     showLoginPatch:(user) ->
       loginPatchView = @getLoginPatchView(user)
+
+      @listenTo loginPatchView, "navbar:login:clicked", ->
+        App.vent.trigger "login:user"
+
+      @listenTo loginPatchView, "navbar:logout:clicked", ->
+        App.vent.trigger "logout:user"
       @layout.loginPatchRegion.show loginPatchView
 
     getLoginPatchView: (user) ->

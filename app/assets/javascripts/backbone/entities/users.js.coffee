@@ -25,6 +25,9 @@
 
       App.currentUser
 
+    resetCurrentUser: ->
+      App.currentUser = null
+
     setCurrentUser: (user) ->
       currentUser = new Entities.CurrentUser(user)
       App.currentUser = currentUser
@@ -41,4 +44,7 @@
 
   App.reqres.setHandler "set:current:user", (user) ->
     API.setCurrentUser(user)
+
+  App.vent.on "reset:current:user", ->
+    API.resetCurrentUser()
 
