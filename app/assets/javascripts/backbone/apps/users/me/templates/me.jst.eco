@@ -1,5 +1,3 @@
-
-
 <table class="ui definition table">
   <tbody>
     <tr>
@@ -15,47 +13,3 @@
     </tr>
   </tbody>
 </table>
-<h3> API Keys</h3>
-<% if @api_keys && @api_keys.length: %>
-  <table class="ui compact celled definition table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>API Key</th>
-        <th>API Secret</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for api in @api_keys: %>
-        <tr>
-          <td class="collapsing">
-            <div class="ui fitted slider checkbox">
-              <input type="checkbox"> <label></label>
-            </div>
-          </td>
-          <td><%= api.key %></td>
-          <td><%= api.secret %></td>
-        </tr>
-      <% end %>
-
-    </tbody>
-    <tfoot class="full-width">
-      <tr>
-        <th></th>
-        <th colspan="4">
-          <div class="ui right floated small positive labeled icon button">
-            <i class="user icon"></i> Create New API Key
-          </div>
-          <div class="ui small negative button">
-            Delete
-          </div>
-          <div class="ui small  negative disabled button">
-            Delete All
-          </div>
-        </th>
-      </tr>
-    </tfoot>
-  </table>
-<% else: %>
-    <td> No API Key Pairs have been created, why don't you create one </td>
-<% end %>

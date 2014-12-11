@@ -3,6 +3,9 @@
   class Entities.User extends Entities.Model
     urlRoot: -> Routes.users_path()
 
+    setUpApiKeys: ->
+      @api_keys = App.request "create:api_keys", @get("api_keys"), @id.$oid
+
   class Entities.CurrentUser extends Entities.User
     urlRoot: -> "#{Routes.users_path()}/me"
 
@@ -17,11 +20,10 @@
       new Entities.User
 
     currentUser:(fetch) ->
-      unless App.currentUser
-        App.currentUser = new Entities.CurrentUser
-        App.currentUser.fetch()
-
-      App.currentUser.fetch() if fetch
+      if  !(App.currentUser) || fetch
+        App.currentUser ?= new Entities.CurrentUser
+        App.currentUser.fetch().done ->
+          App.currentUser.setUpApiKeys()
 
       App.currentUser
 
