@@ -28,3 +28,9 @@
 
     triggers:
       "click #create-new-api-key":"create:api:key:button:clicked"
+
+    showLoadingAdd: ->
+      @$("#create-new-api-key").addClass("loading disabled")
+
+    stopLoadingAdd: ->
+      @$("#create-new-api-key").removeClass("loading disabled")

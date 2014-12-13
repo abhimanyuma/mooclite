@@ -29,11 +29,12 @@
           that = @
 
           options.successcb = ->
-            true
+            element.view.stopLoadingAdd()
 
           options.errorcb = ->
-            element.collection.pop()
+            element.view.stopLoadingAdd()
 
+          element.view.showLoadingAdd()
           element.collection.createNewApiKey(options)
 
 

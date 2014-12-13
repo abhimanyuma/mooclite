@@ -3,9 +3,9 @@
   class Entities.ApiKey extends Entities.Model
     urlRoot: ->
       if @collection && @collection.user_id
-        Routes.user_api_key_index_path(@collection.user_id)
+        Routes.user_api_keys_path(@collection.user_id)
       else if @user_id
-        Routes.user_api_key_index_path(@user_id)
+        Routes.user_api_keys_path(@user_id)
 
 
   class Entities.ApiKeyCollection extends Entities.Collection
@@ -15,9 +15,10 @@
       newApiKey = new Entities.ApiKey
       newApiKey.user_id = @user_id
       newApiKey.save null,
-        success: options.successcb
+        success: =>
+          @add(newApiKey)
+          options.successcb()
         error: options.errorcb
-      @add(newApiKey)
       newApiKey.collection = @
       newApiKey
 
