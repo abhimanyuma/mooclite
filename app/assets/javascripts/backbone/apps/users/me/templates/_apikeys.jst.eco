@@ -2,9 +2,9 @@
 <table class="ui compact table">
   <thead>
     <tr>
-      <th></th>
       <th>API Key</th>
       <th>API Secret</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>

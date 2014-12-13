@@ -1,8 +1,9 @@
+<td><%= @key %></td>
+<td><%= @secret %></td>
 <td >
 <div class="ui mini buttons">
   <div class="ui button delete-button">Delete ?</div>
   <div class="ui red button delete-confirmation" style="display:none;">Yes</div>
   <div class="ui black button delete-cancellation" style="display:none;">No</div>
 </div>
-<td><%= @key %></td>
-<td><%= @secret %></td>
+</td>
