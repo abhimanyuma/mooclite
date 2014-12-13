@@ -19,6 +19,28 @@
     tagName: "tr"
     className: "item"
 
+    triggers:
+      "click .delete-button": "delete:button:clicked"
+      "click .delete-confirmation": "delete:confirmation:clicked"
+      "click .delete-cancellation": "delete:cancellation:clicked"
+
+    showConfirmationButtons: ->
+      @$(".delete-button").hide()
+      @$(".delete-confirmation").show()
+      @$(".delete-cancellation").show()
+
+    hideConfirmationButtons: ->
+      @$(".delete-confirmation").hide()
+      @$(".delete-cancellation").hide()
+      @$(".delete-button").show()
+
+    showLoadingDelete: ->
+      @hideConfirmationButtons()
+      @$(".delete-button").addClass("loading disabled")
+
+    stopLoadingDelete: ->
+      @hideConfirmationButtons()
+      @$(".delete-button").removeClass("loading disabled")
 
   class Me.ApiKeys extends App.Views.CompositeView
     template: "users/me/_apikeys"

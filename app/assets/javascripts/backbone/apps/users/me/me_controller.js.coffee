@@ -37,6 +37,24 @@
           element.view.showLoadingAdd()
           element.collection.createNewApiKey(options)
 
+      @listenTo apiKeyView, "childview:delete:button:clicked", (view) =>
+        view.showConfirmationButtons()
+
+      @listenTo apiKeyView, "childview:delete:cancellation:clicked", (view) =>
+        view.hideConfirmationButtons()
+
+      @listenTo apiKeyView, "childview:delete:confirmation:clicked", (view) =>
+        if view.model
+          options = {}
+
+          options.successcb = ->
+            view.stopLoadingDelete()
+
+          options.errorcb = ->
+            view.stopLoadingDelete()
+
+          view.showLoadingDelete()
+          view.model.doDelete(options)
 
       @layout.apiKeyRegion.show apiKeyView
 

@@ -7,6 +7,12 @@
       else if @user_id
         Routes.user_api_keys_path(@user_id)
 
+    doDelete:(options) ->
+      @destroy
+        success: options.successcb
+        error: options.errorcb
+
+
 
   class Entities.ApiKeyCollection extends Entities.Collection
     model:Entities.ApiKey

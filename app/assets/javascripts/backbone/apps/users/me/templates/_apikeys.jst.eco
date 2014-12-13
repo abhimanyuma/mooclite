@@ -1,5 +1,5 @@
 <h3> API Keys</h3>
-<table class="ui compact celled definition table">
+<table class="ui compact table">
   <thead>
     <tr>
       <th></th>
@@ -15,12 +15,6 @@
       <th colspan="4">
         <div id="create-new-api-key" class="ui right floated small positive labeled icon button">
           <i class="user icon"></i> Create New API Key
-        </div>
-        <div class="ui small negative button">
-          Delete
-        </div>
-        <div class="ui small  negative disabled button">
-          Delete All
         </div>
       </th>
     </tr>
