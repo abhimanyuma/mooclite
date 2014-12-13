@@ -8,11 +8,7 @@
       apiKeyRegion: "#api-key-region"
 
   class Me.MeView extends App.Views.ItemView
-
     template: "users/me/me"
-
-    triggers:
-      "click #create-new-api-key":"create:api:key:button:clicked"
 
   class Me.EmptyApiKey extends App.Views.ItemView
     template: "users/me/_empty_apikey"
@@ -29,3 +25,6 @@
     childView: Me.ApiKey
     emptyView: Me.EmptyApiKey
     childViewContainer:"tbody"
+
+    triggers:
+      "click #create-new-api-key":"create:api:key:button:clicked"

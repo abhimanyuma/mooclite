@@ -22,6 +22,21 @@
     showApiKeyView: (apiCollection) ->
       apiKeyView = @getApiKeyView(apiCollection)
 
+      @listenTo apiKeyView, "create:api:key:button:clicked", (element) =>
+        if element.collection
+
+          options = {}
+          that = @
+
+          options.successcb = ->
+            true
+
+          options.errorcb = ->
+            element.collection.pop()
+
+          element.collection.createNewApiKey(options)
+
+
       @layout.apiKeyRegion.show apiKeyView
 
     getLayoutView: ->
