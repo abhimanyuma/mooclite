@@ -3,18 +3,22 @@
   class List.Controller extends App.Controllers.Application
 
     initialize: ->
-      courses = App.request "course:entities"
 
-      @layout = @getLayoutView()
+      App.redirectIfNotLoggedIn("/courses")
 
-      @listenTo @layout, "show", =>
-        @showTitle()
-        @showPanel()
-        @showCourses courses
+      if App.currentUser
+        courses = App.request "course:entities", App.currentUser.id.$oid
 
-      @show @layout,
-        loading:
-          entities: courses
+        @layout = @getLayoutView()
+
+        @listenTo @layout, "show", =>
+          @showTitle()
+          @showPanel()
+          @showCourses courses
+
+        @show @layout,
+          loading:
+            entities: courses
 
     onDestroy: ->
 

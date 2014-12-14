@@ -25,9 +25,13 @@
     App.mainRegion
 
 
-  App.redirectIfNotLoggedIn = ->
+  App.redirectIfNotLoggedIn = (redirectTo) ->
     unless App.currentUser.id
-      App.vent.trigger "login:user"
+      # App.vent.trigger "login:user", redirectTo
+      # We CANNOT user triggers here since we generally need this in threaded execution
+      App.navigate('login',{ trigger:false, replace: true })
+      App.request "get:loginpatch",
+        redirectTo: redirectTo
     else
       return true
 

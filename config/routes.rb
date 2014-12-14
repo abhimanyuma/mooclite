@@ -7,12 +7,13 @@ Mooclite::Application.routes.draw do
   # action happens through API
   # "Jai Bolo REST APIyo Ki"
   scope "api" do
-    resources :courses do
-      resources :lectures
-    end
+    # resources :courses do
+    #   resources :lectures
+    # end
     resources :users, except: [:index] do
       get 'me', on: :collection
       resources :api_keys, only: [:index, :create, :destroy]
+      resources :courses
     end
     resources :sessions, only: [:create]
     post 'login' => 'sessions#create'

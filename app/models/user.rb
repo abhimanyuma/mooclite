@@ -16,6 +16,7 @@ class User
   field :created_at, type: Date
   field :updated_at, type: Date
   embeds_many :api_keys
+  has_many :courses
 
 
   index({ starred: 1 })

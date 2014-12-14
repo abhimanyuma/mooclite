@@ -1,21 +1,32 @@
 @Mooclite.module "Entities", (Entities,App, Backbone, Marionette, $, _) ->
 
   class Entities.Course extends Entities.Model
-    urlRoot: -> Routes.courses_path()
+    urlRoot: ->
+      if @user_id
+        user_id = @user_id
+      else if @get("user_id")
+        user_id = @get("user_id")
+      else if @collection && @collection.user_id
+        user_id = @get("user_id")
+
+      Routes.user_courses_path(user_id)
 
   class Entities.CoursesCollection extends Entities.Collection
     model:Entities.Course
-    url: -> Routes.courses_path()
+    url: ->
+      Routes.user_courses_path(@user_id)
 
   API=
-    getCoursesCollection:  ->
+    getCoursesCollection: (user_id)  ->
       courses= new Entities.CoursesCollection
+      courses.user_id = user_id
       courses.fetch()
       courses
 
-    getCourse: (id) ->
+    getCourse: (user_id,id) ->
       course = new Entities.Course
         id: id
+      course.user_id = user_id
       course.fetch()
       course
 
@@ -23,11 +34,11 @@
       new Entities.Course
 
 
-  App.reqres.setHandler "course:entity", (id) ->
-    API.getCourse(id)
+  App.reqres.setHandler "course:entity", (user_id,id) ->
+    API.getCourse(user_id,id)
 
-  App.reqres.setHandler "course:entities", ->
-    API.getCoursesCollection()
+  App.reqres.setHandler "course:entities", (user_id) ->
+    API.getCoursesCollection(user_id)
 
-  App.reqres.setHandler "new:course", ->
-    API.newCourse()
+  App.reqres.setHandler "new:course", (user_id) ->
+    API.newCourse(user_id)

@@ -1,18 +1,22 @@
 class CoursesController < ApplicationController
   skip_before_filter  :verify_authenticity_token
+  before_filter :correct_authorized, :only => [:index,:show,:create]
   respond_to :json
 
 
   def index
-    @courses= Course.all.to_a
+    user = User.find(params[:user_id])
+    @courses= user.courses
   end
 
   def show
-    @course= Course.find(params[:id])
+    user = User.find(params[:user_id])
+    @course = user.courses.find(params[:id])
   end
 
   def create
-    @course = Course.new
+    user = User.find(params[:user_id])
+    @course = user.courses.new
     if @course.update_attributes course_params
       render "courses/show"
     else
@@ -36,6 +40,13 @@ class CoursesController < ApplicationController
   end
 
 private
+
+  def correct_authorized
+    unless current_user && (current_user.id.to_s == params[:user_id])
+      render status: 401, json: {}
+    end
+  end
+
 
   def course_params
     params.require(:course).permit(:name,:description,:bio,:offered_by)

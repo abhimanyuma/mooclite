@@ -25,8 +25,9 @@
     edit: ->
       new UsersApp.Edit.Controller
 
-    login: ->
-      App.request "get:loginpatch"
+    login: (route) ->
+      App.request "get:loginpatch",
+        redirectTo: route
 
 
   App.addInitializer ->
@@ -41,9 +42,9 @@
     toastr.success("Let us build the future of MOOCs together","Welcome #{user.get('name')}")
     App.navigate Routes.root_path()
 
-  App.vent.on "login:user", ->
+  App.vent.on "login:user", (route) ->
     App.navigate "/login"
-    API.login()
+    API.login(route)
 
   App.vent.on "logout:user", ->
     App.vent.trigger "reset:current:user"
@@ -61,9 +62,10 @@
   App.vent.on "user:login:cancelled", ->
     toastr.error("","User Login Cancelled")
 
-  App.vent.on "user:login:success", ->
-    App.vent.trigger "navbar:refresh"
+  App.vent.on "user:login:success", (route) ->
+    #App.vent.trigger "navbar:refresh"
+    route ?= "/me"
     toastr.success("","Successful Login")
-    App.navigate "/me"
+    App.navigate route
     API.me()
 

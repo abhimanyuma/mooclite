@@ -3,7 +3,7 @@
   class Authentication.Controller extends App.Controllers.Application
 
     initialize: (options={}) ->
-      {view,@profile} = options
+      {view,@profile,@redirectTo} = options
 
 
       @profile ?= App.request "current:user"
@@ -73,7 +73,7 @@
 
     redirectIfLoggedIn: () ->
       if @profile.get('id')
-        App.vent.trigger "user:login:success"
+        App.vent.trigger "user:login:success", @redirectTo
 
 
   App.reqres.setHandler "get:loginpatch", (options) ->

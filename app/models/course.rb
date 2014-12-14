@@ -22,11 +22,7 @@ class Course
   validates_presence_of :bio ,:unless => proc {new_record?}
   validates :bio, :length => {maximum:140}
 
-  before_validation(on: :create) do
-    self._id = self.name.parameterize
-  end
-
-  has_many :lectures, dependent: :destroy
+  belongs_to :user
 
   private
 
