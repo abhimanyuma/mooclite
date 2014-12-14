@@ -24,6 +24,8 @@ class Course
 
   belongs_to :user
 
-  private
+  def id_string
+    return id.to_s
+  end
 
 end

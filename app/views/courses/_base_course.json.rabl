@@ -1,1 +1,7 @@
-attributes :id, :name, :offered_by, :bio
+attributes :name, :offered_by, :bio
+
+node do |course|
+  {
+    id: course.id_string
+  }
+end
