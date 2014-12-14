@@ -3,20 +3,21 @@
   class New.Controller extends App.Controllers.Application
 
     initialize: ->
-      course = App.request "new:course"
+      if App.currentUser && App.currentUser.id
+        course = App.request "new:course" , App.currentUser.id.$oid
 
-      @listenTo course, "created", ->
-        App.vent.trigger "course:created", course
+        @listenTo course, "created", ->
+          App.vent.trigger "course:created", course
 
 
-      newView = @getNewView course
+        newView = @getNewView course
 
-      formView = App.request "form:wrapper", newView
+        formView = App.request "form:wrapper", newView
 
-      @listenTo newView, "form:cancel", ->
-        @region.reset()
+        @listenTo newView, "form:cancel", ->
+          @region.reset()
 
-      @show formView
+        @show formView
 
 
 

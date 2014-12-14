@@ -30,8 +30,10 @@
       course.fetch()
       course
 
-    newCourse: ->
-      new Entities.Course
+    newCourse:(user_id) ->
+      course = new Entities.Course
+      course.user_id = user_id
+      course
 
 
   App.reqres.setHandler "course:entity", (user_id,id) ->

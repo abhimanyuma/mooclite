@@ -6,7 +6,7 @@
 
       App.redirectIfNotLoggedIn("/courses")
 
-      if App.currentUser
+      if App.currentUser && App.currentUser.id
         courses = App.request "course:entities", App.currentUser.id.$oid
 
         @layout = @getLayoutView()

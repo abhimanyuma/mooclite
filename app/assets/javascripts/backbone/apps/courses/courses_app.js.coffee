@@ -40,8 +40,12 @@
     API.showLecture course_id,lecture_id,lecture_action
 
   App.vent.on "course:clicked", (course) ->
-    App.navigate Routes.course_path(course.id)
-    API.show course.id
+    if App.currentUser && App.currentUser.id
+      App.navigate "/courses/#{course.id}"
+      API.show course.id
+    else
+      App.navigate "/courses"
+      API.list()
 
   App.vent.on "edit:course:clicked", (course) ->
     App.navigate Routes.edit_course_path(course.id)
