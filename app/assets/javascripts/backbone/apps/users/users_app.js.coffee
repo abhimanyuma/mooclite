@@ -25,12 +25,8 @@
     edit: ->
       new UsersApp.Edit.Controller
 
-    login: (profile) ->
-      if profile
-        App.request "get:loginpatch",
-          profile: profile
-      else
-        App.vent.trigger "login:user"
+    login: ->
+      App.request "get:loginpatch"
 
 
   App.addInitializer ->
@@ -46,9 +42,8 @@
     App.navigate Routes.root_path()
 
   App.vent.on "login:user", ->
-    current_user = App.request "current:user"
     App.navigate "/login"
-    API.login current_user
+    API.login()
 
   App.vent.on "logout:user", ->
     App.vent.trigger "reset:current:user"

@@ -25,6 +25,13 @@
     App.mainRegion
 
 
+  App.redirectIfNotLoggedIn = ->
+    unless App.currentUser.id
+      App.vent.trigger "login:user"
+    else
+      return true
+
+
   App.on "start",(options) ->
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()

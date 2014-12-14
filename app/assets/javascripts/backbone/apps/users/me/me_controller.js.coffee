@@ -3,6 +3,9 @@
   class Me.Controller extends App.Controllers.Application
 
     initialize: ->
+
+      App.redirectIfNotLoggedIn()
+
       @layout = @getLayoutView()
       profile = App.request "current:user"
 

@@ -6,14 +6,15 @@
       {view,@profile} = options
 
 
-      if @profile
-        if @profile.sync_status
+      @profile ?= App.request "current:user"
+
+      if @profile.get('id')
+        @redirectIfLoggedIn()
+      else
+        @listenTo @profile, "sync", ->
           @redirectIfLoggedIn()
-        else
-          @listenTo @profile, "sync", ->
-            @redirectIfLoggedIn()
-          @listenTo @profile, "error", ->
-            @redirectIfLoggedIn()
+        @listenTo @profile, "error", ->
+          @redirectIfLoggedIn()
 
       authModel = new Mooclite.Entities.Model
 
@@ -77,5 +78,3 @@
 
   App.reqres.setHandler "get:loginpatch", (options) ->
     new Authentication.Controller(options)
-
-  App.vent.on "login:"
