@@ -1,10 +1,15 @@
 module LecturesHelper
+
   module STATUS
     FORCE = -10
     UNPROCESSED = 0
     RESOLUTIONS_PROCESSED = 10
     SILENT_RESOLUTIONS_PROCESSED = 20
     FRAMES_EXTRACTED = 30
+  end
+
+  module RANDOM_LIMITS
+    BASE62 = 56800235584
   end
 
   module RESOLUTIONS
@@ -27,6 +32,25 @@ module LecturesHelper
     DEFAULT_VIDEO_ONLY_OPTIONS = "-vcodec copy -an"
 
     EXTRACT_FRAMES_OPTIONS = "-vf 'select=eq(pict_type\,I),showinfo' -vsync 0"
+  end
+
+  def add_short_code
+
+    begin
+      random_number = SecureRandom.random_number(RANDOM_LIMITS::BASE62)
+      random_string = random_number.base62_encode
+    end until Lecture.where(short_code: random_string).count == 0
+    self.short_code = random_string
+
+  end
+
+  def set_lecture_number
+    lecture_num_max = Lecture.where(:course_id => self.course_id).pluck(:lecture_no).max
+    if lecture_num_max == nil
+      self.lecture_no = 1
+    else
+      self.lecture_no = lecture_num_max + 1
+    end
   end
 
   def resolution_formatize (lecture_video,resolution,dir)

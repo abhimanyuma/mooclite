@@ -4,9 +4,14 @@
 
     initialize:(options) ->
 
-      {lectures,course,region} = options
+      {lectures,course} = options
+
       listView = @getLecturesView lectures
-      region.show listView
+
+      @listenTo listView, "new:lecture:button:clicked", (element) ->
+        App.vent.trigger "new:lecture:clicked", App.currentUser, course
+
+      @show listView
 
 
     getLecturesView: (lectures) ->

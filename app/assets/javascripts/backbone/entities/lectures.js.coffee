@@ -11,23 +11,9 @@
         @course_id = course_id
         @set("course_id",course_id)
 
-    choose: ->
-      @set chosen: true
+    urlRoot:  ->
+      Routes.user_course_lectures_path(App.currentUser.id.$oid,@course_id)
 
-    unchoose: ->
-      @set chosen: false
-
-    chooseByCollection: ->
-      @collection.choose @
-
-    urlRoot:  -> "/api/courses/#{@course_id}/lectures"
-    url: ->
-      if @lecture_no
-        "/api/courses/#{@course_id}/lectures/#{@lecture_no}"
-      else if @get('lecture_no')
-        "/api/courses/#{@course_id}/lectures/#{@get('lecture_no')}"
-      else
-        "/api/courses/#{@course_id}/lectures"
 
   class Entities.LecturesCollection extends Entities.Collection
     model: Entities.Lecture
@@ -37,14 +23,7 @@
       {course_id} = options
       @course_id = course_id
 
-    url: -> "/api/courses/#{@course_id}/lectures"
-
-    choose: (model) ->
-      _(@where chosen:true).invoke("unchoose")
-      model.choose()
-
-    chooseByNo: (num) ->
-      @choose @findWhere(lecture_no: num)
+    url: ->  Routes.user_course_lectures_path(App.currentUser.id.$oid,@course_id)
 
   API =
     getLectures: (course_id) ->

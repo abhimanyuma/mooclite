@@ -4,11 +4,8 @@
       <i class="edit icon"></i>
       <div class="content">
       Add New Lecture
-      <div class="sub header">Adding lecture for </div>
+      <div class="sub header">Adding lecture for <%= @name %> </div>
       </div>
     </h2>
-  </div>
-  <div class="four wide column">
-    <button class="ui negative button floated right" id="delete-lecture">Delete</button>
   </div>
 </div></div>

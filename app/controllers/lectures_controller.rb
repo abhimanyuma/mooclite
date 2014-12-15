@@ -1,10 +1,9 @@
 class LecturesController < ApplicationController
   skip_before_filter  :verify_authenticity_token
-
+  before_filter :correct_authorized , except: [:show]
   respond_to :json
 
   def index
-
     @lectures=Lecture.where(course_id: params[:course_id])
   end
 
@@ -13,11 +12,21 @@ class LecturesController < ApplicationController
   end
 
   def create
-    @lecture = Lecture.new
-    if @lecture.update_attributes lecture_params
-      render "lectures/show"
+    user = User.find(params[:user_id])
+    if user
+      course = user.courses.find(params[:course_id])
+      if course
+        @lecture = course.lectures.create(lecture_params)
+        if @lecture
+          render "lectures/show"
+        else
+          render500
+        end
+      else
+        render404
+      end
     else
-      respond_with @lecture
+      render402
     end
   end
 
@@ -53,6 +62,12 @@ class LecturesController < ApplicationController
   # end
 
 private
+
+  def correct_authorized
+    unless current_user && (current_user.id.to_s == params[:user_id])
+      render status: 401, json: {}
+    end
+  end
 
   def lecture_params
     params.require(:lecture).permit(:title, :instructor_id, :content,

@@ -19,3 +19,6 @@
     childView: List.Lecture
     emptyView: List.Empty
     childViewContainer:"tbody"
+
+    triggers:
+      "click #create-new-lecture": "new:lecture:button:clicked"

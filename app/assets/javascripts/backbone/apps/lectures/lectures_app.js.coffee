@@ -10,12 +10,10 @@
       App.vent.trigger "nav:choose", "Courses"
 
   API =
-    show: (course_id,lecture_id,region) ->
-      return App.execute "course:show", course_id,lecture_id,"showLecture" if not region
+    show: (course_id,lecture_id) ->
       new LecturesApp.Show.Controller
         course_id:course_id
         lecture_id:lecture_id
-        region:region
 
     edit: (course_id,lecture_id,region) ->
       return App.execute "course:show", course_id,lecture_id,"editLecture" if not region
@@ -24,16 +22,15 @@
         lecture_id:lecture_id
         region:region
 
-    newLecture: (course_id,region) ->
-      return App.execute "course:show", course_id,null,"newLecture" if not region
+    newLecture: (course_id,course) ->
       new LecturesApp.New.Controller
         course_id: course_id
-        region: region
+        course: course
 
     list: (course,lectures,region) ->
       new LecturesApp.List.Controller
         course:course
-        lecture:lectures
+        lectures:lectures
         region:region
 
 
@@ -43,9 +40,18 @@
     App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
     API.show(course.id,lecture.get("lecture_no"),region)
 
-  App.vent.on "new:lecture:clicked", (course,region) ->
+  App.vent.on "new:lecture:clicked", (user,course) ->
     App.navigate "courses/#{course.id}/lectures/new"
-    API.newLecture course.id, region
+    API.newLecture course.id,course
+
+  App.vent.on "lecture:create:cancelled", (course) ->
+    App.navigate "courses/#{course.id}"
+    App.vent.trigger "course:clicked", course
+
+  App.vent.on "lecture:created", (course,lecture) ->
+    toastr.success("#{lecture.get('title')} has been created")
+    App.navigate "courses/#{course.id}/lecture/#{lecture.id}"
+    API.show(course.id,lecture.id)
 
   App.vent.on "lecture:edit:clicked", (course,lecture,region) ->
     App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}/edit"

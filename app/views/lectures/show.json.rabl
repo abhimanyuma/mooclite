@@ -1,6 +1,12 @@
 object @lecture
 
-attributes :id, :lecture_no, :title, :content, :date, :overview, :course_id, :video_file_name, :slide_file_name
+attributes :lecture_no, :title, :content, :date, :overview, :course_id, :video_file_name, :slide_file_name
+
+node do |lecture|
+ {
+  id: lecture.id.to_s
+ }
+end
 
 node (:video_url) do |lecture|
     if lecture.video?

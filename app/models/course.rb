@@ -24,7 +24,11 @@ class Course
 
   belongs_to :user
 
-  embeds_many :lectures
+  has_many :lectures, dependent: :destroy
+
+  def list_lectures
+    self.lectures.map{|lecture| lecture.major_attributes}
+  end
 
   def id_string
     return id.to_s

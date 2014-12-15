@@ -4,20 +4,28 @@
 
     initialize:(options) ->
 
-      {course_id} = options
+      {course_id,course} = options
 
-      course = App.request "course:entity", course_id
+      App.redirectIfNotLoggedIn("/courses/#{course_id}/lectures/new")
 
-      lecture = App.request "new:lecture:entity", course_id
+      if App.currentUser && App.currentUser.id
+        course ?= App.request "course:entity", App.currentUser.id.$oid, course_id
 
-      @layout = @getLayoutView lecture
+        lecture = App.request "new:lecture:entity", course_id
 
-      @listenTo @layout, "show", =>
-        @titleRegion lecture, course
-        @formRegion  lecture, course
+        @listenTo lecture, "created", ->
+          App.vent.trigger "lecture:created", course, lecture
 
-      @show @layout,
-        loading: true
+        @layout = @getLayoutView lecture
+
+        @listenTo @layout, "show", =>
+          @titleRegion lecture, course
+          @formRegion  lecture, course
+
+        @show @layout,
+          loading:
+            entities: [lecture,course]
+
 
 
     titleRegion: (lecture, course) ->
@@ -30,7 +38,7 @@
       editView = @getEditView lecture
 
       @listenTo editView, "form:cancel", ->
-        App.vent.trigger "lecture:cancelled", course, lecture, @region
+        App.vent.trigger "lecture:create:cancelled", course
 
       @listenTo editView, "overview:updated", =>
         @updateOverview editView
@@ -44,8 +52,8 @@
 
     getTitleView:(lecture,course) ->
       new New.Title
-        model:lecture
-        course:course
+        model: course
+        lecture:lecture
 
     getEditView: (lecture) ->
       gon.overview_length=0

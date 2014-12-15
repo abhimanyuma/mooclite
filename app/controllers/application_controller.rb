@@ -9,6 +9,18 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+  def render500
+    render 500, json: {}
+  end
+
+  def render404
+    render 404, json: {}
+  end
+
+  def render402
+    render 402, json: {}
+  end
+
   def warden
     env['warden']
   end

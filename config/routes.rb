@@ -13,7 +13,9 @@ Mooclite::Application.routes.draw do
     resources :users, except: [:index] do
       get 'me', on: :collection
       resources :api_keys, only: [:index, :create, :destroy]
-      resources :courses
+      resources :courses do
+        resources :lectures
+      end
     end
     resources :sessions, only: [:create]
     post 'login' => 'sessions#create'

@@ -89,3 +89,5 @@ gem 'puma', '2.9.1'
 gem 'warden', '1.2.3'
 
 gem 'protected_attributes'
+
+gem 'base62', '1.0.0'

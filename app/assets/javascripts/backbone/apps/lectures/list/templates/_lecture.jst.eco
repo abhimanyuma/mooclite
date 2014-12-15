@@ -1,4 +1,4 @@
-<td><%= @lecture.no %>. <%= @lecture.name %></td>
+<td><%= @lecture_no %>. <%= @title %></td>
 <td >
 <div class="ui mini buttons">
   <div class="ui button delete-button">Delete ?</div>
