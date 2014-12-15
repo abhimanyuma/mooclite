@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   skip_before_filter  :verify_authenticity_token
-  before_filter :correct_authorized, :only => [:index,:show,:create]
+  before_filter :correct_authorized
   respond_to :json
 
 
@@ -25,7 +25,8 @@ class CoursesController < ApplicationController
   end
 
   def update
-    @course = Course.find(params[:id])
+    user = User.find(params[:user_id])
+    @course = user.courses.find(params[:id])
     if @course.update_attributes course_params
       render "courses/show"
     else
@@ -34,7 +35,8 @@ class CoursesController < ApplicationController
   end
 
   def destroy
-    course = Course.find(params[:id])
+    user = User.find(params[:user_id])
+    course = user.courses.find(params[:id])
     course.destroy()
     render json: {}
   end

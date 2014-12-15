@@ -1,23 +1,31 @@
 @Mooclite.module "CoursesApp.Edit", (Edit, App, Backbone, Marionette, $, _ ) ->
 
-  class Edit.Controller extends App.Controllers.Application 
+  class Edit.Controller extends App.Controllers.Application
 
     initialize: (options) ->
       {id, course} = options
 
-      course = App.request "course:entity", id unless course
-      
-      @listenTo course, "updated", ->
-        App.vent.trigger "course:updated", course
+      {course,id} = options
 
-      @layout = @getLayoutView course
+      id ?= course.id
 
-      @listenTo @layout, "show", =>
-        @titleRegion course
-        @formRegion course
+      App.redirectIfNotLoggedIn("/courses/#{id}/edit")
 
-      @show @layout,
-        loading:true
+      if App.currentUser && App.currentUser.id
+        course = App.request "course:entity", App.currentUser.id.$oid, id unless course
+
+
+        @listenTo course, "updated", ->
+          App.vent.trigger "course:updated", course
+
+        @layout = @getLayoutView course
+
+        @listenTo @layout, "show", =>
+          @titleRegion course
+          @formRegion course
+
+        @show @layout,
+          loading:true
 
     titleRegion: (course) ->
       titleView = @getTitleView course
@@ -37,9 +45,9 @@
 
       @listenTo editView, "bio:updated", =>
         @updateBio editView
-                
+
       formView = App.request "form:wrapper", editView
-      
+
       @show formView,
         region: @layout.formRegion
 
@@ -60,7 +68,7 @@
               course.unset "_errors"
               course.set "_errors", errors
           else
-            course.set "_errors", error 
+            course.set "_errors", error
       else
         if course.has("_errors")
           errors=course.get("_errors")
@@ -80,5 +88,5 @@
     getTitleView: (course) ->
       new Edit.Title
         model:course
-      
+
 

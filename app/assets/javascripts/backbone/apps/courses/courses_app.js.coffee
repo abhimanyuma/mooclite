@@ -59,13 +59,13 @@
 
   App.vent.on "course:updated", (course) ->
     toastr.success("Details of #{course.get('name')} was updated successfully","Course Updated")
-    App.navigate Routes.course_path(course.id)
+    App.navigate course.jsUrl()
     API.show course.id,course
 
   App.vent.on "course:delete", (course) ->
     if confirm "Do you really want to delete #{course.get('name')}?" then course.destroy() else false
     toastr.success("#{course.get('name')} was deleted successfully","Course Deleted")
-    App.navigate Routes.courses_path()
+    App.navigate "/courses"
     API.list()
 
   App.addInitializer ->
