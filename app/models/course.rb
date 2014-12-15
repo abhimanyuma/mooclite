@@ -24,6 +24,8 @@ class Course
 
   belongs_to :user
 
+  embeds_many :lectures
+
   def id_string
     return id.to_s
   end

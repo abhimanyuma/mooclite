@@ -1,0 +1,21 @@
+<h3>Lectures</h3>
+<table class="ui compact table">
+  <thead>
+    <tr>
+      <th>Lecture Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+  <tfoot class="full-width">
+    <tr>
+      <th></th>
+      <th colspan="4">
+        <div id="create-new-lecture" class="ui right floated small positive labeled icon button">
+          <i class="user icon"></i> Create New Lecture
+        </div>
+      </th>
+    </tr>
+  </tfoot>
+</table>

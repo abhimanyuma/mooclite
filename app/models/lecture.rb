@@ -15,7 +15,6 @@ class Lecture
   field :content, type: String
   field :date, type: String
   field :overview, type: String
-  field :course_id, type: BigDecimal
   field :lecture_no, type: BigDecimal
   field :video_file_name, type: String
   field :video_content_type, type: String
@@ -30,7 +29,7 @@ class Lecture
   field :processed_video_fingerprint, type: String
   field :process_status, type: String
 
-  belongs_to :course
+  embedded_in :course
 
   has_mongoid_attached_file :video
   validates_attachment_content_type :video, :content_type => ['video/mp4']
@@ -63,6 +62,20 @@ class Lecture
     new_submission[:id] = self.id
     new_submission[:status] = $process_statuses[:UNPROCESSED]
     $redis.rpush('process_queue',new_submission.to_json)
+  end
+
+  def as_json(options={})
+    reply = super(options.merge(
+        methods: [:id_string],
+        only: [:key, :secret]
+      ))
+    reply["id"] = reply["id_string"]
+    reply.delete("id_string")
+    reply
+  end
+
+  def id_string
+    return id.to_s
   end
 
 end

@@ -14,6 +14,9 @@
     jsUrl: ->
       "/courses/#{@id}"
 
+    setUpLectures:(callback) ->
+      App.request "create:lectures", @get("lectures"), @, callback
+
   class Entities.CoursesCollection extends Entities.Collection
     model:Entities.Course
     url: ->

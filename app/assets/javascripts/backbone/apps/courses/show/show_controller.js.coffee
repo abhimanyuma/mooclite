@@ -12,14 +12,12 @@
       if App.currentUser && App.currentUser.id
         course = App.request "course:entity", App.currentUser.id.$oid, id unless course
 
-        #lectures = App.request("lecture:entities",App.currentUser.id.$oid)
-
         @layout = @getLayoutView course
 
         @listenTo @layout, "show", =>
           @showTitleRegion course
           @showContentRegion course
-          #@showLectureListRegion lectures
+          @showLectureListRegion course
 
         @show @layout,
           loading:
@@ -37,6 +35,13 @@
         App.vent.trigger "edit:course:clicked", course
 
       @layout.contentRegion.show contentView
+
+    showLectureListRegion: (course) ->
+      region = @layout.lectureListRegion
+      onShow = (lectures) ->
+        App.execute "list:lectures", course,lectures,region
+
+      course.setUpLectures(onShow)
 
     getLayoutView: (course) ->
       new Show.Layout

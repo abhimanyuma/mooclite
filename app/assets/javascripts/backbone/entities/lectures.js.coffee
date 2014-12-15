@@ -67,6 +67,15 @@
         course_id: course_id
       lecture
 
+    createLectures: (data,course,cb) ->
+      course.lectures = new Entities.LecturesCollection(data)
+      course.lectures.course_id = course.id
+      for model in course.lectures.models
+        model.course_id = course.id
+        model.collection = course.lectures
+
+      cb(course.lectures)
+
   App.reqres.setHandler "lecture:entities", (course_id) ->
     API.getLectures(course_id)
 
@@ -75,3 +84,6 @@
 
   App.reqres.setHandler "new:lecture:entity",(course_id) ->
     API.newLecture(course_id)
+
+  App.reqres.setHandler "create:lectures", (data,course,cb) ->
+    API.createLectures(data,course,cb)

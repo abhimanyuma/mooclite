@@ -30,6 +30,12 @@
         course_id: course_id
         region: region
 
+    list: (course,lectures,region) ->
+      new LecturesApp.List.Controller
+        course:course
+        lecture:lectures
+        region:region
+
 
 
   App.vent.on "lecture:clicked", (course,lecture,region) ->
@@ -54,6 +60,9 @@
     toastr.info("Editing of #{lecture.get('title')} was cancelled", "Lecture not edited")
     App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
     API.show(course.id,lecture.get("lecture_no"),region)
+
+  App.commands.setHandler "list:lectures", (course,lectures,region) ->
+    API.list course,lectures,region
 
   App.addInitializer ->
     new LecturesApp.Router
