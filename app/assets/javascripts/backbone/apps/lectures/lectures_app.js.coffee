@@ -5,6 +5,7 @@
       "courses/:id/lectures/new" : "newLecture"
       "courses/:id/lectures/:id": "show"
       "courses/:id/lectures/:id/edit": "edit"
+      "courses/:id/lectures/:id/update_files": "updateFiles"
 
     before: ->
       App.vent.trigger "nav:choose", "Courses"
@@ -31,6 +32,17 @@
         lectures:lectures
         region:region
 
+    updateFiles: (course,lecture,preloaded) ->
+      if preloaded
+        new LecturesApp.UpdateFiles.Controller
+          course:course
+          lecture:lecture
+      else
+        new LecturesApp.UpdateFiles.Controller
+          course_id:course
+          lecture_id:lecture
+
+
 
 
   App.vent.on "lecture:clicked", (course_id,lecture_id) ->
@@ -54,6 +66,10 @@
   App.vent.on "lecture:edit:clicked", (course,lecture) ->
     App.navigate "courses/#{course.id}/lectures/#{lecture.id}/edit"
     API.edit course.id, lecture.id
+
+  App.vent.on "lecture:update:files:clicked", (course,lecture) ->
+    App.navigate "courses/#{course.id}/lectures/#{lecture.id}/update_files"
+    API.updateFiles course, lecture, true
 
   App.vent.on "lecture:updated", (course, lecture) ->
     toastr.success("Details of #{lecture.get('title')} was updated successfully","Lecture Updated")

@@ -1,8 +1,12 @@
 <div class="ui primary button right floated" id="edit-lecture-button">
   <i class="icon edit" ></i>
   Edit
-</div> 
-<h2 class="ui header"> 
+</div>
+<div class="ui blue button right floated" id="update-files-lecture-button">
+  <i class="content icon"></i>
+  Update Files
+</div>
+<h2 class="ui header">
 <%= @title %>
   <div class="sub header"><%= @overview %></div>
 </h2>

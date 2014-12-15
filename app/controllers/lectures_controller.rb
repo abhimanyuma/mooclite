@@ -1,7 +1,9 @@
 class LecturesController < ApplicationController
   skip_before_filter  :verify_authenticity_token
   before_filter :correct_authorized , except: [:show]
-  respond_to :json
+  respond_to :json, except: [:upload]
+  respond_to :html, only: [:upload]
+
 
   def index
     @lectures=Lecture.where(course_id: params[:course_id])
@@ -91,7 +93,31 @@ class LecturesController < ApplicationController
   end
 
   def upload
-    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
+
+    user = User.find(params[:user_id])
+
+    unless user
+      render402
+      return false
+    end
+
+    course = user.courses.find(params[:course_id])
+
+    unless course
+      render404
+      return false
+    end
+
+    @lecture = course.lectures.find(params[:id])
+
+    unless @lecture
+      render404
+      return false
+    end
+
+    @user = current_user
+
+    render "lectures/upload", layout: false
   end
 
   def upload_update

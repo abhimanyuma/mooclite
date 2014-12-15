@@ -29,6 +29,9 @@
       @listenTo titleView, "edit:lecture:button:clicked", ->
         App.vent.trigger "lecture:edit:clicked", course, lecture
 
+      @listenTo titleView, "update:files:lecture:button:clicked", ->
+        App.vent.trigger "lecture:update:files:clicked", course, lecture
+
       @show titleView,
         region: @layout.titleRegion
 

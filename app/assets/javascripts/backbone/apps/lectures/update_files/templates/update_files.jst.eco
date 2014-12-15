@@ -1,0 +1,25 @@
+<div class="ui grid"><div class="row">
+  <div class="twelve wide column">
+    <h2 class="ui header">
+      <i class="edit icon"></i>
+      <div class="content">
+      Update linked files of Lecture
+      <div class="sub header">Editing details of <%= @title %> </div>
+      </div>
+    </h2>
+  </div>
+</div></div>
+
+<div class="ui segment">
+
+Please note that if you were to change the file, and the MD5 fingerprint
+is to change, then it will force the whole resource to become unavailable
+for some time, while it is still being processed. Hence please use this with care
+
+</div>
+<div class="ui segment">
+<iframe src="/users/<%= App.currentUser.id.$oid %>/courses/<%= @course_id.$oid %>/lectures/<%= @id %>/upload" height="250px" width="400px" style="border:none; padding:5px; margin:auto;">
+
+</iframe>
+
+</div>

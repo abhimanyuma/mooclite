@@ -1,4 +1,16 @@
-<form id="lecture-upload-form" action=<%= "/courses/#{@lecture.course_id}/lectures/#{@lecture.lecture_no}/upload_update" %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <%= stylesheet_link_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+
+
+<form id="lecture-upload-form" action=<%= "/users/#{@user.id}/courses/#{@lecture.course_id.to_s}/lectures/#{@lecture.id.to_s}/upload_update" %>
       method="post" enctype="multipart/form-data" class="ui form segment">
   <div class="field">
     <label>Video</label>
@@ -18,3 +30,5 @@
   <button data-form-button="primary" class="ui positive button" type="submit">Update</button>
 </form>
 
+  </body>
+</html>

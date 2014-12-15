@@ -21,13 +21,15 @@ Mooclite::Application.routes.draw do
     post 'login' => 'sessions#create'
     delete 'logout' => 'sessions#destroy'
   end
-resources :courses, only: [] do
- resources :lectures, only: [] do
-    get 'upload', on: :member
-    post 'upload_update', on: :member
+
+resources :users, only: [] do
+  resources :courses, only: [] do
+   resources :lectures, only: [] do
+      get 'upload', on: :member
+      post 'upload_update', on: :member
+    end
   end
 end
-
   #resources :lectures, only: [:upload,:upload_update]
   #get "courses/:course_id/lectures/:id/upload" => "lectures#upload"
   #post "courses/:course_id/lectures/:id/upload_update" => "lectures#upload_update"

@@ -18,3 +18,4 @@
 
     triggers:
       "click #edit-lecture-button" : "edit:lecture:button:clicked"
+      "click #update-files-lecture-button" : "update:files:lecture:button:clicked"
