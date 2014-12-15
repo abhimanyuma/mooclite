@@ -1,11 +1,5 @@
 <div id="title-region"></div>
 <div class="ui segment">
-<div class="ui grid"><div class="row">
-  <div class="four wide column">
-    <div id="menu-region"></div>
-  </div>
-  <div class="twelve wide column">
-     <div id="content-layout-region"></div>
-  </div>
-</div></div>
+  <div id="content-region"></div>
+  <div id="lecture-list-region"></div>
 </div>

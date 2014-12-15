@@ -1,5 +1,0 @@
-<div class="ui vertical pointing secondary menu">
-  <a class="active item" id="home"> Course Home </a>
-  <div id="menu-list"></div>
-</div>
-<button class="ui secondary button new-lecture"><i class="plus icon"></i>Add lecture</button>

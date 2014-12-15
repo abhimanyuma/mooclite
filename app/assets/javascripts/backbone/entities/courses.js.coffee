@@ -9,6 +9,8 @@
       else if @collection && @collection.user_id
         user_id = @get("user_id")
 
+      Routes.user_courses_path(user_id)
+
     jsUrl: ->
       "/courses/#{@id}"
 

@@ -44,7 +44,7 @@
     API.show course.id
 
   App.vent.on "edit:course:clicked", (course) ->
-    App.navigate Routes.edit_course_path(course.id)
+    App.navigate "#{course.jsUrl()}/edit"
     API.edit course.id,course
 
   App.vent.on "course:created", (course) ->

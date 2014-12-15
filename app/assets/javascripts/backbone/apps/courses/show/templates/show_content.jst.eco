@@ -1,3 +1,10 @@
+<div>
+<div class="ui blue button right floated" id="edit-course-button">
+  <i class="icon edit" ></i>
+  Edit
+</div>
+<h2> About the course</h2>
+
 <p>
 <% if @description: %>
   <%=  @description %>
@@ -5,3 +12,4 @@
 <em> Course description has not been added yet </em>
 <% end %>
 </p>
+</div>
