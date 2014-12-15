@@ -6,7 +6,6 @@
     regions:
       titleRegion: "#title-region"
       formRegion:  "#form-region"
-      modalRegion: "#modal-region"
 
   class Edit.Form extends App.Views.ItemView
 

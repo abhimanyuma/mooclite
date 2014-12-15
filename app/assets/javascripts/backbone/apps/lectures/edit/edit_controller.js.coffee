@@ -23,7 +23,6 @@
         @listenTo @layout, "show", =>
           @titleRegion lecture
           @formRegion  lecture, course
-          @modalRegion lecture
 
         @show @layout,
           loading: true

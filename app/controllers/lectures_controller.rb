@@ -104,13 +104,28 @@ class LecturesController < ApplicationController
       render "lectures/upload"
     end
   end
-  # def update
-  #   respond_with User.update(params[:id],user_params)
-  # end
 
-  # def destroy
-  #   respond_with User.destroy(params[:id])
-  # end
+
+  def destroy
+    user = User.find(params[:user_id])
+
+    unless user
+      render402
+      return false
+    end
+
+    course = user.courses.find(params[:course_id])
+
+    unless course
+      render404
+      return false
+    end
+
+    @lecture = course.lectures.find(params[:id])
+
+    respond_with @lecture.destroy()
+
+  end
 
 private
 

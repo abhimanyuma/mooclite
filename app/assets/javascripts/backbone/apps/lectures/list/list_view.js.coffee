@@ -11,8 +11,28 @@
     className: "item"
 
     triggers:
-      "click" : "lecture:clicked"
+      "click .lecture-name" : "lecture:clicked"
+      "click .delete-button" : "delete:lecture:button:clicked"
+      "click .delete-confirmation" : "delete:lecture:confirmation:clicked"
+      "click .delete-cancellation" : "delete:lecture:cancellation:clicked"
 
+    showConfirmationButtons: ->
+      @$(".delete-button").hide()
+      @$(".delete-confirmation").show()
+      @$(".delete-cancellation").show()
+
+    hideConfirmationButtons: ->
+      @$(".delete-confirmation").hide()
+      @$(".delete-cancellation").hide()
+      @$(".delete-button").show()
+
+    showLoadingDelete: ->
+      @hideConfirmationButtons()
+      @$(".delete-button").addClass("loading disabled")
+
+    stopLoadingDelete: ->
+      @hideConfirmationButtons()
+      @$(".delete-button").removeClass("loading disabled")
 
   class List.Lectures extends App.Views.CompositeView
     template: "lectures/list/_lectures"

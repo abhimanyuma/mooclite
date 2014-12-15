@@ -1,5 +1,5 @@
-<td><%= @lecture_no %>. <%= @title %></td>
-<td >
+<td class="lecture-name"><%= @lecture_no %>. <%= @title %></td>
+<td>
 <div class="ui mini buttons">
   <div class="ui button delete-button">Delete ?</div>
   <div class="ui red button delete-confirmation" style="display:none;">Yes</div>

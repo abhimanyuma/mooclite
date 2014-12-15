@@ -14,6 +14,11 @@
     urlRoot:  ->
       Routes.user_course_lectures_path(App.currentUser.id.$oid,@course_id)
 
+    doDelete:(options) ->
+      @destroy
+        success: options.successcb
+        error: options.errorcb
+
 
   class Entities.LecturesCollection extends Entities.Collection
     model: Entities.Lecture
