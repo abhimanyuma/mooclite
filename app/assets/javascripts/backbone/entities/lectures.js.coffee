@@ -3,7 +3,7 @@
   class Entities.Lecture extends Entities.Model
 
     initialize: (options) ->
-      {course_id,lecture_no} = options
+      {course_id,id} = options
 
       if @collection and @collection.course_id
         @course_id = @collection.course_id
@@ -36,7 +36,7 @@
     getLecture: (course_id,id) ->
       lecture = new Entities.Lecture
         course_id: course_id
-        lecture_no: id
+        id: id
       lecture.fetch()
       lecture
 

@@ -6,24 +6,28 @@
 
       {course_id,lecture_id} = options
 
-      course = App.request "course:entity", course_id
+      App.redirectIfNotLoggedIn("/courses/#{course_id}/lectures/#{lecture_id}")
 
-      lecture = App.request "lecture:entity", course_id, lecture_id
+      if App.currentUser && App.currentUser.id
 
-      @layout = @getLayoutView lecture
+        course = App.request "course:entity", App.currentUser.id.$oid, course_id
+        lecture = App.request "lecture:entity", course_id, lecture_id
 
-      @listenTo @layout, "show", =>
-        @titleRegion course, lecture
-        @contentRegion lecture
+        @layout = @getLayoutView lecture
 
-      @show @layout,
-        loading: true
+        @listenTo @layout, "show", =>
+          @titleRegion course, lecture
+          @contentRegion lecture
+
+        @show @layout,
+          loading:
+            entities: [course,lecture]
 
     titleRegion: (course, lecture) ->
       titleView = @getTitleView lecture
 
       @listenTo titleView, "edit:lecture:button:clicked", ->
-        App.vent.trigger "lecture:edit:clicked", course, lecture, @region
+        App.vent.trigger "lecture:edit:clicked", course, lecture
 
       @show titleView,
         region: @layout.titleRegion
@@ -33,8 +37,6 @@
 
       @show contentView,
         region: @layout.contentRegion
-
-      @listenTo contentView, "show", ->
 
 
     getTitleView:(lecture) ->

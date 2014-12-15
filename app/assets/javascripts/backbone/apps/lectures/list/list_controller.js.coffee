@@ -11,6 +11,9 @@
       @listenTo listView, "new:lecture:button:clicked", (element) ->
         App.vent.trigger "new:lecture:clicked", App.currentUser, course
 
+      @listenTo listView, "childview:lecture:clicked", (element) ->
+        App.vent.trigger "lecture:clicked", course.id, element.model.id
+
       @show listView
 
 

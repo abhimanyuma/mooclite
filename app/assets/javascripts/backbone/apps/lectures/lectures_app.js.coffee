@@ -16,11 +16,9 @@
         lecture_id:lecture_id
 
     edit: (course_id,lecture_id,region) ->
-      return App.execute "course:show", course_id,lecture_id,"editLecture" if not region
       new LecturesApp.Edit.Controller
         course_id:course_id
         lecture_id:lecture_id
-        region:region
 
     newLecture: (course_id,course) ->
       new LecturesApp.New.Controller
@@ -35,10 +33,10 @@
 
 
 
-  App.vent.on "lecture:clicked", (course,lecture,region) ->
+  App.vent.on "lecture:clicked", (course_id,lecture_id) ->
     # Not using Routes because it doesn't support nesting
-    App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
-    API.show(course.id,lecture.get("lecture_no"),region)
+    App.navigate "courses/#{course_id}/lectures/#{lecture_id}"
+    API.show(course_id,lecture_id)
 
   App.vent.on "new:lecture:clicked", (user,course) ->
     App.navigate "courses/#{course.id}/lectures/new"
@@ -53,9 +51,9 @@
     App.navigate "courses/#{course.id}/lecture/#{lecture.id}"
     API.show(course.id,lecture.id)
 
-  App.vent.on "lecture:edit:clicked", (course,lecture,region) ->
-    App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}/edit"
-    API.edit course.id, lecture.get("lecture_no"), region
+  App.vent.on "lecture:edit:clicked", (course,lecture) ->
+    App.navigate "courses/#{course.id}/lectures/#{lecture.id}/edit"
+    API.edit course.id, lecture.id
 
   App.vent.on "lecture:updated", (course, lecture, region) ->
     toastr.success("Details of #{lecture.get('title')} was updated successfully","Lecture Updated")

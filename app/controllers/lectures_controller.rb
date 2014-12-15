@@ -8,7 +8,36 @@ class LecturesController < ApplicationController
   end
 
   def show
-    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
+    if params[:course_id]
+      unless current_user && (current_user.id.to_s == params[:user_id])
+        render status: 401, json: {}
+        return false
+      end
+
+      user = User.find(params[:user_id])
+
+      unless user
+        render402
+        return false
+      end
+
+      course = user.courses.find(params[:course_id])
+
+      unless course
+        render404
+        return false
+      end
+
+      @lecture = course.lectures.find(params[:id])
+
+      unless @lecture
+        render404
+        return false
+      end
+    else
+      render400
+    end
+
   end
 
   def create
