@@ -1,6 +1,7 @@
 @Mooclite.module "LecturesApp.List", (List, App, Backbone, Marionette, $, _ ) ->
 
   class List.Empty extends App.Views.ItemView
+    tagName: "tr"
     template: "lectures/list/_empty"
 
   class List.Lecture extends App.Views.ItemView

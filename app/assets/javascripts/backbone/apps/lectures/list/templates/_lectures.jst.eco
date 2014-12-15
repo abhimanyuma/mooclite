@@ -1,5 +1,5 @@
 <h3>Lectures</h3>
-<table class="ui compact table">
+<table class="ui table">
   <thead>
     <tr>
       <th>Lecture Name</th>
@@ -13,7 +13,7 @@
       <th></th>
       <th colspan="4">
         <div id="create-new-lecture" class="ui right floated small positive labeled icon button">
-          <i class="user icon"></i> Create New Lecture
+          <i class="browser icon"></i> Create New Lecture
         </div>
       </th>
     </tr>
