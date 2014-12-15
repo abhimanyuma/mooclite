@@ -4,7 +4,7 @@
       <i class="edit icon"></i>
       <div class="content">
       Edit Lecture Details
-      <div class="sub header">Editing details of <%= @lecture %> </div>
+      <div class="sub header">Editing details of <%= @title %> </div>
       </div>
     </h2>
   </div>

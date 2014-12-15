@@ -23,11 +23,3 @@
 
     modelEvents:
       "updated":"render"
-
-  class Edit.Modal extends App.Views.ItemView
-    template: "lectures/shared/modal"
-
-    className: "ui segment"
-
-    triggers:
-      "click a": "show:modal:clicked"

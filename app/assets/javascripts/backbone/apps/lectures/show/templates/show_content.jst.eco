@@ -1,8 +1,2 @@
-<h3> Video </h3>
-<video id="lecture-video" class="video-js vjs-default-skin"
-  controls preload="auto" width="720" height="360"
- <source src="<%= @video_url%>" type='video/mp4' />
-</video>
-
 <h3> Content </h3>
 <%= @content %>

@@ -55,15 +55,15 @@
     App.navigate "courses/#{course.id}/lectures/#{lecture.id}/edit"
     API.edit course.id, lecture.id
 
-  App.vent.on "lecture:updated", (course, lecture, region) ->
+  App.vent.on "lecture:updated", (course, lecture) ->
     toastr.success("Details of #{lecture.get('title')} was updated successfully","Lecture Updated")
-    App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
-    API.show(course.id,lecture.get("lecture_no"),region)
+    App.navigate "courses/#{course.id}/lectures/#{lecture.id}"
+    API.show(course.id,lecture.id)
 
-  App.vent.on "lecture:cancelled", (course, lecture, region) ->
+  App.vent.on "lecture:cancelled", (course, lecture) ->
     toastr.info("Editing of #{lecture.get('title')} was cancelled", "Lecture not edited")
-    App.navigate "courses/#{course.id}/lectures/#{lecture.get("lecture_no")}"
-    API.show(course.id,lecture.get("lecture_no"),region)
+    App.navigate "courses/#{course.id}/lectures/#{lecture.id}"
+    API.show(course.id,lecture.id)
 
   App.commands.setHandler "list:lectures", (course,lectures,region) ->
     API.list course,lectures,region

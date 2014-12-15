@@ -6,23 +6,27 @@
 
       {course_id,lecture_id} = options
 
-      course = App.request "course:entity", course_id
 
-      lecture = App.request "lecture:entity", course_id, lecture_id
+      App.redirectIfNotLoggedIn("/courses/#{course_id}/lectures/#{lecture_id}/edit")
 
-      @listenTo lecture, "updated", ->
-        App.vent.trigger "lecture:updated", course, lecture, @region
+      if App.currentUser && App.currentUser.id
 
+        course = App.request "course:entity", App.currentUser.id.$oid, course_id
 
-      @layout = @getLayoutView lecture
+        lecture = App.request "lecture:entity", course_id, lecture_id
 
-      @listenTo @layout, "show", =>
-        @titleRegion lecture
-        @formRegion  lecture, course
-        @modalRegion lecture
+        @listenTo lecture, "updated", ->
+          App.vent.trigger "lecture:updated", course, lecture
 
-      @show @layout,
-        loading: true
+        @layout = @getLayoutView lecture
+
+        @listenTo @layout, "show", =>
+          @titleRegion lecture
+          @formRegion  lecture, course
+          @modalRegion lecture
+
+        @show @layout,
+          loading: true
 
 
     titleRegion: (lecture) ->
@@ -35,7 +39,7 @@
       editView = @getEditView lecture
 
       @listenTo editView, "form:cancel", ->
-        App.vent.trigger "lecture:cancelled", course, lecture, @region
+        App.vent.trigger "lecture:cancelled", course, lecture
 
       @listenTo editView, "overview:updated", =>
         @updateOverview editView
@@ -46,19 +50,6 @@
         region: @layout.formRegion
 
       editView.trigger "overview:updated", lecture
-
-    modalRegion: (lecture) ->
-      modalView = @getModalRegion lecture
-
-      @listenTo modalView, "show:modal:clicked", =>
-        @showModal modalView
-
-      @show modalView,
-        region: @layout.modalRegion
-
-    getModalRegion: (lecture) ->
-      new Edit.Modal
-        model: lecture
 
     getTitleView:(lecture) ->
       new Edit.Title
@@ -73,15 +64,6 @@
     getLayoutView:(lecture) ->
       new Edit.Layout
         model:lecture
-
-    showModal: (modalView) ->
-      modalView.$('#upload-iframe').iframeHeight(
-        minimumHeight: 100
-        );
-      modalView.$el.css("min-height","350px")
-
-      modalView.$('#upload-form-modal').modal('show')
-
 
     updateOverview: (view) ->
       lecture = view.model

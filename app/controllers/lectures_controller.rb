@@ -60,11 +60,33 @@ class LecturesController < ApplicationController
   end
 
   def update
-    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
+
+    user = User.find(params[:user_id])
+
+    unless user
+      render402
+      return false
+    end
+
+    course = user.courses.find(params[:course_id])
+
+    unless course
+      render404
+      return false
+    end
+
+    @lecture = course.lectures.find(params[:id])
+
+    unless @lecture
+      render404
+      return false
+    end
+
+
     if @lecture.update_attributes lecture_params
       render "lectures/show"
     else
-      respond_with @lecture
+      render500
     end
   end
 
