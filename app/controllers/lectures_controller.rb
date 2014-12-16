@@ -146,11 +146,11 @@ class LecturesController < ApplicationController
     @user = current_user
 
     if @lecture.update_attributes upload_params
-      flash[:success] = "Model updated"
-      render "lectures/upload"
+      @status = "Success"
+      render "lectures/upload",  layout: false
     else
-      flash[:error] = "Contains errors"
-      render "lectures/upload"
+      @status = "Failed"
+      render "lectures/upload",  layout: false
     end
   end
 
@@ -192,7 +192,11 @@ private
   end
 
   def upload_params
-    params.require(:lecture).permit(:video,:slide)
+    begin
+      params.require(:lecture).permit(:video,:slide)
+    rescue
+      {}
+    end
   end
 
 end

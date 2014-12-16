@@ -6,10 +6,11 @@
 
       {course,lecture,course_id,lecture_id} = options
       course_id ?= course.id
-      lecture_id ?= lecture_id
+      lecture_id ?= lecture.id
 
 
       App.redirectIfNotLoggedIn("/courses/#{course_id}/lectures/#{lecture_id}/update_files")
+
 
       if App.currentUser && App.currentUser.id
 
@@ -26,7 +27,21 @@
           upload_iframe = $("iframe#lecture-upload-iframe").contents().find("#lecture-upload-form")
           upload_iframe.submit()
 
-          window.upload_form = $("#lecture-upload-form")
+        @listenTo @view, "show", ->
+          $("#lecture-upload-iframe").load () ->
+
+            iframeBody = $('#lecture-upload-iframe').contents().find("body")
+            iframeHeight = iframeBody.prop("scrollHeight")
+            iframeWidth = iframeBody.prop("scrollWidth")
+            $("#lecture-upload-iframe").height(iframeHeight+10)
+            $("#lecture-upload-iframe").width(iframeWidth+10)
+
+            lectureMessage = $('#lecture-upload-iframe').contents().find(".lecture-upload-message").html()
+
+            if lectureMessage == "Success"
+              App.vent.trigger "lecture:update:files:success", course_id, lecture
+            else if lectureMessage == "Failed"
+              toastr.error("File uploading failed","Upload failed")
 
         @show @view,
           loading:

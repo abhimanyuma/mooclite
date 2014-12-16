@@ -13,16 +13,17 @@
 <form id="lecture-upload-form" action=<%= "/users/#{@user.id}/courses/#{@lecture.course_id.to_s}/lectures/#{@lecture.id.to_s}/upload_update" %>
       method="post" enctype="multipart/form-data" class="ui form segment">
   <div class="field">
-    <label>Video</label>
+    <div class="flash lecture-upload-message" style="display:none;"><%= @status %></div>
+    <label>Video: Current File - <%= @lecture.video_file_name %></label>
     <div class="ui left labeled input">
-      <input id="lecture_video" name="lecture[video]" type="file">
+      <input id="lecture_video" name="lecture[video]" type="file" accept="video/*">
     </div>
   </div>
 
   <div class="field">
-    <label>Slide</label>
+    <label>Slide: Current File - <%= @lecture.slide_file_name %></label>
     <div class="ui left labeled input">
-      <input id="lecture_slide" name="lecture[slide]" type="file">
+      <input id="lecture_slide" name="lecture[slide]" type="file" accept="application/pdf" >
     </div>
   </div>
   <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />

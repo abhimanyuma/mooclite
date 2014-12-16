@@ -19,7 +19,7 @@ for some time, while it is still being processed. Hence please use this with car
 </div>
 <div class="ui segment">
 <div class="row">
-<iframe id="lecture-upload-iframe" src="/users/<%= App.currentUser.id.$oid %>/courses/<%= @course_id.$oid %>/lectures/<%= @id %>/upload" height="188px" width="400px" style="border:none; padding:5px; margin:auto;">
+<iframe id="lecture-upload-iframe" src="/users/<%= App.currentUser.id.$oid %>/courses/<%= @course_id.$oid %>/lectures/<%= @id %>/upload" style="border:none; padding:5px; margin:auto;">
 
 </iframe>
 </div>
@@ -28,10 +28,3 @@ for some time, while it is still being processed. Hence please use this with car
 <button data-form-button="primary" class="ui positive button submit-update-files" type="button">Update</button>
 </div>
 </div>
-
-<script>
-$(function(){
-  $("#lecture-upload-iframe").load(function(){
-    App.vent.trigger "lecture:upload:iframe:reloaded"
-  });
-});
