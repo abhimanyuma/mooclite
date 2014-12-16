@@ -121,7 +121,30 @@ class LecturesController < ApplicationController
   end
 
   def upload_update
-    @lecture=Lecture.where(course_id:params[:course_id]).where(lecture_no: params[:id]).first
+
+    user = User.find(params[:user_id])
+
+    unless user
+      render402
+      return false
+    end
+
+    course = user.courses.find(params[:course_id])
+
+    unless course
+      render404
+      return false
+    end
+
+    @lecture = course.lectures.find(params[:id])
+
+    unless @lecture
+      render404
+      return false
+    end
+
+    @user = current_user
+
     if @lecture.update_attributes upload_params
       flash[:success] = "Model updated"
       render "lectures/upload"

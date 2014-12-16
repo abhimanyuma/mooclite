@@ -19,6 +19,15 @@
 
         @view = @getUpdateView lecture
 
+        @listenTo @view, "cancel:update:file:button:clicked", ->
+          App.vent.trigger "lecture:update:files:cancelled", course_id, lecture
+
+        @listenTo @view, "submit:update:file:button:clicked", ->
+          upload_iframe = $("iframe#lecture-upload-iframe").contents().find("#lecture-upload-form")
+          upload_iframe.submit()
+
+          window.upload_form = $("#lecture-upload-form")
+
         @show @view,
           loading:
             entities: [lecture]

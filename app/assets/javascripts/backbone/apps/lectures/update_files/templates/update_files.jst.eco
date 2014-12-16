@@ -18,8 +18,20 @@ for some time, while it is still being processed. Hence please use this with car
 
 </div>
 <div class="ui segment">
-<iframe src="/users/<%= App.currentUser.id.$oid %>/courses/<%= @course_id.$oid %>/lectures/<%= @id %>/upload" height="250px" width="400px" style="border:none; padding:5px; margin:auto;">
+<div class="row">
+<iframe id="lecture-upload-iframe" src="/users/<%= App.currentUser.id.$oid %>/courses/<%= @course_id.$oid %>/lectures/<%= @id %>/upload" height="188px" width="400px" style="border:none; padding:5px; margin:auto;">
 
 </iframe>
-
 </div>
+<div class="row">
+<button data-form-button="cancel" class="ui negative button cancel-update-files" type="button">Cancel</button>
+<button data-form-button="primary" class="ui positive button submit-update-files" type="button">Update</button>
+</div>
+</div>
+
+<script>
+$(function(){
+  $("#lecture-upload-iframe").load(function(){
+    App.vent.trigger "lecture:upload:iframe:reloaded"
+  });
+});

@@ -81,6 +81,11 @@
     App.navigate "courses/#{course.id}/lectures/#{lecture.id}"
     API.show(course.id,lecture.id)
 
+  App.vent.on "lecture:update:files:cancelled", (course_id,lecture) ->
+    toastr.info("Updating files  of #{lecture.get('title')} was cancelled", "Lecture files not updated")
+    App.navigate "courses/#{course_id}/lectures/#{lecture.id}"
+    API.show(course_id,lecture.id)
+
   App.commands.setHandler "list:lectures", (course,lectures,region) ->
     API.list course,lectures,region
 
