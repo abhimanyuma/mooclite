@@ -35,7 +35,6 @@ module LecturesHelper
 
     DEFAULT_VIDEO_ONLY_OPTIONS = "-vcodec copy -an"
 
-    EXTRACT_FRAMES_OPTIONS = "-vf 'select=eq(pict_type\,I),showinfo' -vsync 0"
   end
 
   module FULL_AUDIO
@@ -67,6 +66,10 @@ module LecturesHelper
       "libopus" => "opus",
       "libmp3lame" => "mp3"
     }
+  end
+
+  module EXTRACT_FRAMES
+    OPTIONS = "-vf 'select=eq(pict_type\\,I),showinfo' -vsync 0"
   end
 
   def add_short_code
@@ -269,6 +272,45 @@ module LecturesHelper
 
   end
 
+  def extract_frames
+
+    lecture_video = FFMPEG::Movie.new(self.video.path)
+    #Return if the video is invalid
+    return nil unless lecture_video.valid?
+
+    base_dir = File.join(lecture_video.path.split("/")[0..-3])
+    curr_dir = File.join(base_dir,"current")
+
+
+    begin
+      Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
+    rescue
+      return nil
+    end
+
+
+    if File.directory?(curr_dir) && File.writable?(curr_dir)
+
+        video_options = EXTRACT_FRAMES::OPTIONS
+        frames_dir = File.join(curr_dir,"frames")
+        begin
+          Dir.mkdir(frames_dir) unless File.directory?(frames_dir)
+        rescue
+          return nil
+        end
+        file_name = "frames/frame-%05d.png"
+        print "Extracting I frame from video"
+        file_path = File.join(curr_dir,file_name)
+
+        transcoder_options = { validate: false }
+        transcoder = FFMPEG::Transcoder.new(lecture_video,file_path,video_options, transcoder_options)
+        transcoder.run
+        output =  transcoder.instance_variable_get(:@output)
+
+    end
+
+
+  end
 
   def formatize
     full_video
