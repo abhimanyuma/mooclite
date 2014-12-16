@@ -1,0 +1,1 @@
+FFMPEG.ffmpeg_binary = 'avconv'

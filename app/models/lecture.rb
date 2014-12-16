@@ -26,6 +26,7 @@ class Lecture
   field :slide_fingerprint, type: String
   field :processed_video_fingerprint, type: String
   field :process_status, type: String
+  field :strategies, type: Hash
 
   belongs_to :course
 
