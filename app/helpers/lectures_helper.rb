@@ -272,7 +272,7 @@ module LecturesHelper
 
   end
 
-  def extract_frames
+  def extract_video_frames
 
     lecture_video = FFMPEG::Movie.new(self.video.path)
     #Return if the video is invalid
@@ -298,7 +298,7 @@ module LecturesHelper
         rescue
           return nil
         end
-        file_name = "frames/frame-%05d.png"
+        file_name = "frames/frame-%04d.png"
         print "Extracting I frame from video"
         file_path = File.join(curr_dir,file_name)
 
@@ -306,6 +306,13 @@ module LecturesHelper
         transcoder = FFMPEG::Transcoder.new(lecture_video,file_path,video_options, transcoder_options)
         transcoder.run
         output =  transcoder.instance_variable_get(:@output)
+        frame_timings = output.scan(/n:(?<frame>\d+)\spts:\d+\spts_time:(?<time>\d+\.\d+)/)
+        self[:Iframe_timings] = {}
+        frame_timings.each do |entry|
+          self[:Iframe_timings][entry[0].rjust(4,"0")] = entry[1]
+        end
+        self.save
+
 
     end
 
