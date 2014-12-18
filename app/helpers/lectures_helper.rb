@@ -330,6 +330,49 @@ module LecturesHelper
 
   end
 
+  def extract_slide_frames
+
+    return nil unless self[:compressed_file_path]
+
+    if (self.slide_fingerprint == self[:extract_slide_fingerprint]) &&
+       (self.process_status != STATUS::FORCE)
+       return nil
+    end
+
+    require 'RMagick'
+    slide_path = File.join( Rails.root.to_s,"public",self[:compressed_file_path])
+    slides = Magick::Image.read(slide_path)
+
+    base_dir = File.join(self.video.path.split("/")[0..-3])
+    curr_dir = File.join(base_dir,"current")
+
+    begin
+      Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
+    rescue
+      return nil
+    end
+
+    if File.directory?(curr_dir) && File.writable?(curr_dir)
+      slides_dir = File.join(curr_dir,"slides")
+
+      begin
+        Dir.mkdir(slides_dir) unless File.directory?(slides_dir)
+      rescue
+        return nil
+      end
+
+      slides.each_with_index do |slide,index|
+        file_name = "slide-#{index.to_s.rjust(4,"0")}.png"
+        final_path = File.join(slides_dir, file_name)
+        slide.write(final_path)
+      end
+
+      self[:extract_slide_fingerprint] = self.slide_fingerprint
+      self.save
+    end
+
+  end
+
   def optimize_pdf
     base_dir = File.join(self.video.path.split("/")[0..-3])
     curr_dir = File.join(base_dir,"current")
@@ -376,6 +419,8 @@ module LecturesHelper
     self[:optimize_pdf_fingerprint] = self.slide_fingerprint
     self.save
   end
+
+
 
   def formatize
     full_video
