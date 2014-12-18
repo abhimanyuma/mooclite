@@ -19,6 +19,7 @@ module LecturesHelper
     SILENT_VERTICAL = [480,360]
   end
 
+
   module FULL_VIDEO
     DEFAULT_VIDEO_OPTIONS = {
       :video_codec        => "libx264",
@@ -91,6 +92,12 @@ module LecturesHelper
     end
   end
 
+  def get_proper_path(absolute_path)
+    file_path = Pathname.new(absolute_path)
+    public_root = Pathname.new(File.join(Rails.root.to_s,"public"))
+    relative_path = file_path.relative_path_from(public_root)
+    relative_path.to_s
+  end
 
   def full_video_individual (lecture_video,resolution,dir)
 
@@ -315,8 +322,45 @@ module LecturesHelper
 
 
     end
+  end
 
+  def optimize_pdf
+    base_dir = File.join(self.video.path.split("/")[0..-3])
+    curr_dir = File.join(base_dir,"current")
 
+    begin
+      Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
+    rescue
+      return nil
+    end
+
+    #copy the slide
+    unprocessed_file_name = "uncompressed.pdf"
+    unprocessed_file_path = File.join(curr_dir,unprocessed_file_name)
+    begin
+      FileUtils.cp(self.slide.path,unprocessed_file_path)
+    rescue
+      return nil
+    end
+    self[:unprocessed_file_path] = get_proper_path unprocessed_file_path
+    #Print for screen not print
+    screen_pdf_file_name = "screen.pdf"
+    screen_pdf_file_path = File.join(curr_dir,screen_pdf_file_name)
+    self[:screen_pdf_file_path] = get_proper_path screen_pdf_file_path
+    begin
+      system("gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -sOutputFile=#{screen_pdf_file_path} #{unprocessed_file_path}")
+    rescue
+      return nil
+    end
+    #Compress the PDF file
+    compressed_file_name = "compressed.pdf"
+    compressed_file_path = File.join(curr_dir,compressed_file_name)
+    begin
+      system("pdftk #{screen_pdf_file_path} output #{compressed_file_path} compress")
+    rescue
+      return nil
+    end
+    self[:compressed_file_path] = get_proper_path compressed_file_path
   end
 
   def formatize
