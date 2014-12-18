@@ -144,8 +144,8 @@ module LecturesHelper
         self.strategies[key][:browser] = [9,4,4,4]
         self.strategies[key][:score] = resolution/10
         self.strategies[key][:bandwidth] = transcoded_video.size/transcoded_video.duration
-        self.strategies[key][:video_url] = file_path
-        self.strategies[key][:slide_url] = self.slide.path
+        self.strategies[key][:video_url] = get_proper_path file_path
+        self.strategies[key][:slide_url] = self.strategies[:compressed_file_path]
         self.strategies[key][:status] = STATUS::COMPLETED
         self.save
 
@@ -196,7 +196,7 @@ module LecturesHelper
         self.strategies[key][:browser] = [9,4,4,4]
         self.strategies[key][:score] = 10
         self.strategies[key][:bandwidth] = transcoded_audio.size/transcoded_audio.duration
-        self.strategies[key][:audio_url] = file_path
+        self.strategies[key][:audio_url] = get_proper_path file_path
         self.strategies[key][:status] = STATUS::COMPLETED
         self.save
 
@@ -288,6 +288,10 @@ module LecturesHelper
     base_dir = File.join(lecture_video.path.split("/")[0..-3])
     curr_dir = File.join(base_dir,"current")
 
+    if (self.video_fingerprint == self[:extract_frame_fingerprint]) &&
+       (self.process_status != STATUS::FORCE)
+       return nil
+    end
 
     begin
       Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
@@ -318,15 +322,23 @@ module LecturesHelper
         frame_timings.each do |entry|
           self[:Iframe_timings][entry[0].rjust(4,"0")] = entry[1]
         end
+        self[:extract_frame_fingerprint] = self.video_fingerprint
         self.save
 
 
     end
+
   end
 
   def optimize_pdf
     base_dir = File.join(self.video.path.split("/")[0..-3])
     curr_dir = File.join(base_dir,"current")
+
+    if (self.slide_fingerprint == self[:optimize_pdf_fingerprint]) &&
+       (self.process_status != STATUS::FORCE)
+       return nil
+    end
+
 
     begin
       Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
@@ -361,6 +373,8 @@ module LecturesHelper
       return nil
     end
     self[:compressed_file_path] = get_proper_path compressed_file_path
+    self[:optimize_pdf_fingerprint] = self.slide_fingerprint
+    self.save
   end
 
   def formatize
