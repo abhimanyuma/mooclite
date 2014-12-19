@@ -73,6 +73,9 @@ module LecturesHelper
     OPTIONS = "-vf 'select=eq(pict_type\\,I),showinfo' -vsync 0"
   end
 
+  module MATCHER
+    EXECUTABLE= "/home/manyu/college/matcher/matcher.py"
+  end
   def add_short_code
 
     begin
@@ -420,7 +423,48 @@ module LecturesHelper
     self.save
   end
 
+  def match_frames
 
+    def get_number (file_string)
+      file_string.split("/")[-1].split(".")[0].split("-")[-1].to_i
+    end
+
+    base_dir = File.join(self.video.path.split("/")[0..-3])
+    curr_dir = File.join(base_dir,"current")
+
+    if File.directory?(curr_dir) && File.writable?(curr_dir)
+      slides_dir = File.join(curr_dir,"slides")
+      slides_pattern = File.join(slides_dir,"*.png")
+      slides_count = Dir.glob(slides_pattern).select.count
+
+      frames_dir = File.join(curr_dir,"frames")
+      frames_pattern = File.join(frames_dir,"*.png")
+      frames_count = Dir.glob(frames_pattern).select.count
+
+      require 'matrix'
+      flann_matrix =  Matrix.build(frames_count+2,slides_count+2){|x,y| 0}
+
+      Dir.glob(frames_pattern).each do |frame_file|
+        frame_number = get_number(frame_file)
+        Dir.glob(slides_pattern).each do |slide_file|
+          slide_number = get_number(slide_file)
+          puts "Comparing Frame\##{frame_number} with Slide\##{slide_number}"
+          puts "#{MATCHER::EXECUTABLE} #{slide_file} #{frame_file}"
+        end
+      end
+
+      #Parse to get total files
+
+    end
+
+  end
+
+  def slide_timings
+    optimize_pdf
+    extract_slide_frames
+    extract_video_frames
+    match_frames
+  end
 
   def formatize
     full_video
