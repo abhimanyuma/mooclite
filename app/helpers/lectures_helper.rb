@@ -75,6 +75,7 @@ module LecturesHelper
 
   module MATCHER
     EXECUTABLE= "/home/manyu/college/matcher/matcher.py"
+    TRESHOLD = 15
   end
   def add_short_code
 
@@ -441,22 +442,88 @@ module LecturesHelper
       frames_pattern = File.join(frames_dir,"*.png")
       frames_count = Dir.glob(frames_pattern).select.count
 
-      require 'matrix'
-      flann_matrix =  Matrix.build(frames_count+2,slides_count+2){|x,y| 0}
+      flann_matrix =  []
 
-      Dir.glob(frames_pattern).each do |frame_file|
-        frame_number = get_number(frame_file)
-        Dir.glob(slides_pattern).each do |slide_file|
-          slide_number = get_number(slide_file)
-          puts "Comparing Frame\##{frame_number} with Slide\##{slide_number}"
-          puts "#{MATCHER::EXECUTABLE} #{slide_file} #{frame_file}"
+      (frames_count+2).times do |x|
+        frame_array = []
+        (slides_count+2).times do |y|
+          frame_array << 0
         end
+        flann_matrix << frame_array
       end
 
-      #Parse to get total files
+      sorted_frames = Dir.glob(frames_pattern).sort
+      sorted_slides = Dir.glob(slides_pattern).sort
 
+      current_slide_counter = 0
+
+      sorted_frames.each do |frame_file|
+        frame_number = get_number(frame_file)
+        previous_slide_counter = current_slide_counter
+        max = 0
+        max_slide = nil
+        print "\nProcessing #{frame_number}: "
+        while true do
+          print "[x#{current_slide_counter}]"
+          current_slide = sorted_slides[current_slide_counter]
+          match_count = (`#{MATCHER::EXECUTABLE} #{current_slide} #{frame_file}`).to_i
+          flann_matrix[frame_number][current_slide_counter] = match_count
+
+          if match_count > max && match_count >= MATCHER::TRESHOLD
+            print "[GM]  "
+            max = match_count
+            max_slide = current_slide_counter
+            current_slide_counter+=1
+          elsif max_slide && match_count < MATCHER::TRESHOLD
+            print "[BM]  "
+            current_slide_counter = max_slide
+            break
+          elsif max_slide && match_count > MATCHER::TRESHOLD && (current_slide_counter-max_slide) > 2
+            print "[OK]  "
+            current_slide_counter = max_slide
+            break
+          elsif max_slide.nil? && (current_slide_counter - previous_slide_counter) > 7
+            print "[DONE]  "
+            current_slide_counter = previous_slide_counter
+            break
+          elsif current_slide_counter >= sorted_slides.count - 1
+            print "[END] "
+            current_slide_counter = previous_slide_counter
+            break
+          end
+          current_slide_counter+=1
+        end
+        next if max_slide
+        current_slide_counter = previous_slide_counter - 1
+        while (current_slide_counter>0) do
+
+          current_slide = sorted_slides[current_slide_counter]
+          match_count = (`#{MATCHER::EXECUTABLE} #{slide_file} #{frame_file}`).to_i
+          flann_matrix[frame_number][current_slide_counter] = match_count
+
+          if match_count > max && match_count >= MATCHER::TRESHOLD
+            # We found a good match, that is increasing
+            max = match_count
+            max_slide = current_slide_counter
+            current_slide_counter-=1
+          elsif max_slide && match_count < MATCHER::TRESHOLD
+            current_slide_counter = max_slide
+            break
+          elsif max_slide && match_count > MATCHER::TRESHOLD && (max_slide - current_slide_counter) >2
+            current_slide_counter = max_slide
+            break
+          elsif max_slide.nil? && (current_slide_counter - previous_slide_counter) > 5
+            current_slide_counter = previous_slide_counter
+            break
+          elsif current_slide_counter <= 0
+            current_slide_counter = previous_slide_counter
+            break
+          end
+          current_slide_counter-=1
+        end
+      end
+      puts flann_matrix
     end
-
   end
 
   def slide_timings
