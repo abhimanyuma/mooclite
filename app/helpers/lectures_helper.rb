@@ -468,12 +468,10 @@ module LecturesHelper
           current_slide = sorted_slides[current_slide_counter]
           match_count = (`#{MATCHER::EXECUTABLE} #{current_slide} #{frame_file}`).to_i
           flann_matrix[frame_number][current_slide_counter] = match_count
-
           if match_count > max && match_count >= MATCHER::TRESHOLD
             print "[GM]  "
             max = match_count
             max_slide = current_slide_counter
-            current_slide_counter+=1
           elsif max_slide && match_count < MATCHER::TRESHOLD
             print "[BM]  "
             current_slide_counter = max_slide
@@ -494,18 +492,18 @@ module LecturesHelper
           current_slide_counter+=1
         end
         next if max_slide
+        next if current_slide_counter==0
         current_slide_counter = previous_slide_counter - 1
-        while (current_slide_counter>0) do
+        while (current_slide_counter>=0) do
 
           current_slide = sorted_slides[current_slide_counter]
-          match_count = (`#{MATCHER::EXECUTABLE} #{slide_file} #{frame_file}`).to_i
+          match_count = (`#{MATCHER::EXECUTABLE} #{current_slide} #{frame_file}`).to_i
           flann_matrix[frame_number][current_slide_counter] = match_count
 
           if match_count > max && match_count >= MATCHER::TRESHOLD
             # We found a good match, that is increasing
             max = match_count
             max_slide = current_slide_counter
-            current_slide_counter-=1
           elsif max_slide && match_count < MATCHER::TRESHOLD
             current_slide_counter = max_slide
             break
