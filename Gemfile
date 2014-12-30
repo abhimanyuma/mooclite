@@ -22,6 +22,10 @@ group :test do
   gem 'capybara'
 end
 
+group :development, :test do
+    gem 'railroady'
+end
+
 # Use SCSS for stylesheets
 
 
