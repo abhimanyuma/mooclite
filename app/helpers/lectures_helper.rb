@@ -41,7 +41,6 @@ module LecturesHelper
   module FULL_AUDIO
     AAC_OPTIONS = {
       :audio_codec        => "aac",
-      :audio_bitrate      => 32,
       :audio_sample_rate  => 22050,
       :audio_channels     => 1,
       :threads            => 4,
@@ -50,12 +49,14 @@ module LecturesHelper
 
     OPUS_OPTIONS = {
       :audio_codec        => "libopus",
+      :audio_sample_rate  => 22050,
+      :audio_channels     => 1,
+      :threads            => 4,
       :custom             => "-vn",
     }
 
     MP3_OPTIONS = {
       :audio_codec        => "libmp3lame",
-      :audio_bitrate      => 32,
       :audio_sample_rate  => 22050,
       :audio_channels     => 1,
       :threads            => 4,
@@ -63,9 +64,21 @@ module LecturesHelper
     }
 
     MAPPING = {
-      "aac" => "aac",
-      "libopus" => "opus",
-      "libmp3lame" => "mp3"
+      "aac" => {
+        bitrates:[32,24,16,12,8],
+        score:1.0,
+        extension: "aac"
+      }
+      "libopus" => {
+        bitrates: [32,24,16,12,8,6],
+        score: 0.9,
+        extension: "opus"
+      }
+      "libmp3lame" => {
+        bitrates: [32,24,16],
+        score: 0.7,
+        extension: "mp3"
+      }
     }
   end
 
@@ -163,10 +176,10 @@ module LecturesHelper
   end
 
 
-  def full_audio_individual (lecture_video,method,dir)
+  def full_audio_individual (lecture_video,method,dir,bitrate)
 
-    file_type = FULL_AUDIO::MAPPING[method[:audio_codec]]
-    key      = "full_audio_#{file_type}"
+    file_type = FULL_AUDIO::MAPPING[method[:audio_codec]][:extension]
+    key      = "full_audio_#{file_type}_#{bitrate}"
 
     if File.directory?(dir) && File.writable?(dir)
 
@@ -174,15 +187,17 @@ module LecturesHelper
         puts "ALREADY DONE MOVING ON"
       else
 
-        audio_options = method
+        audio_options = method.dup
+        audio_options[:audio_bitrate] = bitrate
 
-        file_name = "lecture.#{file_type}"
-        print "Conversion of video to audio of type #{file_type} progressing"
+
+        file_name = "lecture_#{bitrate}.#{file_type}"
+        print "Conversion of video to audio of type #{file_type}_#{bitrate} progressing"
 
 
 
         self.strategies[key] = {}
-        self.strategies[key][:text] = "Only audio of #{file_type} format "
+        self.strategies[key][:text] = "Only audio of #{file_type}_#{bitrate} format "
         self.strategies[key][:status] = STATUS::STARTED
 
         self.save
@@ -275,7 +290,10 @@ module LecturesHelper
     methods = [FULL_AUDIO::AAC_OPTIONS,FULL_AUDIO::OPUS_OPTIONS,FULL_AUDIO::MP3_OPTIONS]
 
     methods.each do |method|
-      full_audio_individual(lecture_video,method,curr_dir)
+      bitrates = FULL_AUDIO::MAPPING[method[:audio_codec]][:bitrates]
+      bitrates.each do |bitrate|
+        full_audio_individual(lecture_video,method,bitreate,curr_dir)
+      end
     end
 
     self[:full_audio_fingerprint] = self.video_fingerprint
