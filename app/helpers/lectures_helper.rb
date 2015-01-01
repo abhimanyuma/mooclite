@@ -60,21 +60,35 @@ module LecturesHelper
       :custom             => "-strict experimental -vn",
     }
 
+    VORBIS_OPTIONS = {
+      :audio_codec        => "vorbis",
+      :audio_sample_rate  => 22050,
+      :audio_channels     => 1,
+      :threads            => 4,
+      :custom             => "-vn",
+    }
+
+
     MAPPING = {
       "aac" => {
         bitrates:[32,24,16,12,8],
-        score:1.0,
-        extension: "aac"
+        score:0.9,
+        extension: "m4a"
       },
       "libopus" => {
         bitrates: [32,24,16,12,8,6],
-        score: 0.9,
+        score: 1.0,
         extension: "opus"
       },
       "libmp3lame" => {
         bitrates: [32,24,16],
         score: 0.7,
         extension: "mp3"
+      }
+      "vorbis" => {
+        bitrates: [32,24,16],
+        score: 0.8,
+        extension: "ogg"
       }
     }
   end
@@ -287,7 +301,8 @@ module LecturesHelper
       return nil
     end
 
-    methods = [FULL_AUDIO::AAC_OPTIONS,FULL_AUDIO::OPUS_OPTIONS,FULL_AUDIO::MP3_OPTIONS]
+    methods = [FULL_AUDIO::AAC_OPTIONS,FULL_AUDIO::OPUS_OPTIONS,
+               FULL_AUDIO::MP3_OPTIONS,FULL_AUDIO::VORBIS_OPTIONS]
 
     methods.each do |method|
       bitrates = FULL_AUDIO::MAPPING[method[:audio_codec]][:bitrates]
