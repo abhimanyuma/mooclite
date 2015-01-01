@@ -23,7 +23,6 @@ module LecturesHelper
   module FULL_VIDEO
     DEFAULT_VIDEO_OPTIONS = {
       :video_codec        => "libx264",
-      :video_bitrate      => 144,
       :x264_vprofile      => "high",
       :audio_codec        => "aac",
       :audio_bitrate      => 32,
@@ -49,8 +48,6 @@ module LecturesHelper
 
     OPUS_OPTIONS = {
       :audio_codec        => "libopus",
-      :audio_sample_rate  => 22050,
-      :audio_channels     => 1,
       :threads            => 4,
       :custom             => "-vn",
     }
@@ -68,12 +65,12 @@ module LecturesHelper
         bitrates:[32,24,16,12,8],
         score:1.0,
         extension: "aac"
-      }
+      },
       "libopus" => {
         bitrates: [32,24,16,12,8,6],
         score: 0.9,
         extension: "opus"
-      }
+      },
       "libmp3lame" => {
         bitrates: [32,24,16],
         score: 0.7,
@@ -126,6 +123,9 @@ module LecturesHelper
 
       if height<resolution
         puts "VIDEO RESOLUTION NOT ENOUGH EXITING"
+      elsif !(self.strategies)
+        self.strategies = {}
+        self.save
       elsif self.strategies[key] && self.strategies[key][:status] == STATUS::COMPLETED
         puts "ALREADY DONE MOVING ON"
       else
@@ -176,7 +176,7 @@ module LecturesHelper
   end
 
 
-  def full_audio_individual (lecture_video,method,dir,bitrate)
+  def full_audio_individual (lecture_video,method,bitrate,dir)
 
     file_type = FULL_AUDIO::MAPPING[method[:audio_codec]][:extension]
     key      = "full_audio_#{file_type}_#{bitrate}"
@@ -292,7 +292,7 @@ module LecturesHelper
     methods.each do |method|
       bitrates = FULL_AUDIO::MAPPING[method[:audio_codec]][:bitrates]
       bitrates.each do |bitrate|
-        full_audio_individual(lecture_video,method,bitreate,curr_dir)
+        full_audio_individual(lecture_video,method,bitrate,curr_dir)
       end
     end
 
