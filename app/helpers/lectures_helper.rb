@@ -352,7 +352,7 @@ module LecturesHelper
         frame_timings = output.scan(/n:(?<frame>\d+)\spts:\d+\spts_time:(?<time>\d+\.\d+)/)
         self[:Iframe_timings] = {}
         frame_timings.each do |entry|
-          self[:Iframe_timings][entry[0].rjust(4,'0')] = entry[1]
+          self[:Iframe_timings][entry[0].to_i] = entry[1]
         end
         self[:extract_frame_fingerprint] = self.video_fingerprint
         self.save
@@ -394,7 +394,7 @@ module LecturesHelper
       end
 
       slides.each_with_index do |slide,index|
-        file_name ="slide-#{index.to_s.rjust(4,'0')}.png"
+        file_name ="slide-#{index.to_s.rjust(4,'0')}.jpg"
         final_path = File.join(slides_dir, file_name)
         slide.write(final_path)
       end
@@ -461,16 +461,22 @@ module LecturesHelper
       slides_dir = File.join(curr_dir,'slides')
       frames_dir = File.join(curr_dir,'frames')
 
+      #Run Major Pass Algorithm
       match_list = `#{MATCHER::EXECUTABLE} #{slides_dir} #{frames_dir}`
       lines = match_list.split("\n")
+      self[:slide_time] = []
       lines.each do |line|
-        (source,matches) = line.split('=')
-        matches = matches.split(',')
-        matches.each do |match_elem|
-         (slide_no,strength,good) = match_elem.split(':')
-
-        end
+        (frame,slide_no,good) = line.split(':')
+        time_entry = {time: self[:Iframe_timings][frame.to_i] , slide: slide_no.to_i}
+        time_entry[:has_slide] = TRUE if good
+        self[:slide_time] << time_entry
       end
+      self.save
+      #Get Missing Slide Timings
+
+      
+
+      #Run Fine Tuning Algorithm
     end
   end
 
