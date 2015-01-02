@@ -474,7 +474,7 @@ module LecturesHelper
       self.save
       #Get Missing Slide Timings
 
-      
+
 
       #Run Fine Tuning Algorithm
     end
@@ -487,9 +487,50 @@ module LecturesHelper
     match_frames
   end
 
+  def get_wav_file
+
+    lecture_video = FFMPEG::Movie.new(self.video.path)
+    file_type = ".wav"
+
+    return nil unless lecture_video.valid?
+
+    base_dir = File.join(lecture_video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
+
+
+    begin
+      Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
+    rescue
+      return nil
+    end
+
+    if File.directory?(curr_dir) && File.writable?(curr_dir)
+
+      audio_options = FULL_AUDIO::WAV_OPTIONS
+
+      file_name = "lecture.#{file_type}"
+      print "Conversion of video to audio of type #{file_type} progressing"
+
+      file_path = File.join(curr_dir,file_name)
+
+      lecture_video.transcode(file_path,audio_options)
+
+    else
+
+      puts 'Directory not writable'
+
+    end
+  end
+
+
+  def extract_text
+    get_wav_file
+  end
+
   def formatize
     full_video
     full_audio
+    slide_timings
   end
 
 end
