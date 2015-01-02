@@ -22,73 +22,73 @@ module LecturesHelper
 
   module FULL_VIDEO
     DEFAULT_VIDEO_OPTIONS = {
-      :video_codec        => "libx264",
-      :x264_vprofile      => "high",
-      :audio_codec        => "aac",
+      :video_codec        => 'libx264',
+      :x264_vprofile      => 'high',
+      :audio_codec        => 'aac',
       :audio_bitrate      => 32,
       :audio_sample_rate  => 22050,
       :audio_channels     => 1,
       :threads            => 4,
-      :custom             => "-strict experimental",
+      :custom             => '-strict experimental'
     }
 
 
-    DEFAULT_VIDEO_ONLY_OPTIONS = "-vcodec copy -an"
+    DEFAULT_VIDEO_ONLY_OPTIONS = '-vcodec copy -an'
 
   end
 
   module FULL_AUDIO
     AAC_OPTIONS = {
-      :audio_codec        => "aac",
+      :audio_codec        => 'aac',
       :audio_sample_rate  => 22050,
       :audio_channels     => 1,
       :threads            => 4,
-      :custom             => "-strict experimental -vn",
+      :custom             => '-strict experimental -vn'
     }
 
     OPUS_OPTIONS = {
-      :audio_codec        => "libopus",
+      :audio_codec        => 'libopus',
       :threads            => 4,
-      :custom             => "-vn",
+      :custom             => '-vn'
     }
 
     MP3_OPTIONS = {
-      :audio_codec        => "libmp3lame",
+      :audio_codec        => 'libmp3lame',
       :audio_sample_rate  => 22050,
       :audio_channels     => 1,
       :threads            => 4,
-      :custom             => "-strict experimental -vn",
+      :custom             => '-strict experimental -vn'
     }
 
     VORBIS_OPTIONS = {
-      :audio_codec        => "vorbis",
+      :audio_codec        => 'vorbis',
       :audio_sample_rate  => 22050,
       :audio_channels     => 1,
       :threads            => 4,
-      :custom             => "-vn",
+      :custom             => '-vn'
     }
 
 
     MAPPING = {
-      "aac" => {
+      :aac => {
         bitrates:[32,24,16,12,8],
         score:0.9,
-        extension: "m4a"
+        extension: 'm4a'
       },
-      "libopus" => {
+      :libopus => {
         bitrates: [32,24,16,12,8,6],
         score: 1.0,
-        extension: "opus"
+        extension: 'opus'
       },
-      "libmp3lame" => {
+      :libmp3lame => {
         bitrates: [32,24,16],
         score: 0.7,
-        extension: "mp3"
-      }
-      "vorbis" => {
+        extension: 'mp3'
+      },
+      :vorbis => {
         bitrates: [32,24,16],
         score: 0.8,
-        extension: "ogg"
+        extension: 'ogg'
       }
     }
   end
@@ -98,7 +98,7 @@ module LecturesHelper
   end
 
   module MATCHER
-    EXECUTABLE= "/home/manyu/college/matcher/matcher.py"
+    EXECUTABLE= '/home/manyu/college/matcher/matcher.py'
     TRESHOLD = 15
   end
   def add_short_code
@@ -122,7 +122,7 @@ module LecturesHelper
 
   def get_proper_path(absolute_path)
     file_path = Pathname.new(absolute_path)
-    public_root = Pathname.new(File.join(Rails.root.to_s,"public"))
+    public_root = Pathname.new(File.join(Rails.root.to_s,'public'))
     relative_path = file_path.relative_path_from(public_root)
     relative_path.to_s
   end
@@ -136,12 +136,12 @@ module LecturesHelper
     if File.directory?(dir) && File.writable?(dir)
 
       if height<resolution
-        puts "VIDEO RESOLUTION NOT ENOUGH EXITING"
+        puts 'VIDEO RESOLUTION NOT ENOUGH EXITING'
       elsif !(self.strategies)
         self.strategies = {}
         self.save
       elsif self.strategies[key] && self.strategies[key][:status] == STATUS::COMPLETED
-        puts "ALREADY DONE MOVING ON"
+        puts 'ALREADY DONE MOVING ON'
       else
 
         video_options = FULL_VIDEO::DEFAULT_VIDEO_OPTIONS.dup
@@ -165,9 +165,7 @@ module LecturesHelper
         file_path = File.join(dir,file_name)
 
 
-        lecture_video.transcode(file_path,video_options) do |progress|
-          print "."
-        end
+        lecture_video.transcode(file_path,video_options)
 
         transcoded_video =  FFMPEG::Movie.new(file_path)
 
@@ -183,22 +181,21 @@ module LecturesHelper
       end
     else
 
-      puts "Directory not writable"
+      puts 'Directory not writable'
 
     end
 
   end
 
-
   def full_audio_individual (lecture_video,method,bitrate,dir)
 
-    file_type = FULL_AUDIO::MAPPING[method[:audio_codec]][:extension]
+    file_type = FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:extension]
     key      = "full_audio_#{file_type}_#{bitrate}"
 
     if File.directory?(dir) && File.writable?(dir)
 
       if self.strategies[key] && self.strategies[key][:status] == STATUS::COMPLETED
-        puts "ALREADY DONE MOVING ON"
+        puts 'ALREADY DONE MOVING ON'
       else
 
         audio_options = method.dup
@@ -219,9 +216,7 @@ module LecturesHelper
         file_path = File.join(dir,file_name)
 
 
-        lecture_video.transcode(file_path,audio_options) do |progress|
-          print "."
-        end
+        lecture_video.transcode(file_path,audio_options)
 
         transcoded_audio =  FFMPEG::Movie.new(file_path)
 
@@ -236,7 +231,7 @@ module LecturesHelper
       end
     else
 
-      puts "Directory not writable"
+      puts 'Directory not writable'
 
     end
 
@@ -255,8 +250,8 @@ module LecturesHelper
     #Return if the video is invalid
     return nil unless lecture_video.valid?
 
-    base_dir = File.join(lecture_video.path.split("/")[0..-3])
-    curr_dir = File.join(base_dir,"current")
+    base_dir = File.join(lecture_video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
 
 
     begin
@@ -291,8 +286,8 @@ module LecturesHelper
     #Return if the video is invalid
     return nil unless lecture_video.valid?
 
-    base_dir = File.join(lecture_video.path.split("/")[0..-3])
-    curr_dir = File.join(base_dir,"current")
+    base_dir = File.join(lecture_video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
 
 
     begin
@@ -305,7 +300,7 @@ module LecturesHelper
                FULL_AUDIO::MP3_OPTIONS,FULL_AUDIO::VORBIS_OPTIONS]
 
     methods.each do |method|
-      bitrates = FULL_AUDIO::MAPPING[method[:audio_codec]][:bitrates]
+      bitrates = FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:bitrates]
       bitrates.each do |bitrate|
         full_audio_individual(lecture_video,method,bitrate,curr_dir)
       end
@@ -322,8 +317,8 @@ module LecturesHelper
     #Return if the video is invalid
     return nil unless lecture_video.valid?
 
-    base_dir = File.join(lecture_video.path.split("/")[0..-3])
-    curr_dir = File.join(base_dir,"current")
+    base_dir = File.join(lecture_video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
 
     if (self.video_fingerprint == self[:extract_frame_fingerprint]) &&
        (self.process_status != STATUS::FORCE)
@@ -340,14 +335,14 @@ module LecturesHelper
     if File.directory?(curr_dir) && File.writable?(curr_dir)
 
         video_options = EXTRACT_FRAMES::OPTIONS
-        frames_dir = File.join(curr_dir,"frames")
+        frames_dir = File.join(curr_dir,'frames')
         begin
           Dir.mkdir(frames_dir) unless File.directory?(frames_dir)
         rescue
-          return nil
+          nil
         end
-        file_name = "frames/frame-%04d.png"
-        print "Extracting I frame from video"
+        file_name = 'frames/frame-%04d.png'
+        print 'Extracting I frame from video'
         file_path = File.join(curr_dir,file_name)
 
         transcoder_options = { validate: false }
@@ -357,7 +352,7 @@ module LecturesHelper
         frame_timings = output.scan(/n:(?<frame>\d+)\spts:\d+\spts_time:(?<time>\d+\.\d+)/)
         self[:Iframe_timings] = {}
         frame_timings.each do |entry|
-          self[:Iframe_timings][entry[0].rjust(4,"0")] = entry[1]
+          self[:Iframe_timings][entry[0].rjust(4,'0')] = entry[1]
         end
         self[:extract_frame_fingerprint] = self.video_fingerprint
         self.save
@@ -377,11 +372,11 @@ module LecturesHelper
     end
 
     require 'RMagick'
-    slide_path = File.join( Rails.root.to_s,"public",self[:compressed_file_path])
+    slide_path = File.join( Rails.root.to_s,'public',self[:compressed_file_path])
     slides = Magick::Image.read(slide_path)
 
-    base_dir = File.join(self.video.path.split("/")[0..-3])
-    curr_dir = File.join(base_dir,"current")
+    base_dir = File.join(self.video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
 
     begin
       Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
@@ -390,16 +385,16 @@ module LecturesHelper
     end
 
     if File.directory?(curr_dir) && File.writable?(curr_dir)
-      slides_dir = File.join(curr_dir,"slides")
+      slides_dir = File.join(curr_dir,'slides')
 
       begin
         Dir.mkdir(slides_dir) unless File.directory?(slides_dir)
       rescue
-        return nil
+        nil
       end
 
       slides.each_with_index do |slide,index|
-        file_name = "slide-#{index.to_s.rjust(4,"0")}.png"
+        file_name ="slide-#{index.to_s.rjust(4,'0')}.png"
         final_path = File.join(slides_dir, file_name)
         slide.write(final_path)
       end
@@ -411,8 +406,8 @@ module LecturesHelper
   end
 
   def optimize_pdf
-    base_dir = File.join(self.video.path.split("/")[0..-3])
-    curr_dir = File.join(base_dir,"current")
+    base_dir = File.join(self.video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
 
     if (self.slide_fingerprint == self[:optimize_pdf_fingerprint]) &&
        (self.process_status != STATUS::FORCE)
@@ -427,7 +422,7 @@ module LecturesHelper
     end
 
     #copy the slide
-    unprocessed_file_name = "uncompressed.pdf"
+    unprocessed_file_name = 'uncompressed.pdf'
     unprocessed_file_path = File.join(curr_dir,unprocessed_file_name)
     begin
       FileUtils.cp(self.slide.path,unprocessed_file_path)
@@ -436,7 +431,7 @@ module LecturesHelper
     end
     self[:unprocessed_file_path] = get_proper_path unprocessed_file_path
     #Print for screen not print
-    screen_pdf_file_name = "screen.pdf"
+    screen_pdf_file_name = 'screen.pdf'
     screen_pdf_file_path = File.join(curr_dir,screen_pdf_file_name)
     self[:screen_pdf_file_path] = get_proper_path screen_pdf_file_path
     begin
@@ -445,7 +440,7 @@ module LecturesHelper
       return nil
     end
     #Compress the PDF file
-    compressed_file_name = "compressed.pdf"
+    compressed_file_name = 'compressed.pdf'
     compressed_file_path = File.join(curr_dir,compressed_file_name)
     begin
       system("pdftk #{screen_pdf_file_path} output #{compressed_file_path} compress")
@@ -459,20 +454,20 @@ module LecturesHelper
 
   def match_frames
 
-    base_dir = File.join(self.video.path.split("/")[0..-3])
-    curr_dir = File.join(base_dir,"current")
+    base_dir = File.join(self.video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
 
     if File.directory?(curr_dir) && File.writable?(curr_dir)
-      slides_dir = File.join(curr_dir,"slides")
-      frames_dir = File.join(curr_dir,"frames")
+      slides_dir = File.join(curr_dir,'slides')
+      frames_dir = File.join(curr_dir,'frames')
 
       match_list = `#{MATCHER::EXECUTABLE} #{slides_dir} #{frames_dir}`
       lines = match_list.split("\n")
       lines.each do |line|
-        (source,matches) = line.split("=")
-        matches = matches.split(",")
+        (source,matches) = line.split('=')
+        matches = matches.split(',')
         matches.each do |match_elem|
-         (slide_no,strength,good) = match_elem.split(":")
+         (slide_no,strength,good) = match_elem.split(':')
 
         end
       end
