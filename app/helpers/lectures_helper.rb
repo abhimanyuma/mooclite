@@ -68,7 +68,12 @@ module LecturesHelper
       :custom             => '-vn'
     }
 
-
+    WAV_OPTIONS = {
+      :audio_codec        => 'pcm_s16le',
+      :audio_sample_rate  => 16000,
+      :audio_channels     => 1,
+      :custom             => '-vn'
+    }
     MAPPING = {
       :aac => {
         bitrates:[32,24,16,12,8],
@@ -490,7 +495,7 @@ module LecturesHelper
   def get_wav_file
 
     lecture_video = FFMPEG::Movie.new(self.video.path)
-    file_type = ".wav"
+    file_type = "wav"
 
     return nil unless lecture_video.valid?
 
@@ -506,14 +511,13 @@ module LecturesHelper
 
     if File.directory?(curr_dir) && File.writable?(curr_dir)
 
-      audio_options = FULL_AUDIO::WAV_OPTIONS
-
       file_name = "lecture.#{file_type}"
       print "Conversion of video to audio of type #{file_type} progressing"
 
       file_path = File.join(curr_dir,file_name)
-
-      lecture_video.transcode(file_path,audio_options)
+      audio_options = FULL_AUDIO::WAV_OPTIONS
+      transcoder_options = { validate: false }
+      lecture_video.transcode(file_path,audio_options,transcoder_options)
 
     else
 
@@ -521,7 +525,6 @@ module LecturesHelper
 
     end
   end
-
 
   def extract_text
     get_wav_file
