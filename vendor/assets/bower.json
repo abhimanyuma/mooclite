@@ -1,13 +1,13 @@
 {
   "name": "dsl-generated dependencies",
   "dependencies": {
-    "jquery": "latest",
-    "marionette": "latest",
-    "toastr": "latest",
-    "spin.js": "latest",
-    "backbone.routeFilter": "latest",
-    "backbone-associations": "latest",
-    "pdfjs-dist": "latest",
-    "semantic-ui": "latest"
+    "jquery": "2.1.1",
+    "marionette": "2.2.2",
+    "toastr": "2.1.0",
+    "spin.js": "2.0.1",
+    "backbone.routeFilter": "0.2.1",
+    "backbone-associations": "0.6.2",
+    "semantic-ui": "1.0.1",
+    "moocplayer": "git@bitbucket.org:abhimanyuma/moocplayer.git"
   }
 }

@@ -38,3 +38,5 @@
 //= require_tree ./backbone/entities
 //= require_tree ./backbone/apps
 
+//= require moocplayer/lib/moocplayer
+
