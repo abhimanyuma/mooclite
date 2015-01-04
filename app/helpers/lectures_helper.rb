@@ -568,6 +568,7 @@ module LecturesHelper
     full_video
     full_audio
     slide_timings
+    extract_text
   end
 
 end
