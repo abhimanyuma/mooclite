@@ -106,6 +106,10 @@ module LecturesHelper
     EXECUTABLE= '/home/manyu/college/matcher/matcher.py'
     TRESHOLD = 15
   end
+
+  module SPHINX
+    EXECUTABLE = 'java -Xmx4g -jar /home/manyu/college/subtitler/bin/Transcriber.jar'
+  end
   def add_short_code
 
     begin
@@ -495,7 +499,7 @@ module LecturesHelper
   def get_wav_file
 
     lecture_video = FFMPEG::Movie.new(self.video.path)
-    file_type = "wav"
+    file_type = 'wav'
 
     return nil unless lecture_video.valid?
 
@@ -526,8 +530,38 @@ module LecturesHelper
     end
   end
 
+  def get_subtitles
+
+
+    base_dir = File.join(self.video.path.split('/')[0..-3])
+    curr_dir = File.join(base_dir,'current')
+
+
+    begin
+      Dir.mkdir(curr_dir) unless File.directory?(curr_dir)
+    rescue
+      return nil
+    end
+
+    if File.directory?(curr_dir) && File.writable?(curr_dir)
+
+      file_name = 'lecture.wav'
+      file_path = File.join(curr_dir,file_name)
+      subtitle_output = `#{SPHINX::EXECUTABLE} #{file_path}`
+      subtitle_timings = subtitle_output.scan(/^(\d+)\:<s>(.+)<\/s>$/)
+      self[:subtitles] = []
+      subtitle_timings.each do |timing|
+        entry = {time: (timing[0].to_f)/1000,text: timing[1].to_s}
+        self[:subtitles] << entry
+      end
+      self.save
+    end
+
+  end
+
   def extract_text
     get_wav_file
+    get_subtitles
   end
 
   def formatize
