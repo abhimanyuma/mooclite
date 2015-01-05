@@ -1,6 +1,6 @@
 object @lecture
 
-attributes :lecture_no, :title, :content, :date, :overview, :course_id, :video_file_name, :slide_file_name
+attributes :lecture_no, :title, :content, :date, :overview, :course_id, :video_file_name, :slide_file_name, :strategies
 
 node do |lecture|
  {
@@ -22,4 +22,20 @@ node (:slide_url) do |lecture|
     else
       ""
     end
+end
+
+node(:subtitles) do |lecture|
+  if lecture[:subtitles]
+    lecture[:subtitles]
+  else
+    [{}]
+  end
+end
+
+node (:slide_time) do |lecture|
+  if lecture[:slide_time]
+    lecture[:slide_time]
+  else
+    [{}]
+  end
 end

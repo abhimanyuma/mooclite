@@ -49,4 +49,20 @@ class Lecture
     reply
   end
 
+  def subtiltes
+    if self[:subtitles]
+      self[:subtiltes]
+    else
+      [{}]
+    end
+  end
+
+  def slide_time
+    if self[:slide_time]
+      self[:slide_time]
+    else
+      [{}]
+    end
+  end
+
 end
