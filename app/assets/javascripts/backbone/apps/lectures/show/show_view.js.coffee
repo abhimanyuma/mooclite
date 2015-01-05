@@ -6,6 +6,7 @@
     regions:
       titleRegion: "#title-region"
       contentRegion: "#content-region"
+      videoRegion: "#video-region"
 
   class Show.Content extends App.Views.ItemView
 
@@ -19,3 +20,11 @@
     triggers:
       "click #edit-lecture-button" : "edit:lecture:button:clicked"
       "click #update-files-lecture-button" : "update:files:lecture:button:clicked"
+
+  class Show.Video extends App.Views.ItemView
+    template: "lectures/show/show_video"
+    className: "ui segment"
+
+    onRender: ->
+      window.setTimeout =>
+        new window.Moocplayer(".moocplayer-container",@model)

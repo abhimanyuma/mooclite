@@ -18,6 +18,7 @@
         @listenTo @layout, "show", =>
           @titleRegion course, lecture
           @contentRegion lecture
+          @videoRegion lecture
 
         @show @layout,
           loading:
@@ -41,6 +42,13 @@
       @show contentView,
         region: @layout.contentRegion
 
+    videoRegion: (lecture) ->
+      videoView = @getVideoView lecture
+
+      @show videoView,
+        region: @layout.videoRegion
+
+
 
     getTitleView:(lecture) ->
       new Show.Title
@@ -48,6 +56,10 @@
 
     getContentView: (lecture) ->
       new Show.Content
+        model:lecture
+
+    getVideoView: (lecture) ->
+      new Show.Video
         model:lecture
 
     getLayoutView:(lecture) ->
