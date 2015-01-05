@@ -457,6 +457,13 @@ module LecturesHelper
       return nil
     end
     self[:compressed_file_path] = get_proper_path compressed_file_path
+    self.strategies.each do |strategy_key,strategy|
+      if strategy[:bandwidth] > 10000
+        strategy[:slide_url] = get_proper_path unprocessed_file_path
+      else
+        strategy[:slide_url] = get_proper_path compressed_file_path
+      end
+    end
     self[:optimize_pdf_fingerprint] = self.slide_fingerprint
     self.save
   end
