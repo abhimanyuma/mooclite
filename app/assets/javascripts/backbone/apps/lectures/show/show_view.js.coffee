@@ -27,4 +27,5 @@
 
     onRender: ->
       window.setTimeout =>
-        new window.Moocplayer(".moocplayer-container",@model)
+        new window.Moocplayer ".moocplayer-container",@model,
+          width:600
