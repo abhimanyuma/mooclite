@@ -63,9 +63,9 @@ module LecturesHelper
     VORBIS_OPTIONS = {
       :audio_codec        => 'vorbis',
       :audio_sample_rate  => 22050,
-      :audio_channels     => 1,
+      :audio_channels     => 2,
       :threads            => 4,
-      :custom             => '-vn'
+      :custom             => '-strict experimental -vn'
     }
 
     WAV_OPTIONS = {
@@ -78,22 +78,26 @@ module LecturesHelper
       :aac => {
         bitrates:[32,24,16,12,8],
         score:0.9,
-        extension: 'm4a'
+        extension: 'm4a',
+        mime_type: 'audio/mp4; codec=aac'
       },
       :libopus => {
         bitrates: [32,24,16,12,8,6],
         score: 1.0,
-        extension: 'opus'
+        extension: 'opus',
+        mime_type: 'audio/ogg; codec=opus'
       },
       :libmp3lame => {
         bitrates: [32,24,16],
         score: 0.7,
-        extension: 'mp3'
+        extension: 'mp3',
+        mime_type: 'audio/mpeg; codec=mp3lame'
       },
       :vorbis => {
         bitrates: [32,24,16],
         score: 0.8,
-        extension: 'ogg'
+        extension: 'ogg',
+        mime_type: 'audio/ogg; codec=vorbis'
       }
     }
   end
@@ -179,7 +183,7 @@ module LecturesHelper
         transcoded_video =  FFMPEG::Movie.new(file_path)
 
 
-        self.strategies[key][:browser] = [9,4,4,4]
+        self.strategies[key][:browser] = 'video/mp4'
         self.strategies[key][:score] = resolution/10
         self.strategies[key][:bandwidth] = transcoded_video.size/transcoded_video.duration
         self.strategies[key][:video_url] = get_proper_path file_path
@@ -230,8 +234,8 @@ module LecturesHelper
         transcoded_audio =  FFMPEG::Movie.new(file_path)
 
 
-        self.strategies[key][:browser] = [9,4,4,4]
-        self.strategies[key][:score] = 10
+        self.strategies[key][:browser] = FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:mime_type]
+        self.strategies[key][:score] = (bitrate/2)*FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:score]
         self.strategies[key][:bandwidth] = transcoded_audio.size/transcoded_audio.duration
         self.strategies[key][:audio_url] = get_proper_path file_path
         self.strategies[key][:status] = STATUS::COMPLETED
@@ -464,6 +468,13 @@ module LecturesHelper
         strategy[:slide_url] = get_proper_path compressed_file_path
       end
     end
+    new_strategy = {slide_url:get_proper_path(compressed_file_path),
+                    text: 'Optimized PDF',browser:'',
+                    status:1,
+                    score:1,
+                    bandwidth:500,
+                    }
+    self.strategies["default"] = new_strategy
     self[:optimize_pdf_fingerprint] = self.slide_fingerprint
     self.save
   end

@@ -39,3 +39,11 @@ node (:slide_time) do |lecture|
     [{}]
   end
 end
+
+node (:total_duration) do |lecture|
+  if lecture[:total_duration]
+    lecture[:total_duration]
+  else
+    1800
+  end
+end
