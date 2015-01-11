@@ -17,7 +17,9 @@ role :db,  %w{deploy@example.com}
 
 server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
 
-
+set :nginx_use_ssl, true
+set :nginx_ssl_cert_local_path, "#{fetch(:deploy_to)}/shared/certs/ssl_cert.cert"
+set :nginx_ssl_cert_key_local_path, "#{fetch(:deploy_to)}/shared/certs/ssl_cert.key"
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a

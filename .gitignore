@@ -21,3 +21,5 @@
 lib/generators/marionette
 public/system/
 vendor/assets/bower_components
+
+certs

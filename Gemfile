@@ -12,7 +12,6 @@ end
 
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end
 
@@ -101,4 +100,7 @@ gem 'unicorn'
 gem 'capistrano'
 group :development do
   gem 'capistrano-rails', '~> 1.1.1'
+  gem 'capistrano-unicorn-nginx', '~> 3.1.0'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-rbenv', '~> 2.0'
 end

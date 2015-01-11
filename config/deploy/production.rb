@@ -17,6 +17,9 @@ role :db,  %w{ubuntu@54.174.213.7}
 
 server '54.174.213.7', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
 
+set :nginx_use_ssl, true
+set :nginx_ssl_cert_local_path, "certs/ssl.cert"
+set :nginx_ssl_cert_key_local_path, "certs/ssl.key"
 
 # Custom SSH Options
 # ==================
