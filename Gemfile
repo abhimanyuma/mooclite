@@ -40,9 +40,6 @@ end
 gem "bower-rails", ">= 0.7.1"
 gem 'ruby-bower', group: :assets
 
-# For deployment
-gem 'capistrano'
-gem 'unicorn'
 
 # For password and user auth
 gem 'bcrypt-ruby'
@@ -97,3 +94,11 @@ gem 'protected_attributes'
 gem 'base62', '1.0.0'
 
 gem 'rmagick', '2.13.2'
+
+
+# For deployment
+gem 'unicorn'
+gem 'capistrano'
+group :development do
+  gem 'capistrano-rails', '~> 1.1.1'
+end
