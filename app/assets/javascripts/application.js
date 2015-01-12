@@ -13,7 +13,7 @@
 //
 //= require jquery
 //= require underscore
-//= require toastr
+//= require toastr/toastr
 //= require backbone
 //= require marionette
 //= require spin.js/spin
