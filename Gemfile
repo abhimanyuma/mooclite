@@ -94,7 +94,7 @@ gem 'base62', '1.0.0'
 
 gem 'rmagick', '2.13.2'
 
-
+gem 'sass-rails-source-maps'
 # For deployment
 gem 'unicorn'
 gem 'capistrano'
