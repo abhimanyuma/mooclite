@@ -186,8 +186,7 @@ module LecturesHelper
         self.strategies[key][:browser] = 'video/mp4'
         self.strategies[key][:score] = resolution/10
         self.strategies[key][:bandwidth] = transcoded_video.size/transcoded_video.duration
-        self.strategies[key][:video_url] = get_proper_path file_path
-        self.strategies[key][:slide_url] = self.strategies[:compressed_file_path]
+        self.strategies[key][:video_url] = {file: get_proper_path(file_path), size: transcoded_video.size}
         self.strategies[key][:status] = STATUS::COMPLETED
         self.save
 
@@ -220,9 +219,7 @@ module LecturesHelper
 
 
 
-        self.strategies[key] = {}
-        self.strategies[key][:text] = "Only audio of #{file_type}_#{bitrate} format "
-        self.strategies[key][:status] = STATUS::STARTED
+
 
         self.save
 
@@ -233,11 +230,23 @@ module LecturesHelper
 
         transcoded_audio =  FFMPEG::Movie.new(file_path)
 
-
+        self.strategies[key] = {}
+        self.strategies[key][:text] = "Only audio of #{file_type}_#{bitrate} format "
+        self.strategies[key][:status] = STATUS::STARTED
         self.strategies[key][:browser] = FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:mime_type]
         self.strategies[key][:score] = (bitrate/2)*FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:score]
         self.strategies[key][:bandwidth] = transcoded_audio.size/transcoded_audio.duration
-        self.strategies[key][:audio_url] = get_proper_path file_path
+        self.strategies[key][:audio_url] = { file: get_proper_path(file_path), size: transcoded_audio.size }
+        self.strategies[key][:status] = STATUS::COMPLETED
+
+        key = "#{key}_with_slide"
+        self.strategies[key] = {}
+        self.strategies[key][:text] = "Audio and Slide of #{file_type}_#{bitrate} format "
+        self.strategies[key][:browser] = FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:mime_type]
+        self.strategies[key][:score] = 10+(bitrate/2)*FULL_AUDIO::MAPPING[method[:audio_codec].to_sym][:score]
+        self.strategies[key][:audio_url] = { file: get_proper_path(file_path), size: transcoded_audio.size }
+        self.strategies[key][:slide_url] = self.strategies["default"][:slide_url]
+        self.strategies[key][:bandwidth] = (transcoded_audio.size+self.strategies["default"][:slide_url][:size])/transcoded_audio.duration
         self.strategies[key][:status] = STATUS::COMPLETED
         self.save
 
@@ -461,14 +470,8 @@ module LecturesHelper
       return nil
     end
     self[:compressed_file_path] = get_proper_path compressed_file_path
-    self.strategies.each do |strategy_key,strategy|
-      if strategy[:bandwidth] > 10000
-        strategy[:slide_url] = get_proper_path unprocessed_file_path
-      else
-        strategy[:slide_url] = get_proper_path compressed_file_path
-      end
-    end
-    new_strategy = {slide_url:get_proper_path(compressed_file_path),
+    file_size = File.size compressed_file_path
+    new_strategy = {slide_url: {file: get_proper_path(compressed_file_path),size: file_size},
                     text: 'Optimized PDF',browser:'',
                     status:1,
                     score:1,
@@ -584,8 +587,8 @@ module LecturesHelper
 
   def formatize
     full_video
-    full_audio
     slide_timings
+    full_audio
     extract_text
   end
 

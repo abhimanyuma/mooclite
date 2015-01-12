@@ -218,10 +218,6 @@ GEM
       railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
-    sass-rails-source-maps (0.0.4)
-      rails
-      sass (>= 3.3.0.rc.3)
-      sprockets (>= 2.3.0)
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -314,7 +310,6 @@ DEPENDENCIES
   rspec-rails
   ruby-bower
   sass-rails
-  sass-rails-source-maps
   sdoc
   selenium-webdriver
   semantic-ui-sass
