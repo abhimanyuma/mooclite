@@ -46,6 +46,15 @@ set :use_sudo, false
 
 set :branch, "master"
 
-
-after "deploy", "deploy:cleanup" # keep only the last 5 releases
+desc 'Install bower'
+namespace :bower do
+  task :install do
+    on roles(:all) do
+      within release_path do
+        execute :rake, 'bower:install'
+      end
+    end
+  end
+end
+before "deploy:updated", "bower:install" # keep only the last 5 releases
 
